@@ -78,6 +78,11 @@ public class Login extends javax.swing.JFrame {
 
         btnReg.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnReg.setText("Register here");
+        btnReg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Georgia", 1, 24)); // NOI18N
         jLabel6.setText("SVT Car Rental");
@@ -186,6 +191,13 @@ public class Login extends javax.swing.JFrame {
     } 
 
     }                                        
+
+    private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        //link to register page
+        //Register reg = new Register();
+        //reg.setVisible(true);
+        JOptionPane.showMessageDialog(null, "ok register page");
+    }                                      
 
     /**
      * @param args the command line arguments
