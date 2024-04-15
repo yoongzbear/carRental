@@ -95,9 +95,9 @@ private void populateTableFromFile() {
 
 
     /**
-     * Creates new form register_newcar
+     * Creates new form RegisterNewCar
      */
-    public register_newcar() {
+    public RegisterNewCar() {
         initComponents();
         populateTableFromFile();
     }
@@ -541,11 +541,11 @@ private void writeCarStatusToFile(String carID,String status, String usedDate, S
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Create an instance of the register_newcar frame
-                Admin_Menu AdmenuFrame = new Admin_Menu();
+                // Create an instance of the RegisterNewCar frame
+                AdminMenu AdmenuFrame = new AdminMenu();
                 // Set the frame visible
                 AdmenuFrame.setVisible(true);
-                // Close the current frame (Admin_Menu frame)
+                // Close the current frame (AdminMenu frame)
                 dispose();
             }
         });
@@ -568,20 +568,20 @@ private void writeCarStatusToFile(String carID,String status, String usedDate, S
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(register_newcar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterNewcar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(register_newcar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterNewcar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(register_newcar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterNewcar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(register_newcar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterNewcar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            new register_newcar().setVisible(true);
+            new RegisterNewCar().setVisible(true);
             }
         });
     }
