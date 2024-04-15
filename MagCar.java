@@ -607,11 +607,11 @@ private void saveChanges() {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
             backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Create an instance of the register_newcar frame
-                Admin_Menu AdmenuFrame = new Admin_Menu();
+                // Create an instance of the AdminMenu frame
+                AdminMenu AdmenuFrame = new AdminMenu();
                 // Set the frame visible
                 AdmenuFrame.setVisible(true);
-                // Close the current frame (Admin_Menu frame)
+                // Close the current frame (AdminMenu frame)
                 dispose();
             }
         });    
