@@ -15,12 +15,12 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 
 
-public class Cus_Register extends javax.swing.JFrame { 
+public class CusRegister extends javax.swing.JFrame { 
 
     /**
-     * Creates new form Cus_Register
+     * Creates new form CusRegister
      */
-    public Cus_Register() {        
+    public CusRegister() {        
         initComponents();
         
 
