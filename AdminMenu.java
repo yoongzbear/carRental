@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 public class AdminMenu extends javax.swing.JFrame {
 
     /**
-     * Creates new form Admin_Menu
+     * Creates new form AdminMenu
      */
     public AdminMenu() {
         initComponents();
