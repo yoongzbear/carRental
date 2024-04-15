@@ -20,8 +20,8 @@ public class AdminMenu extends javax.swing.JFrame {
         // Add ActionListener to the RegButton
         RegButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Create an instance of the register_newcar frame
-                register_newcar registerFrame = new register_newcar();
+                // Create an instance of the RegisterNewCar frame
+                RegisterNewCar registerFrame = new RegisterNewCar();
                 // Set the frame visible
                 registerFrame.setVisible(true);
                 // Close the current frame (AdminMenu frame)
@@ -151,8 +151,8 @@ public class AdminMenu extends javax.swing.JFrame {
     private void MagCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MagCarButtonActionPerformed
         MagCarButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            // Create an instance of the register_newcar frame
-            Mag_Car MagCarFrame = new Mag_Car();
+            // Create an instance of the MagCar frame
+            MagCar MagCarFrame = new MagCar();
             // Set the frame visible
             MagCarFrame.setVisible(true);
             // Close the current frame (AdminMenu frame)
