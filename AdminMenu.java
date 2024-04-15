@@ -10,12 +10,12 @@ package Car_Rental;
  */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-public class Admin_Menu extends javax.swing.JFrame {
+public class AdminMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form Admin_Menu
      */
-    public Admin_Menu() {
+    public AdminMenu() {
         initComponents();
         // Add ActionListener to the RegButton
         RegButton.addActionListener(new ActionListener() {
@@ -24,7 +24,7 @@ public class Admin_Menu extends javax.swing.JFrame {
                 register_newcar registerFrame = new register_newcar();
                 // Set the frame visible
                 registerFrame.setVisible(true);
-                // Close the current frame (Admin_Menu frame)
+                // Close the current frame (AdminMenu frame)
                 dispose();
             }
         });
@@ -155,7 +155,7 @@ public class Admin_Menu extends javax.swing.JFrame {
             Mag_Car MagCarFrame = new Mag_Car();
             // Set the frame visible
             MagCarFrame.setVisible(true);
-            // Close the current frame (Admin_Menu frame)
+            // Close the current frame (AdminMenu frame)
             dispose();
         }
     });    
@@ -178,20 +178,20 @@ public class Admin_Menu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin_Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin_Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin_Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin_Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin_Menu().setVisible(true);
+                new AdminMenu().setVisible(true);
             }
         });
     }
