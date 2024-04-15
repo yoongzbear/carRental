@@ -12,7 +12,8 @@ package carrental;
 //setting session for username
 public class SessionManager {
     private static SessionManager instance;
-    private String username;
+    private String email;
+    private String name;
     private String role;
     
     private SessionManager() {
@@ -25,22 +26,28 @@ public class SessionManager {
         } return instance;
     }
     
-    public void setUser(String username, String role) {
-        this.username = username;
+    public void setUser(String email, String role, String name) {
+        this.email = email;
         this.role = role;
+        this.name = name;
     }
     
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
     
     public String getRole() {
         return role;
     }
     
+    public String getName() {
+        return name;
+    }
+    
     public void clearSession() {
-        username = null;
+        email = null;
         role = null;
+        name = null;
     }
 }
 
@@ -49,11 +56,9 @@ public class SessionManager {
 public class SomeOtherClass {
     public void doSomething() {
         SessionManager session = SessionManager.getInstance();
-        String username = session.getUsername();
+        String email = session.getEmail();
         String role = session.getRole();
-
-        System.out.println("Current User: " + username + " with role: " + role);
-        // Add more logic based on user role or username
+        String name = session.getName();
     }
 }
 */
