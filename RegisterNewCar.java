@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  *
  * @author User
  */
-public class register_newcar extends javax.swing.JFrame {
+public class RegisterNewCar extends javax.swing.JFrame {
 
 private void populateTableFromFile() {
     // Define the file name
