@@ -170,7 +170,7 @@ public class CusMenu extends javax.swing.JFrame {
     private void btnEditProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProfileActionPerformed
         CusProfile profile = new CusProfile();
         profile.setVisible(true);
-        //dispose(); ?
+        dispose();
     }//GEN-LAST:event_btnEditProfileActionPerformed
 
     /**

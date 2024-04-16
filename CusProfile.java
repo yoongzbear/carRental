@@ -4,9 +4,13 @@
  */
 package carrental;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,15 +33,81 @@ public class CusProfile extends javax.swing.JFrame {
     public CusProfile() {
         initComponents();
         SessionManager session = SessionManager.getInstance();
+        //testing purpose
         this.email = session.getEmail();
         this.name = session.getName();
-        this.role = session.getRole();
+        this.role = session.getRole();                
+        //this.name = "Alya Mastura";
         inition();
     }
 
     private void inition() {
         //other initialization stuff
-        printInfo();
+        printInfo();     
+        disableButton();
+        disableEditTF();
+        tfEmail.setEditable(false);
+        tfIC.setEditable(false);
+        
+        // Add action listener to the Edit button
+        btnEdit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                enableEditTF(); // Enable editing components when Edit button is clicked
+                btnSave.setEnabled(true);           
+                btnCancel.setEnabled(true);
+                btnEdit.setEnabled(false);
+            }
+        });
+               
+        tfPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                validatePhoneNum();
+            }
+        });
+
+        tfLicense.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                validateDriNum();
+            }
+        });        
+    }
+    
+    // Validation methods    
+    private void validatePhoneNum() {
+        String phonePattern = "\\d{3}-\\d{7,8}";
+        String phone = tfPhone.getText().trim(); // Remove leading and trailing whitespace
+        if (!phone.isEmpty() && !phone.matches(phonePattern)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid phone number in the format XXX-XXXXXXX(X).","Error", JOptionPane.ERROR_MESSAGE);
+            tfPhone.requestFocusInWindow();// Prompt user back to the field
+        }
+    }
+
+    private void validateDriNum() {
+        String driNum = tfLicense.getText().trim(); // Remove leading and trailing whitespace
+        // Define the pattern for the driving license number
+        String driNumPattern = "\\d{7}\\s\\w{8}";
+        // Check if the input matches the pattern
+        if (!driNum.isEmpty() && !driNum.matches(driNumPattern)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid driving license number in the format 'XXXXXXXX XXXXXXXX'.","Error", JOptionPane.ERROR_MESSAGE);
+            tfLicense.requestFocusInWindow();// Prompt user back to the field
+        }
+    }
+    
+    private void disableEditTF() {
+        tfName.setEditable(false);
+        tfPhone.setEditable(false);        
+        tfLicense.setEditable(false);        
+    }
+    
+    private void enableEditTF(){
+        tfName.setEditable(true);
+        tfPhone.setEditable(true);
+        tfLicense.setEditable(true);  
+    }
+    
+    private void disableButton() {
+        btnSave.setEnabled(false);
+        btnCancel.setEnabled(false);
     }
     
     private void printInfo() {
@@ -57,7 +127,8 @@ public class CusProfile extends javax.swing.JFrame {
                 String[] parts = line.split(",");
                 if (parts.length > 4) { 
                     String fileMail = parts[1].trim();
-                    if (fileMail.equals(this.email)) {
+                    if (fileMail.equals("alya@gmail.com")) { //for testing purpose: if (fileMail.equals(this.email)) {
+                        this.name = parts[0].trim();
                         this.phone = parts[2].trim();
                         this.IC = parts[3].trim();
                         this.license = parts[4].trim();                        
@@ -73,6 +144,63 @@ public class CusProfile extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
         }
     }
+    
+    private void saveInfo() {
+        // Validate input fields
+        if (tfName.getText().isEmpty() || tfPhone.getText().isEmpty() || tfIC.getText().isEmpty() 
+        || tfLicense.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please fill in all the fields.","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            String updatedName = tfName.getText().trim();
+            String updatedPhone = tfPhone.getText().trim();
+            String updatedLicense = tfLicense.getText().trim();            
+            boolean updated = false;
+
+            //add edited information into string builder
+            StringBuilder updatedContent = new StringBuilder();
+
+            try (BufferedReader reader = new BufferedReader(new FileReader("C:\\javaNetBeans\\CarRental\\src\\carrental\\account.txt"))) {
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.contains(this.email)) { // Assuming email is unique and used as identifier
+                        String[] parts = line.split(",");
+                        if (parts.length > 4 && parts[1].trim().equals(this.email)) {
+                            // Construct new line with updated info
+                            String newLine = updatedName + "," + parts[1].trim() + "," + updatedPhone + "," + parts[3].trim() + "," + updatedLicense + "," + parts[5].trim();
+                            updatedContent.append(newLine).append("\n");
+                            updated = true;
+                        } else {
+                            updatedContent.append(line).append("\n");
+                        }
+                    } else {
+                        updatedContent.append(line).append("\n");
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage());
+            }
+
+            if (!updated) {
+                // Handle case where no line was updated (e.g., user not found)
+                JOptionPane.showMessageDialog(null, "No user found to update");
+                return;
+            }
+
+            // Write updated content back to file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\javaNetBeans\\CarRental\\src\\carrental\\account.txt"))) {
+                writer.write(updatedContent.toString());
+                JOptionPane.showMessageDialog(null, "Profile updated successfully!");
+                SessionManager.getInstance().setUser(this.email, this.role, updatedName);
+                disableButton();
+                btnEdit.setEnabled(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage());
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -98,6 +226,7 @@ public class CusProfile extends javax.swing.JFrame {
         tfEmail = new javax.swing.JTextField();
         tfIC = new javax.swing.JTextField();
         tfLicense = new javax.swing.JTextField();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +236,11 @@ public class CusProfile extends javax.swing.JFrame {
         jLabel1.setText("Customer Profile");
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,10 +294,22 @@ public class CusProfile extends javax.swing.JFrame {
         });
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         tfName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNameActionPerformed(evt);
+            }
+        });
+
+        btnCancel.setText("Cancel Edit");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
             }
         });
 
@@ -192,7 +338,9 @@ public class CusProfile extends javax.swing.JFrame {
                 .addComponent(btnEdit)
                 .addGap(18, 18, 18)
                 .addComponent(btnSave)
-                .addGap(30, 30, 30))
+                .addGap(18, 18, 18)
+                .addComponent(btnCancel)
+                .addGap(17, 17, 17))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tfEmail, tfIC, tfLicense, tfName, tfPhone});
@@ -223,7 +371,8 @@ public class CusProfile extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEdit)
-                    .addComponent(btnSave))
+                    .addComponent(btnSave)
+                    .addComponent(btnCancel))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -254,6 +403,21 @@ public class CusProfile extends javax.swing.JFrame {
     private void tfNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfNameActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        new CusMenu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        saveInfo();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        disableEditTF();
+        disableButton();
+        btnEdit.setEnabled(true);
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,6 +456,7 @@ public class CusProfile extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
