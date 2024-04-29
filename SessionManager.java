@@ -2,63 +2,67 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package carrental;
+package SubangsCarRental;
 
 /**
  *
  * @author User
  */
 
-//setting session for username
+//utility class to set session
 public class SessionManager {
-    private static SessionManager instance;
-    private String email;
-    private String name;
-    private String role;
+    private static String email;
+    private static String name;
+    private static String role;
     
     private SessionManager() {
-        //idk what this is for, apparently its to prevent instantiation
+        //private constructor to prevent instantiation
     }
     
-    public static SessionManager getInstance() {
-        if (instance == null) {
-            instance = new SessionManager(); //idk what is this            
-        } return instance;
+    //set the session after logging in
+    public static void setUser(String email, String role, String name) {
+        SessionManager.email = email;
+        SessionManager.role = role;
+        SessionManager.name = name; 
     }
     
-    public void setUser(String email, String role, String name) {
-        this.email = email;
-        this.role = role;
-        this.name = name;
-    }
-    
-    public String getEmail() {
+    public static String getEmail() {
         return email;
     }
-    
-    public String getRole() {
+
+    public static String getRole() {
         return role;
     }
-    
-    public String getName() {
+
+    public static String getName() {
         return name;
     }
-    
-    public void clearSession() {
+
+    //clear session when logging out
+    public static void clearSession() {
         email = null;
         role = null;
         name = null;
     }
 }
 
-
-/*how to use session
+/*
+how to use:
 public class SomeOtherClass {
     public void doSomething() {
-        SessionManager session = SessionManager.getInstance();
-        String email = session.getEmail();
-        String role = session.getRole();
-        String name = session.getName();
+        // Setting user session data
+        Session.setUser("user@example.com", "admin", "John Doe");
+
+        // Accessing session data
+        String email = Session.getEmail();
+        String role = Session.getRole();
+        String name = Session.getName();
+
+        // Displaying session data
+        System.out.println("Logged in user: " + name + " (" + email + ", " + role + ")");
+        
+        // Clearing session data
+        Session.clearSession();
     }
 }
 */
