@@ -8,6 +8,8 @@ package SubangsCarRental;
  *
  * @author User
  */
+
+//encapsulate customer information
 public class Customer extends User {
     private String phoneNum;
     private String ICNum;
@@ -45,4 +47,5 @@ public class Customer extends User {
     public void setLicenseNum(String licenseNum) {
         this.licenseNum = licenseNum;
     }
+    
 }
