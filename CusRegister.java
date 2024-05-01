@@ -460,35 +460,28 @@ private void validateConPass() {
     }//GEN-LAST:event_PassActionPerformed
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-        // Validate input fields
-        if (Name.getText().isEmpty() || Email.getText().isEmpty() || PhoneNum.getText().isEmpty() || ICnum.getText().isEmpty() 
-        || DriNum.getText().isEmpty() || Pass.getText().isEmpty() || ConPass.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please fill in all the fields.","Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        //Make sure that the email, phone, ic num, drinum, (password +pass is same )use ...
-        
-        //Collect data from GUI components
-        String FullName = Name.getText();
-        String Emailaddress = Email.getText();
-        String PhoneNumber = PhoneNum.getText();
-        String ICnumber = ICnum.getText();
-        String DriNumber = DriNum.getText();
-        String Password = Pass.getText();
-        String ConPassword = ConPass.getText();
-        
-        String cusInfo = FullName +","+ Emailaddress +","+ PhoneNumber +","+ ICnumber +","+ DriNumber +","+ Password;
-        
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("cusInfo",true))){
-            writer.write(cusInfo);
-            writer.newLine();
-            System.out.println("Your account has been created");
-            JOptionPane.showMessageDialog(this,"Your account has been created","Success",JOptionPane.INFORMATION_MESSAGE);
-        }catch (IOException e) {
-        System.out.println("An error occurred while writing to the file.");
-        e.printStackTrace();
-        }
+        // Collect data from GUI components
+    String fullName = Name.getText();
+    String emailAddress = Email.getText();
+    String phoneNumber = PhoneNum.getText();
+    String icNumber = ICnum.getText();
+    String driNumber = DriNum.getText();
+    String password = Pass.getText();
+    String conPassword = ConPass.getText();
+    
+    // Check if passwords match
+    if (!password.equals(conPassword)) {
+        JOptionPane.showMessageDialog(null, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    // Check if all information is entered
+    if (fullName.isEmpty() || emailAddress.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty() || driNumber.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    // Call the method in the AccountCreator class to create the account
+    Customer Customer = new Customer(fullName, emailAddress, phoneNumber, icNumber, driNumber, password);
+        Customer.createAccount();
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
