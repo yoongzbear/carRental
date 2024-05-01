@@ -523,8 +523,8 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
                 // Check if the car is booked during the specified period
                 boolean overlap = useDate.isBefore(bookedReturnDate) && bookedUseDate.isBefore(returnDate);
 
-                // If the car is booked during the specified period or status is "booked", return false
-                if (overlap || status.equalsIgnoreCase("booked")) {
+               // If the car is booked during the specified period, return false
+                if (overlap) {
                     return false;
                 }
             }
