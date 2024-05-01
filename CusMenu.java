@@ -185,8 +185,8 @@ public class CusMenu extends javax.swing.JFrame {
         login.setVisible(true);
     }  
     private void btnEditProfileActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        //CusProfile profile = new CusProfile();
-        //profile.setVisible(true);
+        CusProfile profile = new CusProfile();
+        profile.setVisible(true);
         dispose();
     }                                              
 
