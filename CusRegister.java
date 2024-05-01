@@ -481,7 +481,19 @@ private void validateConPass() {
     }
     // Call the method in the AccountCreator class to create the account
     Customer Customer = new Customer(fullName, emailAddress, phoneNumber, icNumber, driNumber, password);
-        Customer.createAccount();
+    
+    boolean registrationSuccessful = Customer.createAccount();
+        
+    if (registrationSuccessful) {
+            // Close the current registration window
+            this.dispose();
+
+            // Open the login window
+            Login loginWindow = new Login();
+            loginWindow.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Registration failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
