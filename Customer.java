@@ -29,12 +29,12 @@ public class Customer extends User {
     }
 
     // Method to create an account for the customer
-    public void createAccount() {
+    public boolean createAccount() {
         // Validate input fields
         if (name.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty()
                 || driNumber.isEmpty()) {
             System.out.println("Please fill in all the fields.");
-            return;
+            return false;
         }
 
         // Collect data
@@ -46,10 +46,12 @@ public class Customer extends User {
             writer.newLine();
             System.out.println("Your account has been created");
             JOptionPane.showMessageDialog(null, "Your account has been created", "Success", JOptionPane.INFORMATION_MESSAGE);
-            return;
+
+            return true;
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
             e.printStackTrace();
+            return false; // Account creation failed
         }
     }
 }
