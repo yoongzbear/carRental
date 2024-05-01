@@ -518,7 +518,6 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
             if (parts[1].trim().equals(carId)) {
                 LocalDate bookedUseDate = parseDate(parts[5].trim());
                 LocalDate bookedReturnDate = parseDate(parts[6].trim());
-                String status = parts[7].trim(); 
 
                 // Check if the car is booked during the specified period
                 boolean overlap = useDate.isBefore(bookedReturnDate) && bookedUseDate.isBefore(returnDate);
@@ -569,6 +568,8 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
     // Check if the index exceeds the size of available cars
     if (currentIndex >= availableCarsFiltered.size()) {
         currentIndex = 0; // Wrap around to the beginning if it does
+        JOptionPane.showMessageDialog(this, "This is the last available car", "Information", JOptionPane.INFORMATION_MESSAGE);
+            return;
     }
 
     // Display the car information at the updated index
@@ -607,7 +608,7 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
     double pricePerDay = availableCarsFiltered.get(currentIndex).getPricePerDay();
 
     // Set the book status
-    String bookingStatus = "booked";
+    String bookingStatus = "Booked";
         
     // Get the use date and return date
     LocalDate useDate = parseDate(this.useDate.getText());
@@ -616,6 +617,8 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     String formattedUseDate = useDate.format(dateFormatter);
     String formattedReturnDate = returnDate.format(dateFormatter);
+
+    String type = Type.getText();
     // Calculate the total price
     double totalPrice = pricePerDay * ChronoUnit.DAYS.between(useDate, returnDate);
 
@@ -624,8 +627,8 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
         // Format: Name/Gmail,Car ID,Number of Passengers,Price,Use Date,Return Date
         String bookingInfo = email+ "," +
                              carId + "," +
+                             type + "," +
                              passengers + "," +
-                             pricePerDay + "," +
                              totalPrice + "," +
                              formattedUseDate + "," +
                              formattedReturnDate + "," +
