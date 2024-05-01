@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package SubangsCarRental;
 
@@ -13,11 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author User
- */
-public class Login extends javax.swing.JFrame {
+class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
@@ -249,87 +245,29 @@ public class Login extends javax.swing.JFrame {
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
     }                                        
-
-    private void loginProcess() {
-        String name = null;
-        String email = txtEmail.getText();
-        String password = txtPassword.getText();
-        boolean loginSuccessful = false;
-        boolean incorrect = false;
-        String mail = null;
-        String pw = null;
-        String role = null; //to use outside of the loop
-        String filePath = null; //check which file to read from
-
-        if (btnCus.isSelected()) {
-            filePath = "account.txt"; //path of the file
-            role = "Customer";
-        } else if (btnAdmin.isSelected()) {
-            filePath = "admin.txt";
-            role =  "Admin";
-        } 
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-
-                if (role.equals("Customer")) {
-                    if (parts.length < 6) {
-                        continue;
-                    }
-                    name = parts[0].trim();
-                    mail = parts[1].trim();
-                    pw = parts[5].trim();
-                } else if (role.equals("Admin")) {
-                    if (parts.length < 3) {
-                        continue;
-                    }
-                    name = parts[0].trim();
-                    mail = parts[1].trim();
-                    pw = parts[2].trim();
-                }
-
-                if (email.equals(mail) && password.equals(pw)) {
-                    loginSuccessful = true;            
-                    break;            
-                } else if (email.equals(mail) && !password.equals(pw)) {
-                    incorrect = true;
-                    break;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            // Error if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
-        } catch (Exception e) {
-            // Other unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
-        }
-
-        if (loginSuccessful) {        
-            SessionManager.setUser(mail, role, name);        
-            //next page
-            if (role.equals("Customer")) {
-                dispose();
-                CusMenu cus = new CusMenu();
-                cus.setVisible(true);
-            } else if (role.equals("Admin")){
-                JOptionPane.showMessageDialog(null, "hi admin");
-                /*dispose();
-                AdminMenu admin = new AdminMenu();
-                admin.setVisible(true); */
-            }
-
-        }
-        else if (incorrect) {
-            JOptionPane.showMessageDialog(null, "Invalid password");
-        } else {
-            JOptionPane.showMessageDialog(null, "Account not found");
-        }
-    }
     
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        loginProcess();
+        //declare variables
+        String email = txtEmail.getText();
+        String password = txtPassword.getText();
+        String role = null; //to use outside of the loop
+        
+        if (btnCus.isSelected()) {
+            role = "Customer";
+        } else if (btnAdmin.isSelected()) {
+            role =  "Admin";
+        } 
+        //calling login process from User class
+        User user = new User(email, null, password, role);
+        if (user.loginProcess()) {
+            //hide login UI after success
+            setVisible(false);
+            //display customer menu
+            CusMenu cusMenu = new CusMenu();
+            cusMenu.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Wrong credentials, please try again.");
+        }
     }                                        
 
     private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {                                       
