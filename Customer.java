@@ -21,8 +21,8 @@ public class Customer extends User {
 
     // Constructor
     public Customer(String name, String email, String phoneNumber, String icNumber,
-                    String driNumber, String password) {
-        super(email, name, password); // Call the constructor of the superclass (User)
+                    String driNumber, String password, String role) {
+        super(email, name, password, role); // Call the constructor of the superclass (User)
         this.phoneNumber = phoneNumber;
         this.icNumber = icNumber;
         this.driNumber = driNumber;

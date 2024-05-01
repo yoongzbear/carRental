@@ -468,6 +468,7 @@ private void validateConPass() {
     String driNumber = DriNum.getText();
     String password = Pass.getText();
     String conPassword = ConPass.getText();
+    String role = "Customer";
     
     // Check if passwords match
     if (!password.equals(conPassword)) {
@@ -480,7 +481,7 @@ private void validateConPass() {
         return;
     }
     // Call the method in the AccountCreator class to create the account
-    Customer Customer = new Customer(fullName, emailAddress, phoneNumber, icNumber, driNumber, password);
+    Customer Customer = new Customer(fullName, emailAddress, phoneNumber, icNumber, driNumber, password, role);
     
     boolean registrationSuccessful = Customer.createAccount();
         
