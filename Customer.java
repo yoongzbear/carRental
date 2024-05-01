@@ -4,48 +4,52 @@
  */
 package SubangsCarRental;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
  */
-
-//encapsulate customer information
 public class Customer extends User {
-    private String phoneNum;
-    private String ICNum;
-    private String licenseNum;
+    // Attributes specific to the Customer class
+    private final String phoneNumber; // Phone number of the customer
+    private final String icNumber; // Identification number of the customer
+    private final String driNumber; // Driver's license number of the customer
 
-    public Customer(String email, String name, String password, String phoneNum, String ICNum, String licenseNum) {
-        super(email, name, password); // Call the superclass (User) constructor
-        this.phoneNum = phoneNum;
-        this.ICNum = ICNum;
-        this.licenseNum = licenseNum;
+    // Constructor
+    public Customer(String name, String email, String phoneNumber, String icNumber,
+                    String driNumber, String password) {
+        super(email, name, password); // Call the constructor of the superclass (User)
+        this.phoneNumber = phoneNumber;
+        this.icNumber = icNumber;
+        this.driNumber = driNumber;
     }
 
-    // Getters
-    public String getPhoneNum() {
-        return phoneNum;
-    }
+    // Method to create an account for the customer
+    public void createAccount() {
+        // Validate input fields
+        if (name.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty()
+                || driNumber.isEmpty()) {
+            System.out.println("Please fill in all the fields.");
+            return;
+        }
 
-    public String getICNum() {
-        return ICNum;
-    }
+        // Collect data
+        String account = name + "," + email + "," + phoneNumber + "," + icNumber + "," + driNumber + ","
+                + password;
 
-    public String getLicenseNum() {
-        return licenseNum;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("account.txt", true))) {
+            writer.write(account);
+            writer.newLine();
+            System.out.println("Your account has been created");
+            JOptionPane.showMessageDialog(null, "Your account has been created", "Success", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
     }
-
-    // Setters
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
-
-    public void setICNum(String ICNum) {
-        this.ICNum = ICNum;
-    }
-
-    public void setLicenseNum(String licenseNum) {
-        this.licenseNum = licenseNum;
-    }
-    
 }
