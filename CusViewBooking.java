@@ -10,6 +10,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author User
  */
 public class CusViewBooking extends javax.swing.JFrame {
+    private String email;
 
     /**
      * Creates new form CusViewBooking
@@ -98,7 +102,11 @@ public class CusViewBooking extends javax.swing.JFrame {
         viewButton.setText("View Detail");
         viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewButtonActionPerformed(evt);
+                try {
+                    viewButtonActionPerformed(evt);
+                } catch (IOException ex) {
+                    Logger.getLogger(CusViewBooking.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -128,8 +136,26 @@ public class CusViewBooking extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {                                           
+        //get row index
+        int selectedRow = bookingTable.getSelectedRow();
+        
+        if (selectedRow >= 0) {
+            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
+
+            // Retrieve booking data from the model
+            //this.email = SessionManager.getEmail();
+            this.email = "alya@gmail.com";
+            String useDate = model.getValueAt(selectedRow, 3).toString();
+            
+            //call view booking detail   
+            CusViewBookingDetail detail = new CusViewBookingDetail(this.email, useDate);
+            detail.setVisible(true);
+
+        } else {
+            // No row is selected
+            JOptionPane.showMessageDialog(null, "Please select a row to view details.");
+        }
     }   
     
     private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
@@ -158,11 +184,11 @@ public class CusViewBooking extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 8) {  // Check if the line has sufficient data
-                    if (data[0].equals(SessionManager.getEmail())) {
-                    //if (data[0].equals("alya@gmail.com")) {
+                    //if (data[0].equals(SessionManager.getEmail())) {
+                    if (data[0].equals("alya@gmail.com")) {
                         String carModel = carModels.getOrDefault(data[1], "Unknown");  // Get car model or default to "Unknown"
                         model.addRow(new Object[]{                            
-                            i,         // Email
+                            i,         
                             carModel,         // Car model
                             Double.parseDouble(data[4]), // Total Price, assuming it's stored at index 4
                             data[5],         // Use Date

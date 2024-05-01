@@ -171,7 +171,8 @@ public class CusMenu extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void btnViewBookingActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        // TODO add your handling code here:
+        CusViewBooking viewBooking = new CusViewBooking();
+        viewBooking.setVisible(true);
     }                                              
 
     private void btnRentCarActionPerformed(java.awt.event.ActionEvent evt) {                                           
