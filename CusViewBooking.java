@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -79,29 +81,7 @@ public class CusViewBooking extends javax.swing.JFrame {
 
         bookingTable.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         loadTableData(bookingTable);
-        /*bookingTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                { new Integer(1), "test", "meow",  new Integer(2), null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Email", "Car Plate", "Total Price (RM)", "Use Date", "Return Date", "Status"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });*/
-        
-        
+                       
         jScrollPane1.setViewportView(bookingTable);
         if (bookingTable.getColumnModel().getColumnCount() > 0) {
             bookingTable.getColumnModel().getColumn(0).setResizable(false);
@@ -158,8 +138,10 @@ public class CusViewBooking extends javax.swing.JFrame {
     }  
     
     public void loadTableData(javax.swing.JTable table) {
+        Map<String, String> carModels = loadCarModels();  // Load car models
+        
         // Define column names and types
-        String[] columnNames = {"No.", "Car Plate", "Total Price (RM)", "Use Date", "Return Date", "Status"};
+        String[] columnNames = {"No.", "Car Model", "Total Price (RM)", "Use Date", "Return Date", "Status"};
         Class<?>[] columnTypes = {String.class, String.class, Double.class, String.class, String.class, String.class};
 
         DefaultTableModel model = new DefaultTableModel(null, columnNames) {
@@ -177,9 +159,11 @@ public class CusViewBooking extends javax.swing.JFrame {
                 String[] data = line.split(",");
                 if (data.length >= 8) {  // Check if the line has sufficient data
                     if (data[0].equals(SessionManager.getEmail())) {
-                        model.addRow(new Object[]{
+                    //if (data[0].equals("alya@gmail.com")) {
+                        String carModel = carModels.getOrDefault(data[1], "Unknown");  // Get car model or default to "Unknown"
+                        model.addRow(new Object[]{                            
                             i,         // Email
-                            data[1],         // Car Plate
+                            carModel,         // Car model
                             Double.parseDouble(data[4]), // Total Price, assuming it's stored at index 4
                             data[5],         // Use Date
                             data[6],         // Return Date
@@ -196,6 +180,26 @@ public class CusViewBooking extends javax.swing.JFrame {
         table.setModel(model);
         table.revalidate();  // Refresh the table to display new data
     }
+    
+    //get car model
+    public Map<String, String> loadCarModels() {
+    Map<String, String> carMap = new HashMap<>();
+    try (BufferedReader br = new BufferedReader(new FileReader("car_info.txt"))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.startsWith("Car ID:")) {
+                String carPlate = line.substring(7).trim();  // Assuming format is "Car ID: wow 123"
+                if ((line = br.readLine()) != null && line.startsWith("Car Model:")) {
+                    String carModel = line.substring(10).trim(); // Assuming format is "Car Model: myvi"
+                    carMap.put(carPlate, carModel);
+                }
+            }
+        }
+    } catch (IOException e) {
+        System.err.println("Error reading file: " + e.getMessage());
+    }
+    return carMap;
+}
 
 
     /**
