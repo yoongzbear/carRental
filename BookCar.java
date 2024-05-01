@@ -594,8 +594,7 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
 
     private void bookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookActionPerformed
     // Get the current user's information
-    SessionManager session = SessionManager.getInstance();
-    String email = session.getEmail();
+    String email = SessionManager.getEmail();
 
     // Get the selected car ID
     String carId = selectedCarId;
