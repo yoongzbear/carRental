@@ -518,12 +518,13 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
             if (parts[1].trim().equals(carId)) {
                 LocalDate bookedUseDate = parseDate(parts[5].trim());
                 LocalDate bookedReturnDate = parseDate(parts[6].trim());
+                String status = parts[7].trim(); 
 
                 // Check if the car is booked during the specified period
                 boolean overlap = useDate.isBefore(bookedReturnDate) && bookedUseDate.isBefore(returnDate);
 
-                // If the car is booked during the specified period, return false
-                if (overlap) {
+                // If the car is booked during the specified period or status is "booked", return false
+                if (overlap || status.equalsIgnoreCase("booked")) {
                     return false;
                 }
             }
@@ -604,7 +605,10 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
 
     // Get the price per day
     double pricePerDay = availableCarsFiltered.get(currentIndex).getPricePerDay();
-    
+
+    // Set the book status
+    String bookingStatus = "booked";
+        
     // Get the use date and return date
     LocalDate useDate = parseDate(this.useDate.getText());
     LocalDate returnDate = parseDate(this.returnDate.getText());
@@ -624,7 +628,8 @@ private boolean isCarAvailable(String carId, LocalDate useDate, LocalDate return
                              pricePerDay + "," +
                              totalPrice + "," +
                              formattedUseDate + "," +
-                             formattedReturnDate;
+                             formattedReturnDate + "," +
+                             bookingStatus;
         writer.write(bookingInfo);
         writer.newLine();
         writer.flush();
