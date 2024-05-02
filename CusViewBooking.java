@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CusViewBooking extends javax.swing.JFrame {
     private String email = SessionManager.getEmail();
-    private String index;
+    private String index; //booking id
     /**
      * Creates new form CusViewBooking
      */
@@ -87,11 +87,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         bookingTable.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Booking ID", "Car Model", "Total Price (RM)", "Rent Date", "Return Date", "Status"
@@ -174,18 +170,8 @@ public class CusViewBooking extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_menuButtonActionPerformed
     
-    public void loadTableData(javax.swing.JTable table) {
-        // Define column names and types
-        String[] columnNames = {"Booking ID", "Car Model", "Total Price (RM)", "Rent Date", "Return Date", "Status"};      
-
-        Class<?>[] columnTypes = {String.class, String.class, Double.class, String.class, String.class, String.class};
-        
-        DefaultTableModel model = new DefaultTableModel(null, columnNames) {
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                return columnTypes[columnIndex];
-            }
-        };
+    public void loadTableData(javax.swing.JTable table) {        
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
         // Map to store car plate as key and model as value
         Map<String, String> carModels = new HashMap<>();
