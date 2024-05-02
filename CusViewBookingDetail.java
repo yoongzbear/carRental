@@ -5,8 +5,17 @@
 package SubangsCarRental;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,7 +23,6 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class CusViewBookingDetail extends javax.swing.JFrame {
-
     private String email;
     private String carID;
     private int seatNum;
@@ -24,36 +32,66 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
     private String returnDate;
     private String status;
     private String carType;
+    private String index;
+    private String carModel;
+    private String features;
+    private String carColor;
+    private String gearbox;
     
+    private CusViewBooking parent; 
+
     /**
      * Creates new form CusViewBookingDetail
-     * @param email
-     * @param rentDate
      */
-    public CusViewBookingDetail(String email, String rentDate) {
+    public CusViewBookingDetail(String index, CusViewBooking parent) {
         initComponents();        
-        this.email = email;
-        this.rentDate = rentDate;
+        this.index = index;
+        this.parent = parent;
         printDetail();
     }
-
+    
     private void getDetail() {
         //retireve detail from booking.txt and car info txt
+        
+        Map<String, String[]> carInfoMap = new HashMap<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 7) {
+                    StringBuilder features = new StringBuilder();
+                    for (int i = 7; i < parts.length; i++) {
+                        features.append(parts[i].trim());
+                        if (i < parts.length - 1) {
+                            features.append(", ");  // Append comma for all but the last feature
+                        }
+                    }
+                    
+                    String[] carDetails = new String[] {parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim(), parts[5].trim(), parts[6].trim(), features.toString()};
+                    carInfoMap.put(parts[0].trim(), carDetails);  // Store carID as key, and details array as value
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading car info file: " + e.getMessage());
+        }
+        
         try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length > 7) { 
-                    String fileMail = parts[0].trim();
-                    String fileRentDate = parts[5].trim();
-                    if (fileMail.equals(this.email) && fileRentDate.equals(this.rentDate)) { 
-                        //alya@gmail.com,bmx 123,sedans,5,150.0,08/12/2024,10/12/2024,Booked
-                        this.carID = parts[1].trim();
-                        this.carType = parts[2].trim();
-                        this.seatNum = Integer.parseInt(parts[3].trim());
-                        this.totalRent = Double.parseDouble(parts[4].trim());
-                        this.returnDate = parts[6].trim();  
-                        this.status = parts[7].trim();
+                    String fileIndex = parts[0].trim();
+                    //String fileMail = parts[0].trim();
+                    //2,alya@gmail.com,mow 789,Sedan,5,400.0,08/12/2024,10/12/2024,Booked
+                    if (fileIndex.equals(this.index)) { 
+                        this.carID = parts[2].trim();
+                        //this.carType = parts[3].trim();
+                        //this.seatNum = Integer.parseInt(parts[4].trim());
+                        this.totalRent = Double.parseDouble(parts[5].trim());
+                        this.rentDate = parts[6].trim();  
+                        this.returnDate = parts[7].trim();  
+                        this.status = parts[8].trim();
                         break; 
                     }
                 }
@@ -65,40 +103,106 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
             //unexpected errors
             JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
         }
+        //set car info
+        // axia, Sedan, 5, Blue, Automatic, 200, GPS, BlueTooth
+        String[] carDetails = carInfoMap.getOrDefault(this.carID, new String[]{"Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "No features available"});
+        this.carModel = carDetails[0];  // Car model
+        this.carType = carDetails[1];  // Car type
+        this.seatNum = Integer.parseInt(carDetails[2]);
+        this.carColor = carDetails[3];
+        this.gearbox = carDetails[4];
+        this.price = Double.parseDouble(carDetails[5]);
+        this.features = carDetails[6];  // Combined features string
+
     }
     
     private void printDetail() {
         getDetail();
         plateTF.setText(this.carID);
-        //carModelTF.setText(this.carID);
+        carModelTF.setText(this.carModel);
         typeTF.setText(this.carType);
-        //priceTF.setText(this.carType);
+        priceTF.setText(Double.toString(this.price));
         rentDateTF.setText(this.rentDate);
         returnDateTF.setText(this.returnDate);
         rentalFeeTF.setText(Double.toString(this.totalRent));
         statusTF.setText(this.status);
-        //colorTF.setText(this.carID);
+        colorTF.setText(this.carColor);
         numSeatsTF.setText(Integer.toString(this.seatNum));
-        //featureTF.setText(this.carID);
-        //gearboxTF.setText(this.carID);
+        featureTF.setText(this.features);
+        gearboxTF.setText(this.gearbox);
+        System.out.println("car model:"+this.carModel);
         
     }
     
-    private void deleteBooking() {
-        //delete booking from the booking file when it is more than 7 days before the rent date
+    private void deleteBooking(String index) {
+        boolean deleted = false;
+        LocalDate currentDate = LocalDate.now(); //current date
+            //delete when rent date is 7 days away from current date
+            StringBuilder updatedContent = new StringBuilder();
+
+            try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    String bookingID = parts[0].trim();
+                    if (bookingID.equals(this.index)) {
+                        LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        String status = parts[8].trim();
+                        System.out.println(ChronoUnit.DAYS.between(currentDate, rentDate));
+                        //can cancel booking when it is currently more than 7 days from the rent date and the status is booked
+                        if (ChronoUnit.DAYS.between(currentDate, rentDate) >= 7 && status.equals("Booked")) {
+                            String deletedLine = this.index + ",CANCELED";
+                            updatedContent.append(deletedLine).append("\n");
+                            deleted = true;
+                        } else if (status.equals("Approved")) {
+                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as it has been approved");
+                            updatedContent.append(line).append("\n");
+                        } else if (status.equals("Paid")) {
+                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel paid bookings");
+                            updatedContent.append(line).append("\n");
+                        } else if (ChronoUnit.DAYS.between(currentDate, rentDate) < 0) {
+                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel past bookings");
+                            updatedContent.append(line).append("\n");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as the rent date is less than 7 days from today");
+                            updatedContent.append(line).append("\n");
+                        }
+                    } else {
+                        updatedContent.append(line).append("\n");
+                    }                    
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage());
+            }
+            
+            // Write updated content back to file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
+                writer.write(updatedContent.toString());
+                //JOptionPane.showMessageDialog(null, "Booking deleted successfully!");
+                dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage());
+            }
+        if (deleted) {
+            JOptionPane.showMessageDialog(null, "Booking successfully canceled!");
+            parent.dispose();
+                CusViewBooking newParent = new CusViewBooking();
+                newParent.setVisible(true);
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        menuButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -135,13 +239,6 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setText("Customer Bookings");
 
-        menuButton.setText("Menu");
-        menuButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,20 +246,13 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(229, 229, 229)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(menuButton)
-                .addContainerGap())
+                .addContainerGap(248, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(menuButton))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel1)))
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1)
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -193,7 +283,7 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
         cancelButton.setText("Cancel Booking");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteBooking();
+                cancelButtonActionPerformed(evt);
             }
         });
 
@@ -283,28 +373,21 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
                                         .addComponent(jLabel7)
                                         .addGap(18, 18, 18)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addContainerGap(45, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(featureTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addContainerGap())))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(58, 58, 58))))
+                                    .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(featureTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel10))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cancelButton)
                         .addGap(18, 18, 18)
                         .addComponent(backButton)
-                        .addContainerGap())))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,31 +449,33 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents
 
-    private void statusTFActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void statusTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusTFActionPerformed
         // TODO add your handling code here:
-    }                                        
+    }//GEN-LAST:event_statusTFActionPerformed
 
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         dispose();
-    }                                          
+    }//GEN-LAST:event_backButtonActionPerformed
 
-    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
         // TODO add your handling code here:
-    }                                          
+    }//GEN-LAST:event_rentDateTFActionPerformed
 
-    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
         // TODO add your handling code here:
-    }                   
-    
-    private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        new CusMenu().setVisible(true);
-        dispose();
-    }  
-    
+    }//GEN-LAST:event_returnDateTFActionPerformed
 
-    // Variables declaration - do not modify                     
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        deleteBooking(this.index);
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField carModelTF;
@@ -413,7 +498,6 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton menuButton;
     private javax.swing.JTextField numSeatsTF;
     private javax.swing.JTextField plateTF;
     private javax.swing.JTextField priceTF;
@@ -422,5 +506,5 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
     private javax.swing.JTextField returnDateTF;
     private javax.swing.JTextField statusTF;
     private javax.swing.JTextField typeTF;
-    // End of variables declaration                   
+    // End of variables declaration//GEN-END:variables
 }
