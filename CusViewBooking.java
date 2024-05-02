@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author User
  */
 public class CusViewBooking extends javax.swing.JFrame {
-    private String email;
+    private String email = SessionManager.getEmail();
     private String index;
     /**
      * Creates new form CusViewBooking
@@ -157,11 +157,6 @@ public class CusViewBooking extends javax.swing.JFrame {
         
         if (selectedRow >= 0) {
             DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-
-            // Retrieve booking data from the model
-            //this.email = SessionManager.getEmail();
-            //this.email = "alya@gmail.com";
-            //this.index = model.getValueAt(selectedRow, 0).toString();  // Convert to string if necessary
             
             //call view booking detail   
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
@@ -214,7 +209,7 @@ public class CusViewBooking extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 8) {
-                    if (data[1].equals("alya@gmail.com")) {
+                    if (data[1].equals(email)) {
                         String carPlate = data[2].trim();
                         String carModel = carModels.getOrDefault(carPlate, "Unknown");
                         //add row into table

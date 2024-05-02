@@ -38,7 +38,7 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
     private String carColor;
     private String gearbox;
     
-    private CusViewBooking parent; 
+    private final CusViewBooking parent; 
 
     /**
      * Creates new form CusViewBookingDetail
@@ -48,8 +48,23 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
         this.index = index;
         this.parent = parent;
         printDetail();
+        disableTF();
     }
     
+    private void disableTF() {
+        plateTF.setEditable(false);
+        carModelTF.setEditable(false);
+        typeTF.setEditable(false);
+        priceTF.setEditable(false);
+        rentDateTF.setEditable(false);
+        returnDateTF.setEditable(false);
+        rentalFeeTF.setEditable(false);
+        statusTF.setEditable(false);
+        colorTF.setEditable(false);
+        numSeatsTF.setEditable(false);
+        featureTF.setEditable(false);
+        gearboxTF.setEditable(false);
+    }
     private void getDetail() {
         //retireve detail from booking.txt and car info txt
         
@@ -82,12 +97,8 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
                 String[] parts = line.split(",");
                 if (parts.length > 7) { 
                     String fileIndex = parts[0].trim();
-                    //String fileMail = parts[0].trim();
-                    //2,alya@gmail.com,mow 789,Sedan,5,400.0,08/12/2024,10/12/2024,Booked
                     if (fileIndex.equals(this.index)) { 
                         this.carID = parts[2].trim();
-                        //this.carType = parts[3].trim();
-                        //this.seatNum = Integer.parseInt(parts[4].trim());
                         this.totalRent = Double.parseDouble(parts[5].trim());
                         this.rentDate = parts[6].trim();  
                         this.returnDate = parts[7].trim();  
@@ -104,7 +115,6 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
         }
         //set car info
-        // axia, Sedan, 5, Blue, Automatic, 200, GPS, BlueTooth
         String[] carDetails = carInfoMap.getOrDefault(this.carID, new String[]{"Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "No features available"});
         this.carModel = carDetails[0];  // Car model
         this.carType = carDetails[1];  // Car type
@@ -130,8 +140,6 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
         numSeatsTF.setText(Integer.toString(this.seatNum));
         featureTF.setText(this.features);
         gearboxTF.setText(this.gearbox);
-        System.out.println("car model:"+this.carModel);
-        
     }
     
     private void deleteBooking(String index) {
@@ -281,11 +289,6 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
         jLabel9.setText("Return Date:");
 
         cancelButton.setText("Cancel Booking");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
 
         rentDateTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -466,10 +469,6 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
     private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_returnDateTFActionPerformed
-
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        deleteBooking(this.index);
-    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
