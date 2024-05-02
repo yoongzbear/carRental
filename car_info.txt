@@ -1,9 +1,1 @@
-Car ID:wow 123
-Car Model: myvi
-Car Type: Sedans
-Number of Seats: 5
-Car Color: Black
-Gearbox: Automatic
-Price /day: 75
-Features: Air conditioning
-
+wow 123, myvi, Trucks, 5, Red, Automatic, 200, (Air conditioning, GPS, Sunroof)
