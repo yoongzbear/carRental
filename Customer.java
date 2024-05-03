@@ -30,6 +30,12 @@ public class Customer extends User {
 
     // Method to create an account for the customer
     public boolean createAccount() {
+        // Validate input fields
+        if (name.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty()
+                || driNumber.isEmpty()) {
+            System.out.println("Please fill in all the fields.");
+            return false;
+        }
 
         // Collect data
         String account = name + "," + email + "," + phoneNumber + "," + icNumber + "," + driNumber + ","
