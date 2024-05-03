@@ -5,29 +5,24 @@
 package SubangsCarRental;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author User
  */
-public class CusViewBooking extends javax.swing.JFrame {
-    private String email = SessionManager.getEmail();
+public class AdminBookingConfirm extends javax.swing.JFrame {
+
     private String index; //booking id
     /**
-     * Creates new form CusViewBooking
+     * Creates new form AdminBookingConfirm
      */
-    public CusViewBooking() {
+    public AdminBookingConfirm() {
         initComponents();
-        loadTableData(bookingTable);
     }
 
     /**
@@ -43,83 +38,61 @@ public class CusViewBooking extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         menuButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        bookingTable = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         viewButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 51, 51));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setText("Customer Bookings");
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabel1.setText("Customer Bookings Confirmation");
 
         menuButton.setText("Menu");
-        menuButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(229, 229, 229)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(menuButton)
-                .addGap(28, 28, 28))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(menuButton)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(77, 77, 77))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(menuButton))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel1)))
-                .addContainerGap(35, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(menuButton)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        bookingTable.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        bookingTable.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Booking ID", "Car Model", "Total Price (RM)", "Rent Date", "Return Date", "Status"
+                "Booking ID", "Customer Email", "Car Model", "Total Fee (RM)", "Rent Date", "Return Date"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(bookingTable);
-        if (bookingTable.getColumnModel().getColumnCount() > 0) {
-            bookingTable.getColumnModel().getColumn(0).setResizable(false);
-            bookingTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            bookingTable.getColumnModel().getColumn(1).setPreferredWidth(10);
-            bookingTable.getColumnModel().getColumn(2).setPreferredWidth(10);
-            bookingTable.getColumnModel().getColumn(3).setPreferredWidth(1);
-            bookingTable.getColumnModel().getColumn(4).setResizable(false);
-            bookingTable.getColumnModel().getColumn(4).setPreferredWidth(5);
-            bookingTable.getColumnModel().getColumn(5).setResizable(false);
-            bookingTable.getColumnModel().getColumn(5).setPreferredWidth(7);
+        ));
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(3);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        viewButton.setText("View Detail");
-        viewButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewButtonActionPerformed(evt);
-            }
-        });
+        viewButton.setText("View Booking");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,49 +100,27 @@ public class CusViewBooking extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(viewButton)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 726, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(viewButton)
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
-        //get row index to check if row is selected
-        int selectedRow = bookingTable.getSelectedRow();
-        
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-            
-            //call view booking detail   
-            this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-            CusViewBookingDetail detail = new CusViewBookingDetail(this.index, this);
-            detail.setVisible(true);                    
-
-        } else {
-            // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to view details.");
-        }
-    }//GEN-LAST:event_viewButtonActionPerformed
-
-    private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
-        new CusMenu().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_menuButtonActionPerformed
-    
+    /*
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
@@ -195,8 +146,7 @@ public class CusViewBooking extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 8) {
-                    //if (data[1].equals(email)) {
-                    if (data[1].equals("alya@gmail.com")) {
+                    if (data[1].equals(email)) {
                         String carPlate = data[2].trim();
                         String carModel = carModels.getOrDefault(carPlate, "Unknown");
                         //add row into table
@@ -219,6 +169,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         table.setModel(model);
         table.revalidate();  // Refresh the table to display new data             
     }
+    */
     
     /**
      * @param args the command line arguments
@@ -237,29 +188,29 @@ public class CusViewBooking extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminBookingConfirm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminBookingConfirm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminBookingConfirm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminBookingConfirm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CusViewBooking().setVisible(true);
+                new AdminBookingConfirm().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable bookingTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton menuButton;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables

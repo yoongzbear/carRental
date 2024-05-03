@@ -143,6 +143,7 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
     }
     
     private void deleteBooking(String index) {
+        System.out.println("meow");
         boolean deleted = false;
         LocalDate currentDate = LocalDate.now(); //current date
             //delete when rent date is 7 days away from current date
@@ -289,6 +290,11 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
         jLabel9.setText("Return Date:");
 
         cancelButton.setText("Cancel Booking");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         rentDateTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -469,6 +475,10 @@ public class CusViewBookingDetail extends javax.swing.JFrame {
     private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_returnDateTFActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        deleteBooking(this.index);
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
