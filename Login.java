@@ -264,9 +264,15 @@ public class Login extends javax.swing.JFrame {
         if (user.loginProcess()) {
             //hide login UI after success
             setVisible(false);
-            //display customer menu
-            CusMenu cusMenu = new CusMenu();
-            cusMenu.setVisible(true);
+            if (role.equals("Customer")) {
+                //display customer menu
+                CusMenu cusMenu = new CusMenu();
+                cusMenu.setVisible(true);
+            } else {
+                //display customer menu
+                AdminMenu adminMenu = new AdminMenu();
+                adminMenu.setVisible(true);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Wrong credentials, please try again.");
         }
