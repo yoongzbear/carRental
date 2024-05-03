@@ -4,12 +4,15 @@
  */
 package SubangsCarRental;
 
+import previous.RegisterNewCar2;
+import previous.MagCar2;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
  */
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 public class AdminMenu extends javax.swing.JFrame {
 
     /**
@@ -17,17 +20,7 @@ public class AdminMenu extends javax.swing.JFrame {
      */
     public AdminMenu() {
         initComponents();
-        // Add ActionListener to the RegButton
-        RegButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Create an instance of the RegisterNewCar frame
-                RegisterNewCar registerFrame = new RegisterNewCar();
-                // Set the frame visible
-                registerFrame.setVisible(true);
-                // Close the current frame (AdminMenu frame)
-                dispose();
-            }
-        });
+
     }
 
     /**
@@ -41,11 +34,15 @@ public class AdminMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        logout = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        RegButton = new javax.swing.JButton();
         MagCarButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        RegButton = new javax.swing.JButton();
+        CheckInOut = new javax.swing.JButton();
+        CheckInOut1 = new javax.swing.JButton();
+        CheckInOut2 = new javax.swing.JButton();
+        CheckInOut3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,37 +50,41 @@ public class AdminMenu extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
         jPanel1.setForeground(new java.awt.Color(255, 102, 102));
 
-        jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 36)); // NOI18N
         jLabel1.setText("ADMIN PAGE");
+
+        logout.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        logout.setText("Logout");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(393, 393, 393)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(645, Short.MAX_VALUE))
+                .addGap(353, 353, 353)
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(15, 15, 15))
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(14, 14, 14))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(255, 51, 51));
 
-        RegButton.setBackground(new java.awt.Color(252, 234, 234));
-        RegButton.setText("Register New Car");
-        RegButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegButtonActionPerformed(evt);
-            }
-        });
-
-        MagCarButton.setBackground(new java.awt.Color(255, 237, 237));
+        MagCarButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         MagCarButton.setText("Manage the Cars");
         MagCarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,40 +92,88 @@ public class AdminMenu extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton3.setText("Generate Sales Report");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("jButton4");
+        RegButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        RegButton.setText("Register New Car");
+        RegButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegButtonActionPerformed(evt);
+            }
+        });
+
+        CheckInOut.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CheckInOut.setText("Check In / Check Out Cars");
+        CheckInOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckInOutActionPerformed(evt);
+            }
+        });
+
+        CheckInOut1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CheckInOut1.setText("Payment Collection");
+        CheckInOut1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckInOut1ActionPerformed(evt);
+            }
+        });
+
+        CheckInOut2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CheckInOut2.setText("Send Booking Confirmation");
+        CheckInOut2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckInOut2ActionPerformed(evt);
+            }
+        });
+
+        CheckInOut3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CheckInOut3.setText("View Booking Histories");
+        CheckInOut3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckInOut3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addComponent(jButton4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(MagCarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
-                            .addComponent(RegButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(RegButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(MagCarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                    .addComponent(CheckInOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CheckInOut1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CheckInOut2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CheckInOut3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(RegButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(RegButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MagCarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MagCarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(CheckInOut2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckInOut, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckInOut1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CheckInOut3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/subangscarrental/vehicle-management-software.png"))); // NOI18N
@@ -137,7 +186,7 @@ public class AdminMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 956, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,17 +203,49 @@ public class AdminMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MagCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MagCarButtonActionPerformed
-        MagCarButton.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            // Create an instance of the MagCar frame
-            MagCar MagCarFrame = new MagCar();
+            MagCar2 MagCarFrame = new MagCar2();
             // Set the frame visible
             MagCarFrame.setVisible(true);
             // Close the current frame (AdminMenu frame)
             dispose();
-        }
-    });    
     }//GEN-LAST:event_MagCarButtonActionPerformed
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        SessionManager.clearSession();
+        dispose();
+        JOptionPane.showMessageDialog(this, "Log Out Successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+        Login login = new Login();
+        login.setVisible(true); 
+    }//GEN-LAST:event_logoutActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void RegButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegButtonActionPerformed
+        // Create an instance of the RegisterNewCar2 frame
+        RegisterNewCar2 registerFrame = new RegisterNewCar2();
+        // Set the frame visible
+        registerFrame.setVisible(true);
+        // Close the current frame (AdminMenu frame)
+        dispose();
+    }//GEN-LAST:event_RegButtonActionPerformed
+
+    private void CheckInOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CheckInOutActionPerformed
+
+    private void CheckInOut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CheckInOut1ActionPerformed
+
+    private void CheckInOut2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CheckInOut2ActionPerformed
+
+    private void CheckInOut3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CheckInOut3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,13 +283,17 @@ public class AdminMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CheckInOut;
+    private javax.swing.JButton CheckInOut1;
+    private javax.swing.JButton CheckInOut2;
+    private javax.swing.JButton CheckInOut3;
     private javax.swing.JButton MagCarButton;
     private javax.swing.JButton RegButton;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton logout;
     // End of variables declaration//GEN-END:variables
 }
