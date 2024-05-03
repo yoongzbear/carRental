@@ -181,7 +181,7 @@ public class CusViewBooking extends javax.swing.JFrame {
             String lineCar;
             while ((lineCar = brCarInfo.readLine()) != null) {
                 String[] carData = lineCar.split(",");
-                if (carData.length >= 2) {
+                if (carData.length >= 8) {
                     carModels.put(carData[0].trim(), carData[1].trim()); // Assuming plate is index 0, model is index 1
                 }
             }
@@ -195,8 +195,8 @@ public class CusViewBooking extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 8) {
-                    //if (data[1].equals(email)) {
-                    if (data[1].equals("alya@gmail.com")) {
+                    if (data[1].equals(email)) {
+                    //  if (data[1].equals("alya@gmail.com")) {
                         String carPlate = data[2].trim();
                         String carModel = carModels.getOrDefault(carPlate, "Unknown");
                         //add row into table

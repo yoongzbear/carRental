@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +24,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
      */
     public AdminBookingConfirm() {
         initComponents();
+        loadTableData(bookingTable);
     }
 
     /**
@@ -38,17 +40,22 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         menuButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        bookingTable = new javax.swing.JTable();
         viewButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 51, 51));
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setText("Customer Bookings Confirmation");
 
         menuButton.setText("Menu");
+        menuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -59,40 +66,42 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(menuButton)
-                        .addGap(18, 18, 18))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(77, 77, 77))))
+                        .addGap(120, 120, 120))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(menuButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Booking ID", "Customer Email", "Car Model", "Total Fee (RM)", "Rent Date", "Return Date"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(3);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        jScrollPane1.setViewportView(bookingTable);
+        if (bookingTable.getColumnModel().getColumnCount() > 0) {
+            bookingTable.getColumnModel().getColumn(0).setResizable(false);
+            bookingTable.getColumnModel().getColumn(0).setPreferredWidth(3);
+            bookingTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         viewButton.setText("View Booking");
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,13 +123,34 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(viewButton)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /*
+    private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
+        new CusMenu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_menuButtonActionPerformed
+
+    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
+        //get row index to check if row is selected
+        int selectedRow = bookingTable.getSelectedRow();
+        
+        if (selectedRow >= 0) {
+            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
+            
+            //call view booking detail   
+            this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
+            AdminBookingConfirmDetail detail = new AdminBookingConfirmDetail(this.index, this);
+            detail.setVisible(true);                    
+        } else {
+            // No row is selected
+            JOptionPane.showMessageDialog(null, "Please select a row to view details.");
+        }
+    }//GEN-LAST:event_viewButtonActionPerformed
+
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
@@ -132,32 +162,33 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             String lineCar;
             while ((lineCar = brCarInfo.readLine()) != null) {
                 String[] carData = lineCar.split(",");
-                if (carData.length >= 2) {
-                    carModels.put(carData[0].trim(), carData[1].trim()); // Assuming plate is index 0, model is index 1
+                if (carData.length >= 8) {
+                    carModels.put(carData[0].trim(), carData[1].trim());
                 }
             }
         } catch (IOException e) {
             System.err.println("Error reading car info file: " + e.getMessage());
         }
 
-        // Read customer booking data and display table
+        // Read customer booking data and display table - display with status booked only
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 8) {
-                    if (data[1].equals(email)) {
+                    if (data[8].equals("Booked")) {
                         String carPlate = data[2].trim();
                         String carModel = carModels.getOrDefault(carPlate, "Unknown");
                         //add row into table
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
+                            data[1],        //customer email
                             carModel,         // Car model
-                            Double.parseDouble(data[5]), // Total Price, assuming it's stored at index 4
+                            Double.parseDouble(data[5]), // Total Price
                             data[6],         // Use Date
                             data[7],         // Return Date
                             data[8]          // Status
-                    });
+                        });
                     }
                 }
             }
@@ -169,7 +200,6 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         table.setModel(model);
         table.revalidate();  // Refresh the table to display new data             
     }
-    */
     
     /**
      * @param args the command line arguments
@@ -207,10 +237,10 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable bookingTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton menuButton;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
