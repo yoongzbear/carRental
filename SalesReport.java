@@ -54,11 +54,14 @@ public class SalesReport extends javax.swing.JFrame {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
+                if (parts.length != 9) {
+                    continue;
+                }
                 String status = parts[8].trim(); 
                 String usedDate = parts[6].trim(); 
 
                  // Check if status is "Paid" and return date is within the input month
-                if (status.equals("Paid") && DateUtils.isDateWithinMonth(usedDate, inputMonth)) {
+                if ((status.equals("Paid")|| status.equals("Returned")) && DateUtils.isDateWithinMonth(usedDate, inputMonth)) {
                     String model = parts[3].trim(); 
                     double totalPrice = Double.parseDouble(parts[5].trim()); 
 
@@ -135,8 +138,10 @@ public class SalesReport extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Month of sales :");
 
+        generate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         generate.setText("Genreate");
         generate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,7 +149,7 @@ public class SalesReport extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setText("-- Sales Report --");
@@ -179,6 +184,7 @@ public class SalesReport extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Report);
 
+        Back.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Back.setText("Back");
         Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,7 +192,8 @@ public class SalesReport extends javax.swing.JFrame {
             }
         });
 
-        MONTH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "June", "July", "August", "September", "November", "December" }));
+        MONTH.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        MONTH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April","May","June", "July", "August", "September","October","November", "December" }));
         MONTH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MONTHActionPerformed(evt);
@@ -206,11 +213,11 @@ public class SalesReport extends javax.swing.JFrame {
                         .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(MONTH, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(generate, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(generate, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -243,7 +250,7 @@ public class SalesReport extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Back)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();

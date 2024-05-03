@@ -9,20 +9,18 @@ package SubangsCarRental;
  * @author User
  */
 import java.awt.Color;
-import java.io.IOException;
 import javax.swing.JOptionPane;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+
 
 
 public class CusRegister extends javax.swing.JFrame { 
-
+    private final String role;
     /**
      * Creates new form CusRegister
      */
     public CusRegister() {        
         initComponents();
-        
+        this.role = SessionManager.getRole();
 
         Email.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -241,6 +239,7 @@ private void validateConPass() {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         Name = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -256,6 +255,7 @@ private void validateConPass() {
         Pass = new javax.swing.JTextField();
         ConPass = new javax.swing.JTextField();
         createButton = new javax.swing.JButton();
+        back = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -264,24 +264,31 @@ private void validateConPass() {
         jLabel1.setFont(new java.awt.Font("Segoe Print", 1, 24)); // NOI18N
         jLabel1.setText("-- REGISTER ACCOUNT --");
 
+        jLabel9.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
+        jLabel9.setText("Subangs Car Rental");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(189, 189, 189)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel1))
+                .addGap(151, 151, 151))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addContainerGap())
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel2.setText("Full Name: ");
 
         Name.setForeground(new java.awt.Color(204, 204, 204));
@@ -297,10 +304,10 @@ private void validateConPass() {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel3.setText("Email:");
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel4.setText("Phone Number:");
 
         Email.setForeground(new java.awt.Color(204, 204, 204));
@@ -319,7 +326,7 @@ private void validateConPass() {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel5.setText("IC number:");
 
         ICnum.setForeground(new java.awt.Color(204, 204, 204));
@@ -330,7 +337,7 @@ private void validateConPass() {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel6.setText("Driving lisence num:");
 
         DriNum.setForeground(new java.awt.Color(204, 204, 204));
@@ -341,10 +348,10 @@ private void validateConPass() {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel7.setText("Password:");
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel8.setText("Confirm Password: ");
 
         Pass.setForeground(new java.awt.Color(204, 204, 204));
@@ -364,11 +371,20 @@ private void validateConPass() {
         });
 
         createButton.setBackground(new java.awt.Color(204, 255, 153));
-        createButton.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        createButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         createButton.setText("Create");
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createButtonActionPerformed(evt);
+            }
+        });
+
+        back.setBackground(new java.awt.Color(204, 255, 153));
+        back.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        back.setText("Back");
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
             }
         });
 
@@ -377,37 +393,39 @@ private void validateConPass() {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(474, Short.MAX_VALUE)
-                        .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
+                            .addComponent(jLabel8)
                             .addComponent(jLabel3)
+                            .addComponent(jLabel2)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ICnum)
-                            .addComponent(DriNum)
-                            .addComponent(Pass)
-                            .addComponent(Email)
-                            .addComponent(PhoneNum)
-                            .addComponent(ConPass)
-                            .addComponent(Name))))
-                .addGap(88, 88, 88))
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(Pass, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DriNum, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ICnum, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PhoneNum, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Email, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Name, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ConPass, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -435,9 +453,11 @@ private void validateConPass() {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(ConPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -460,7 +480,7 @@ private void validateConPass() {
     }//GEN-LAST:event_PassActionPerformed
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-        // Collect data from GUI components
+ // Collect data from GUI components
     String fullName = Name.getText();
     String emailAddress = Email.getText();
     String phoneNumber = PhoneNum.getText();
@@ -468,31 +488,40 @@ private void validateConPass() {
     String driNumber = DriNum.getText();
     String password = Pass.getText();
     String conPassword = ConPass.getText();
-    String role = "Customer";
-    
-    // Check if passwords match
+    String Role = SessionManager.getRole();
+    // Check if any of the fields contain the placeholder text
+    if (fullName.equals("Enter your full name") || emailAddress.equals("Enter a valid email address") ||
+        phoneNumber.equals("XXX-XXXXXXX") || icNumber.equals("XXXXXX-XX-XXXX") ||
+        driNumber.equals("eg. 0110051 U3OVqjEe") || password.equals("At least 6 character including 1 special symbol") ||
+        conPassword.equals("Confirm your password")) {
+        JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+        // Check if passwords match
     if (!password.equals(conPassword)) {
         JOptionPane.showMessageDialog(null, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
     // Check if all information is entered
-    if (fullName.isEmpty() || emailAddress.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty() || driNumber.isEmpty()) {
+    if (fullName.isEmpty() || emailAddress.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty() || driNumber.isEmpty() ||
+            password.isEmpty() || conPassword.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
-    // Call the method in the AccountCreator class to create the account
-    Customer Customer = new Customer(fullName, emailAddress, phoneNumber, icNumber, driNumber, password, role);
+
+    // Call the method in the Customer class to create the account
+    Customer customer = new Customer(fullName, emailAddress, phoneNumber, icNumber, driNumber, password, Role);
     
-    boolean registrationSuccessful = Customer.createAccount();
+    boolean registrationSuccessful = customer.createAccount();
         
     if (registrationSuccessful) {
-            // Close the current registration window
-            this.dispose();
+        // Close the current registration window
+        this.dispose();
 
-            // Open the login window
-            Login loginWindow = new Login();
-            loginWindow.setVisible(true);
-        } 
+        // Open the login window
+        Login loginWindow = new Login();
+        loginWindow.setVisible(true);
+    }
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
@@ -510,6 +539,14 @@ private void validateConPass() {
     private void NameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_NameFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_NameFocusLost
+
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+            Login login = new Login();
+            // Set the frame visible
+            login.setVisible(true);
+            // Close the current frame (AdminMenu frame)
+            dispose();
+    }//GEN-LAST:event_backActionPerformed
 
     /**
      * @param args the command line arguments
@@ -554,6 +591,7 @@ private void validateConPass() {
     private javax.swing.JTextField Name;
     private javax.swing.JTextField Pass;
     private javax.swing.JTextField PhoneNum;
+    private javax.swing.JButton back;
     private javax.swing.JButton createButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -563,6 +601,7 @@ private void validateConPass() {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
