@@ -74,7 +74,7 @@ public class User {
 
         if (role.equals("Customer")) {
             filePath = "account.txt"; //path of the file
-        } else if (role.equals("admin")) {
+        } else if (role.equals("Admin")) {
             filePath = "admin.txt";
         } 
 
