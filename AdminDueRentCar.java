@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class AdminDueRentCar extends javax.swing.JFrame {
 
     private String date;
+    private String index;
     /*
     - display booking with rental date is today
     - maybe click on the row and bring to payment page
@@ -36,6 +38,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         date = currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         dateTF.setText(date);        
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,6 +109,11 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         jLabel2.setText("Today's Date:");
 
         paymentButton.setText("Rental Fee Payment");
+        paymentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,6 +155,24 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_menuButtonActionPerformed
 
+    private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
+        int selectedRow = bookingTable.getSelectedRow();
+        
+        if (selectedRow >= 0) {
+            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
+            
+            //call view booking detail   
+                this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
+                payment payment = new payment(this.index);
+                payment.setVisible(true);
+
+        } else {
+            // No row is selected
+            JOptionPane.showMessageDialog(null, "Please select a row to proceed for payment");
+        }
+        dispose();
+    }//GEN-LAST:event_paymentButtonActionPerformed
+
     private void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
@@ -177,7 +203,6 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                     date = currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                     //rent date is today and booking is approved
                     if (rentDate.equals(this.date) && data[8].equals("Approved")) {
-                        System.out.println(date + rentDate);
                         String carPlate = data[2].trim();
                         String carModel = carModels.getOrDefault(carPlate, "Unknown");
                         //add row into table
