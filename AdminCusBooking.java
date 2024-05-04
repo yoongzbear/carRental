@@ -5,19 +5,11 @@
 package SubangsCarRental;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,9 +17,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author User
  */
-public class CusViewBooking extends javax.swing.JFrame {
-    private String email = SessionManager.getEmail();
-    private String index; //booking id
+public class AdminCusBooking extends javax.swing.JFrame {
+
+    private String email;
     private String carID;
     private int seatNum;
     private double price;
@@ -40,16 +32,18 @@ public class CusViewBooking extends javax.swing.JFrame {
     private String features;
     private String carColor;
     private String gearbox;
+    private String index; //booking id
     /**
-     * Creates new form CusViewBooking
+     * Creates new form AdminCusBooking
      */
-    public CusViewBooking() {
+    public AdminCusBooking() {
         initComponents();
         loadTableData(bookingTable);
         disableTF();
     }
     
     private void disableTF() {
+        emailTF.setEditable(false);
         plateTF.setEditable(false);
         carModelTF.setEditable(false);
         typeTF.setEditable(false);
@@ -68,6 +62,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         //retireve detail from booking.txt and car info txt        
         Map<String, String[]> carInfoMap = new HashMap<>();
 
+        //get car info
         try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -89,6 +84,7 @@ public class CusViewBooking extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading car info file: " + e.getMessage());
         }
         
+        //get booking info
         try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -96,11 +92,12 @@ public class CusViewBooking extends javax.swing.JFrame {
                 if (parts.length > 7) { 
                     String fileIndex = parts[0].trim();
                     if (fileIndex.equals(this.index)) { 
+                        this.email = parts[1].trim();
                         this.carID = parts[2].trim();
                         this.totalRent = Double.parseDouble(parts[5].trim());
                         this.rentDate = parts[6].trim();  
                         this.returnDate = parts[7].trim();  
-                        this.status = parts[8].trim();
+                        this.status = parts[8].trim();  
                         break; 
                     }
                 }
@@ -121,10 +118,12 @@ public class CusViewBooking extends javax.swing.JFrame {
         this.gearbox = carDetails[4];
         this.price = Double.parseDouble(carDetails[5]);
         this.features = carDetails[6];  // Combined features string
+
     }
     
     private void printDetail() {
         getDetail();
+        emailTF.setText(this.email);
         plateTF.setText(this.carID);
         carModelTF.setText(this.carModel);
         typeTF.setText(this.carType);
@@ -153,41 +152,42 @@ public class CusViewBooking extends javax.swing.JFrame {
         menuButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         bookingTable = new javax.swing.JTable();
-        viewButton = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        cancelButton = new javax.swing.JButton();
-        plateTF = new javax.swing.JTextField();
-        carModelTF = new javax.swing.JTextField();
+        viewButton1 = new javax.swing.JButton();
         typeTF = new javax.swing.JTextField();
+        plateTF = new javax.swing.JTextField();
         priceTF = new javax.swing.JTextField();
+        carModelTF = new javax.swing.JTextField();
         rentDateTF = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
         returnDateTF = new javax.swing.JTextField();
+        emailTF = new javax.swing.JTextField();
         rentalFeeTF = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        statusTF = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        colorTF = new javax.swing.JTextField();
-        numSeatsTF = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        gearboxTF = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         featureTA = new javax.swing.JTextArea();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        colorTF = new javax.swing.JTextField();
+        gearboxTF = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        numSeatsTF = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        statusTF = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setText("Customer Bookings");
 
         menuButton.setText("Menu");
@@ -206,73 +206,35 @@ public class CusViewBooking extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(menuButton)
-                        .addGap(28, 28, 28))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(186, 186, 186))))
+                        .addGap(226, 226, 226))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
                 .addComponent(menuButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        bookingTable.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Booking ID", "Car Model", "Total Price (RM)", "Rent Date", "Return Date", "Status"
+                "Booking ID", "Customer Email", "Car Model", "Total Fee (RM)", "Rent Date", "Return Date", "Status"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; //all cells non-editable
-            }
-        });
+        ));
         jScrollPane1.setViewportView(bookingTable);
-        if (bookingTable.getColumnModel().getColumnCount() > 0) {
-            bookingTable.getColumnModel().getColumn(0).setResizable(false);
-            bookingTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            bookingTable.getColumnModel().getColumn(1).setPreferredWidth(10);
-            bookingTable.getColumnModel().getColumn(2).setPreferredWidth(10);
-            bookingTable.getColumnModel().getColumn(3).setPreferredWidth(1);
-            bookingTable.getColumnModel().getColumn(4).setResizable(false);
-            bookingTable.getColumnModel().getColumn(4).setPreferredWidth(5);
-            bookingTable.getColumnModel().getColumn(5).setResizable(false);
-            bookingTable.getColumnModel().getColumn(5).setPreferredWidth(7);
-        }
 
-        viewButton.setText("View Detail");
-        viewButton.addActionListener(new java.awt.event.ActionListener() {
+        viewButton1.setText("View Booking");
+        viewButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewButtonActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel8.setText("Total Rental Fee:");
-
-        jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel9.setText("Return Date:");
-
-        cancelButton.setText("Cancel Booking");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
+                viewButton1ActionPerformed(evt);
             }
         });
 
@@ -282,127 +244,160 @@ public class CusViewBooking extends javax.swing.JFrame {
             }
         });
 
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel16.setText("Customer Email:");
+
         returnDateTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 returnDateTFActionPerformed(evt);
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setText("Car Detail");
-
-        statusTF.addActionListener(new java.awt.event.ActionListener() {
+        emailTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statusTFActionPerformed(evt);
+                emailTFActionPerformed(evt);
             }
         });
-
-        jLabel11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel11.setText("Status:");
-
-        jLabel12.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel12.setText("Car Color:");
-
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel2.setText("Car Model:");
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setText("Booking Detail");
-
-        jLabel13.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel13.setText("Gearbox:");
-
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel4.setText("Car Plate:");
-
-        jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel14.setText("Price per day:");
-
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel5.setText("Car Type:");
-
-        jLabel15.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel15.setText("Features:");
-
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel6.setText("Rent Date:");
-
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel7.setText("Number of Seats:");
 
         featureTA.setColumns(20);
         featureTA.setRows(5);
         jScrollPane2.setViewportView(featureTA);
+
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel13.setText("Gearbox:");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Booking Detail");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel10.setText("Car Detail");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel4.setText("Car Plate:");
+
+        jLabel15.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel15.setText("Features:");
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel5.setText("Car Type:");
+
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel14.setText("Price per day:");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel12.setText("Car Color:");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel6.setText("Rent Date:");
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setText("Car Model:");
+
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel7.setText("Number of Seats:");
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel8.setText("Total Rental Fee:");
+
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel9.setText("Return Date:");
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel11.setText("Status:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel6))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(statusTF)
-                                        .addComponent(rentalFeeTF, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(returnDateTF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(rentDateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(cancelButton))
-                        .addGap(101, 101, 101)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel11))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(statusTF)
+                            .addComponent(emailTF, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(rentalFeeTF, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(returnDateTF, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                            .addComponent(rentDateTF, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addGap(110, 110, 110)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel12)
+                                                .addComponent(jLabel13)
+                                                .addComponent(jLabel14)
+                                                .addComponent(jLabel2)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addGap(1, 1, 1)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel4)
+                                                        .addComponent(jLabel5))))
+                                            .addGap(48, 48, 48))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(jLabel7)
+                                            .addGap(18, 18, 18)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jLabel13)
-                                            .addComponent(jLabel14)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jLabel2)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(1, 1, 1)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel4)
-                                                    .addComponent(jLabel5))))
-                                        .addGap(48, 48, 48))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(gearboxTF)
-                                    .addComponent(priceTF)
-                                    .addComponent(plateTF)
-                                    .addComponent(carModelTF)
-                                    .addComponent(typeTF)
-                                    .addComponent(numSeatsTF)
-                                    .addComponent(colorTF)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(viewButton)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                                        .addComponent(jLabel15)
+                                        .addGap(82, 82, 82)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 726, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(viewButton1))
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(viewButton)
-                .addGap(18, 18, 18)
+                .addComponent(viewButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(13, 13, 13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(emailTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(rentDateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(returnDateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(rentalFeeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(statusTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(13, 13, 13)
@@ -434,74 +429,20 @@ public class CusViewBooking extends javax.swing.JFrame {
                                     .addComponent(jLabel14)
                                     .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(32, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(rentDateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(returnDateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(rentalFeeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(statusTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancelButton)
-                        .addGap(16, 16, 16))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
-        //get row index to check if row is selected
-        int selectedRow = bookingTable.getSelectedRow();
-        
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-            
-            //call view booking detail   
-                this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-                printDetail();
-
-        } else {
-            // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to view details.");
-        }
-    }//GEN-LAST:event_viewButtonActionPerformed
-
     private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
-        new CusMenu().setVisible(true);
+        new AdminMenu().setVisible(true);
         dispose();
     }//GEN-LAST:event_menuButtonActionPerformed
-
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        int selectedRow = bookingTable.getSelectedRow();
-        
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-            
-            //call view booking detail   
-                this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-                deleteBooking(this.index);
-
-        } else {
-            // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to cancel booking.");
-        }
-    }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
         // TODO add your handling code here:
@@ -511,10 +452,26 @@ public class CusViewBooking extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_returnDateTFActionPerformed
 
-    private void statusTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusTFActionPerformed
+    private void emailTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_statusTFActionPerformed
-    
+    }//GEN-LAST:event_emailTFActionPerformed
+
+    private void viewButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButton1ActionPerformed
+        //get row index to check if row is selected
+        int selectedRow = bookingTable.getSelectedRow();
+        
+        if (selectedRow >= 0) {
+            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
+            
+            //call view booking detail   
+            this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
+            printDetail();                   
+        } else {
+            // No row is selected
+            JOptionPane.showMessageDialog(null, "Please select a row to view details.");
+        }
+    }//GEN-LAST:event_viewButton1ActionPerformed
+
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
@@ -527,7 +484,7 @@ public class CusViewBooking extends javax.swing.JFrame {
             while ((lineCar = brCarInfo.readLine()) != null) {
                 String[] carData = lineCar.split(",");
                 if (carData.length >= 8) {
-                    carModels.put(carData[0].trim(), carData[1].trim()); // Assuming plate is index 0, model is index 1
+                    carModels.put(carData[0].trim(), carData[1].trim());
                 }
             }
         } catch (IOException e) {
@@ -540,20 +497,18 @@ public class CusViewBooking extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 8) {
-                    //if (data[1].equals(email)) {
-                    if (data[1].equals("alya@gmail.com")) {
                         String carPlate = data[2].trim();
                         String carModel = carModels.getOrDefault(carPlate, "Unknown");
                         //add row into table
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
+                            data[1],        //customer email
                             carModel,         // Car model
-                            Double.parseDouble(data[5]), // Total Price, assuming it's stored at index 4
+                            Double.parseDouble(data[5]), // Total Price
                             data[6],         // Use Date
                             data[7],         // Return Date
                             data[8]          // Status
-                    });
-                    }
+                        });
                 }
             }
         } catch (IOException e) {
@@ -565,61 +520,6 @@ public class CusViewBooking extends javax.swing.JFrame {
         table.revalidate();  // Refresh the table to display new data             
     }
     
-    private void deleteBooking(String index) {
-        boolean deleted = false;
-        LocalDate currentDate = LocalDate.now(); //current date
-            //delete when rent date is 7 days away from current date
-            StringBuilder updatedContent = new StringBuilder();
-
-            try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(",");
-                    String bookingID = parts[0].trim();
-                    if (bookingID.equals(this.index)) {
-                        LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                        String status = parts[8].trim();
-                        System.out.println(ChronoUnit.DAYS.between(currentDate, rentDate));
-                        //can cancel booking when it is currently more than 7 days from the rent date and the status is booked
-                        if (ChronoUnit.DAYS.between(currentDate, rentDate) >= 7 && status.equals("Booked")) {
-                            String deletedLine = this.index + ",CANCELED";
-                            updatedContent.append(deletedLine).append("\n");
-                            deleted = true;
-                        } else if (status.equals("Approved")) {
-                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as it has been approved");
-                            updatedContent.append(line).append("\n");
-                        } else if (status.equals("Paid")) {
-                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel paid bookings");
-                            updatedContent.append(line).append("\n");
-                        } else if (ChronoUnit.DAYS.between(currentDate, rentDate) < 0) {
-                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel past bookings");
-                            updatedContent.append(line).append("\n");
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as the rent date is less than 7 days from today");
-                            updatedContent.append(line).append("\n");
-                        }
-                    } else {
-                        updatedContent.append(line).append("\n");
-                    }                    
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage());
-            }
-            
-            // Write updated content back to file
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
-                writer.write(updatedContent.toString());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage());
-            }
-        if (deleted) {
-            JOptionPane.showMessageDialog(null, "Booking successfully canceled!");
-            dispose();
-            CusViewBooking newParent = new CusViewBooking();
-            newParent.setVisible(true);
-        }
-    }
     /**
      * @param args the command line arguments
      */
@@ -637,29 +537,29 @@ public class CusViewBooking extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminCusBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminCusBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminCusBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminCusBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CusViewBooking().setVisible(true);
+                new AdminCusBooking().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable bookingTable;
-    private javax.swing.JButton cancelButton;
     private javax.swing.JTextField carModelTF;
     private javax.swing.JTextField colorTF;
+    private javax.swing.JTextField emailTF;
     private javax.swing.JTextArea featureTA;
     private javax.swing.JTextField gearboxTF;
     private javax.swing.JLabel jLabel1;
@@ -669,6 +569,7 @@ public class CusViewBooking extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -689,6 +590,6 @@ public class CusViewBooking extends javax.swing.JFrame {
     private javax.swing.JTextField returnDateTF;
     private javax.swing.JTextField statusTF;
     private javax.swing.JTextField typeTF;
-    private javax.swing.JButton viewButton;
+    private javax.swing.JButton viewButton1;
     // End of variables declaration//GEN-END:variables
 }
