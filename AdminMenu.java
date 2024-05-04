@@ -4,8 +4,7 @@
  */
 package SubangsCarRental;
 
-import previous.RegisterNewCar2;
-import previous.MagCar2;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -203,7 +202,7 @@ public class AdminMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MagCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MagCarButtonActionPerformed
-            MagCar2 MagCarFrame = new MagCar2();
+            MagCar MagCarFrame = new MagCar();
             // Set the frame visible
             MagCarFrame.setVisible(true);
             // Close the current frame (AdminMenu frame)
@@ -224,7 +223,7 @@ public class AdminMenu extends javax.swing.JFrame {
 
     private void RegButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegButtonActionPerformed
         // Create an instance of the RegisterNewCar2 frame
-        RegisterNewCar2 registerFrame = new RegisterNewCar2();
+        RegisterNewCar registerFrame = new RegisterNewCar();
         // Set the frame visible
         registerFrame.setVisible(true);
         // Close the current frame (AdminMenu frame)
