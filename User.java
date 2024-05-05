@@ -110,16 +110,17 @@ public class User {
             
         } catch (FileNotFoundException e) {
             // Error if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
+            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);    
         } catch (Exception e) {
             // Other unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         return email.equals(mail) && password.equals(pw);
     }
     
     public static void logout() {                                           
         SessionManager.clearSession();
+        JOptionPane.showMessageDialog(null, "You have successfully logged out.");
         Login login = new Login();
         login.setVisible(true);
     }  
