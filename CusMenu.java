@@ -173,6 +173,7 @@ public class CusMenu extends javax.swing.JFrame {
     private void btnViewBookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewBookingActionPerformed
         CusViewBooking viewBooking = new CusViewBooking();
         viewBooking.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnViewBookingActionPerformed
 
     private void btnRentCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRentCarActionPerformed

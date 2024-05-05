@@ -284,10 +284,9 @@ public class Login extends javax.swing.JFrame {
 
     private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegActionPerformed
         //link to register page
-        dispose();
         CusRegister reg = new CusRegister();
         reg.setVisible(true);
-        //JOptionPane.showMessageDialog(null, "ok register page");
+        dispose();
     }//GEN-LAST:event_btnRegActionPerformed
 
     private void btnCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusActionPerformed

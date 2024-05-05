@@ -75,7 +75,7 @@ public class CusProfile extends javax.swing.JFrame {
         String phonePattern = "\\d{3}-\\d{7,8}";
         String phone = tfPhone.getText().trim(); // Remove leading and trailing whitespace
         if (!phone.isEmpty() && !phone.matches(phonePattern)) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid phone number in the format XXX-XXXXXXX(X).","Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a valid phone number in the format XXX-XXXXXXX.","Error", JOptionPane.ERROR_MESSAGE);
             tfPhone.requestFocusInWindow();// Prompt user back to the field
         }
     }

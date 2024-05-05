@@ -237,6 +237,7 @@ public class AdminMenu extends javax.swing.JFrame {
 
     private void returnDueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDueButtonActionPerformed
         new AdminDueReturnCar().setVisible(true);
+        dispose();
     }//GEN-LAST:event_returnDueButtonActionPerformed
 
     private void bookingConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookingConfirmButtonActionPerformed
