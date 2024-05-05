@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -24,17 +24,15 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="searchCategory" min="-2" pref="124" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="searchTF" min="-2" pref="207" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="searchButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="viewButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="returnButton" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -45,7 +43,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="statusTF" max="32767" attributes="0"/>
+                          <Component id="statusTF" alignment="0" max="32767" attributes="0"/>
                           <Component id="emailTF" alignment="0" max="32767" attributes="0"/>
                           <Component id="rentalFeeTF" alignment="0" max="32767" attributes="0"/>
                           <Component id="returnDateTF" alignment="1" max="32767" attributes="0"/>
@@ -62,7 +60,7 @@
                                               <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -96,10 +94,18 @@
                           </Group>
                       </Group>
                   </Group>
-                  <Component id="jScrollPane1" min="-2" pref="726" max="-2" attributes="0"/>
-                  <Component id="viewButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="1" min="-2" pref="726" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+          </Group>
+          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="dateTF" min="-2" pref="134" max="-2" attributes="0"/>
+                  <EmptySpace pref="496" max="32767" attributes="0"/>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -107,16 +113,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="searchCategory" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="searchTF" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="searchButton" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="145" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="184" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="viewButton1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="returnButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="viewButton" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -152,7 +155,7 @@
                       <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -193,7 +196,17 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="15" max="32767" attributes="0"/>
+              <EmptySpace pref="14" max="32767" attributes="0"/>
+          </Group>
+          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="dateTF" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="622" max="32767" attributes="0"/>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -202,15 +215,15 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="66" green="ff" red="66" type="rgb"/>
+          <Color blue="33" green="99" red="ff" type="rgb"/>
         </Property>
       </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace pref="253" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace pref="237" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="menuButton" min="-2" max="-2" attributes="0"/>
@@ -218,7 +231,7 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="226" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -226,12 +239,12 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="menuButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="12" max="32767" attributes="0"/>
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -242,7 +255,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="36" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Customer Bookings"/>
+            <Property name="text" type="java.lang.String" value="Booking&apos;s Rental Due"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="menuButton">
@@ -255,6 +268,24 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="18" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Today&apos;s Date:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="dateTF">
+    </Component>
+    <Component class="javax.swing.JButton" name="returnButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Return Car"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="returnButtonActionPerformed"/>
+      </Events>
+    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -265,54 +296,14 @@
         <Component class="javax.swing.JTable" name="bookingTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="0">
+              <Table columnCount="6" rowCount="0">
                 <Column editable="true" title="Booking ID" type="java.lang.Object"/>
                 <Column editable="true" title="Customer Email" type="java.lang.Object"/>
                 <Column editable="true" title="Car Model" type="java.lang.Object"/>
                 <Column editable="true" title="Total Fee (RM)" type="java.lang.Object"/>
                 <Column editable="true" title="Rent Date" type="java.lang.Object"/>
                 <Column editable="true" title="Return Date" type="java.lang.Object"/>
-                <Column editable="true" title="Status" type="java.lang.Object"/>
               </Table>
-            </Property>
-            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-              </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -321,21 +312,25 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="viewButton1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="View Booking"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewButton1ActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="typeTF">
-    </Component>
-    <Component class="javax.swing.JTextField" name="plateTF">
-    </Component>
     <Component class="javax.swing.JTextField" name="priceTF">
     </Component>
+    <Component class="javax.swing.JLabel" name="jLabel7">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="18" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Number of Seats:"/>
+      </Properties>
+    </Component>
     <Component class="javax.swing.JTextField" name="carModelTF">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel8">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="18" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Total Rental Fee:"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="rentDateTF">
       <Events>
@@ -350,10 +345,28 @@
         <Property name="text" type="java.lang.String" value="Customer Email:"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.JLabel" name="jLabel9">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="18" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Return Date:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="statusTF">
+    </Component>
     <Component class="javax.swing.JTextField" name="returnDateTF">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="returnDateTFActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel11">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="18" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Status:"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="emailTF">
       <Events>
@@ -447,6 +460,8 @@
         <Property name="text" type="java.lang.String" value="Car Color:"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.JTextField" name="typeTF">
+    </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -455,7 +470,9 @@
         <Property name="text" type="java.lang.String" value="Rent Date:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JTextField" name="plateTF">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel17">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="18" style="0"/>
@@ -463,64 +480,12 @@
         <Property name="text" type="java.lang.String" value="Car Model:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel7">
+    <Component class="javax.swing.JButton" name="viewButton">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="18" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Number of Seats:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel8">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="18" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Total Rental Fee:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel9">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="18" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Return Date:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="statusTF">
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel11">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="18" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Status:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="searchCategory">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Category&quot;, &quot;Booking ID&quot;, &quot;Customer Email&quot;, &quot;Car Model&quot; })" type="code"/>
-        </Property>
+        <Property name="text" type="java.lang.String" value="View Booking"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchCategoryActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JTextField" name="searchTF">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchTFActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="searchButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Search"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
