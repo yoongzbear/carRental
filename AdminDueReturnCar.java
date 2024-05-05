@@ -116,6 +116,9 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         plateTF = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         viewButton = new javax.swing.JButton();
+        searchCategory = new javax.swing.JComboBox<>();
+        searchTF = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -158,6 +161,8 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Today's Date:");
+
+        dateTF.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         returnButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         returnButton.setText("Return Car");
@@ -253,6 +258,29 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             }
         });
 
+        searchCategory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        searchCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Booking ID", "Customer Email" }));
+        searchCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchCategoryActionPerformed(evt);
+            }
+        });
+
+        searchTF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        searchTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTFActionPerformed(evt);
+            }
+        });
+
+        searchButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -260,74 +288,86 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(viewButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(returnButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel11))
+                        .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(statusTF)
-                            .addComponent(emailTF)
-                            .addComponent(rentalFeeTF)
-                            .addComponent(returnDateTF, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(rentDateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(110, 110, 110)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchButton))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(viewButton)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(returnButton))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel16)
+                                .addComponent(jLabel11))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(statusTF)
+                                .addComponent(emailTF)
+                                .addComponent(rentalFeeTF)
+                                .addComponent(returnDateTF, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(rentDateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(110, 110, 110)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel10)
+                                .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel12)
+                                                    .addComponent(jLabel13)
+                                                    .addComponent(jLabel14)
+                                                    .addComponent(jLabel17)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(1, 1, 1)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(jLabel4)
+                                                            .addComponent(jLabel5))))
+                                                .addGap(48, 48, 48))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addGap(18, 18, 18)))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel12)
-                                                .addComponent(jLabel13)
-                                                .addComponent(jLabel14)
-                                                .addComponent(jLabel17)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGap(1, 1, 1)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel4)
-                                                        .addComponent(jLabel5))))
-                                            .addGap(48, 48, 48))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(jLabel7)
-                                            .addGap(18, 18, 18)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel15)
-                                        .addGap(82, 82, 82)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 726, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel15)
+                                            .addGap(82, 82, 82)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 726, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(28, 28, 28))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(31, 31, 31)
-                    .addComponent(jLabel2)
-                    .addGap(18, 18, 18)
-                    .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(496, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(searchCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,14 +432,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(115, 115, 115)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(605, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -455,6 +488,88 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_viewButtonActionPerformed
 
+    private void searchCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchCategoryActionPerformed
+
+    private void searchTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchTFActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchResult();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void searchResult() {
+        Object categorySelected = searchCategory.getSelectedItem();
+        String category = (String) categorySelected;
+        if (!"Category".equals(category)) {
+            String search = searchTF.getText();
+            if (!search.isEmpty()) {
+                loadTableSearch(bookingTable, category, search);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please enter your search.", "Alert", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select category to search.", "Alert", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private void loadTableSearch(javax.swing.JTable table, String category, String search) {
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
+        model.setRowCount(0);
+
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();     
+
+        // Read customer booking data and display table
+        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            boolean found = false;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 9) {
+                    String returnDate = data[7].trim();
+                    if (returnDate.equals(this.date) && data[8].equals("Paid")) {
+                        String result = "";
+                        String carPlate = data[2].trim();
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
+                        switch (category) {
+                            case "Booking ID":
+                                result = data[0].trim();
+                                break;
+                            case "Customer Email":
+                                result = data[1].trim();
+                                break;
+                        }
+                        if (search.equals(result)) {
+                            //add row into table
+                            model.addRow(new Object[]{                            
+                                data[0],        // Booking ID 
+                                data[1],        // Customer email
+                                carDetails[0],         // Car model 
+                                Double.parseDouble(data[5]), // Total Price
+                                data[6],        // Use Date
+                                data[7],        // Return Date
+                                data[8]         // Status
+                            });
+                            found = true;
+                        }                
+                    }                                        
+                }
+            }
+            if (!found) {
+                JOptionPane.showMessageDialog(null, "Search not found.", "Alert", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Set the model to the table
+        table.setModel(model);
+        table.revalidate();  // Refresh the table to display new data             
+    }
+    
     private void returnCar(String index) {
         boolean updated = false;
         //string build to rewrite status
@@ -645,6 +760,9 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     private javax.swing.JTextField rentalFeeTF;
     private javax.swing.JButton returnButton;
     private javax.swing.JTextField returnDateTF;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JComboBox<String> searchCategory;
+    private javax.swing.JTextField searchTF;
     private javax.swing.JTextField statusTF;
     private javax.swing.JTextField typeTF;
     private javax.swing.JButton viewButton;

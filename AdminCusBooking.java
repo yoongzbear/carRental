@@ -5,9 +5,14 @@
 package SubangsCarRental;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -151,6 +156,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
         searchCategory = new javax.swing.JComboBox<>();
         searchTF = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
+        updateBookingButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -304,6 +310,14 @@ public class AdminCusBooking extends javax.swing.JFrame {
             }
         });
 
+        updateBookingButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        updateBookingButton.setText("Update Bookings");
+        updateBookingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateBookingButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -336,36 +350,38 @@ public class AdminCusBooking extends javax.swing.JFrame {
                         .addGap(110, 110, 110)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(updateBookingButton)
+                                .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel12)
+                                                    .addComponent(jLabel13)
+                                                    .addComponent(jLabel14)
+                                                    .addComponent(jLabel2)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(1, 1, 1)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(jLabel4)
+                                                            .addComponent(jLabel5))))
+                                                .addGap(48, 48, 48))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addGap(18, 18, 18)))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel12)
-                                                .addComponent(jLabel13)
-                                                .addComponent(jLabel14)
-                                                .addComponent(jLabel2)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGap(1, 1, 1)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel4)
-                                                        .addComponent(jLabel5))))
-                                            .addGap(48, 48, 48))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(jLabel7)
-                                            .addGap(18, 18, 18)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel15)
-                                        .addGap(82, 82, 82)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(jLabel15)
+                                            .addGap(82, 82, 82)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addComponent(viewButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -385,7 +401,9 @@ public class AdminCusBooking extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(viewButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewButton1)
+                    .addComponent(updateBookingButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -495,6 +513,48 @@ public class AdminCusBooking extends javax.swing.JFrame {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         searchResult();
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void updateBookingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBookingButtonActionPerformed
+        updateMissingBooking();
+        dispose();
+        new AdminCusBooking().setVisible(true);
+    }//GEN-LAST:event_updateBookingButtonActionPerformed
+    
+    public void updateMissingBooking() {
+        //update booking status to missing when customer did not come to pay on the date
+        boolean updated = false;
+        LocalDate currentDate = LocalDate.now(); //current date
+        //string build to rewrite status
+        StringBuilder updatedContent = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                String status = parts[8].trim();
+                if (ChronoUnit.DAYS.between(currentDate, rentDate) <= -1 && (status.equals("Booked")|| status.equals("Approved"))) {
+                    //update the status at this line
+                    String updatedLine = parts[0].trim() + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + "Missing";
+                    updatedContent.append(updatedLine).append("\n");
+                    updated = true;
+                } else {
+                    updatedContent.append(line).append("\n");
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        // Write updated content back to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
+            writer.write(updatedContent.toString());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        if (updated) {
+            JOptionPane.showMessageDialog(null, "Booking statuses successfully updated!");
+        }
+    }
     
     private void searchResult() {
         Object categorySelected = searchCategory.getSelectedItem();
@@ -674,6 +734,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
     private javax.swing.JTextField searchTF;
     private javax.swing.JTextField statusTF;
     private javax.swing.JTextField typeTF;
+    private javax.swing.JButton updateBookingButton;
     private javax.swing.JButton viewButton1;
     // End of variables declaration//GEN-END:variables
 }

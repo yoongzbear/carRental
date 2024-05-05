@@ -56,6 +56,9 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         dateTF = new javax.swing.JTextField();
         paymentButton = new javax.swing.JButton();
+        searchCategory = new javax.swing.JComboBox<>();
+        searchTF = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,13 +113,36 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Today's Date:");
 
-        dateTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        dateTF.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         paymentButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         paymentButton.setText("Rental Fee Payment");
         paymentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paymentButtonActionPerformed(evt);
+            }
+        });
+
+        searchCategory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        searchCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Booking ID", "Customer Email" }));
+        searchCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchCategoryActionPerformed(evt);
+            }
+        });
+
+        searchTF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        searchTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTFActionPerformed(evt);
+            }
+        });
+
+        searchButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
             }
         });
 
@@ -134,7 +160,13 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addGap(18, 18, 18)
-                            .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(searchCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(searchButton))))
                 .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
@@ -145,11 +177,16 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(paymentButton)
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addGap(0, 21, Short.MAX_VALUE))
         );
 
         pack();
@@ -177,6 +214,88 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_paymentButtonActionPerformed
 
+    private void searchCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchCategoryActionPerformed
+
+    private void searchTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchTFActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchResult();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void searchResult() {
+        Object categorySelected = searchCategory.getSelectedItem();
+        String category = (String) categorySelected;
+        if (!"Category".equals(category)) {
+            String search = searchTF.getText();
+            if (!search.isEmpty()) {
+                loadTableSearch(bookingTable, category, search);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please enter your search.", "Alert", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select category to search.", "Alert", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private void loadTableSearch(javax.swing.JTable table, String category, String search) {
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
+        model.setRowCount(0);
+
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();     
+
+        // Read customer booking data and display table
+        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            boolean found = false;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 9) {
+                    String rentDate = data[6].trim();
+                    if (rentDate.equals(this.date) && data[8].equals("Approved")) {
+                        String result = "";
+                        String carPlate = data[2].trim();
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
+                        switch (category) {
+                            case "Booking ID":
+                                result = data[0].trim();
+                                break;
+                            case "Customer Email":
+                                result = data[1].trim();
+                                break;
+                        }
+                        if (search.equals(result)) {
+                            //add row into table
+                            model.addRow(new Object[]{                            
+                                data[0],        // Booking ID 
+                                data[1],        // Customer email
+                                carDetails[0],         // Car model 
+                                Double.parseDouble(data[5]), // Total Price
+                                data[6],        // Use Date
+                                data[7],        // Return Date
+                                data[8]         // Status
+                            });
+                            found = true;
+                        }                
+                    }                                        
+                }
+            }
+            if (!found) {
+                JOptionPane.showMessageDialog(null, "Search not found.", "Alert", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Set the model to the table
+        table.setModel(model);
+        table.revalidate();  // Refresh the table to display new data             
+    }
+    
     private void loadTableData(javax.swing.JTable table) {    
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
         // Load all car info into a map
@@ -259,5 +378,8 @@ public class AdminDueRentCar extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton menuButton;
     private javax.swing.JButton paymentButton;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JComboBox<String> searchCategory;
+    private javax.swing.JTextField searchTF;
     // End of variables declaration//GEN-END:variables
 }

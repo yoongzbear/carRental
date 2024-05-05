@@ -5,8 +5,13 @@
 package SubangsCarRental;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
 /**
@@ -95,11 +100,7 @@ public class booking {
     public String getStatus() {
         return status;
     }
-
-    private void updateBooking() {
-        //update booking
-    }
-    
+     
     public static String[] getBookingInfo(String index) {
         try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
@@ -114,5 +115,4 @@ public class booking {
         }
         return null;  // Return null if no booking is found
     }
-
 }
