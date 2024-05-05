@@ -24,6 +24,10 @@ public class User {
     protected String role;
     private Login loginInstance;
 
+    public User() {
+        
+    }
+    
     public User(String email, String name, String password, String role) {
         this.email = email;
         this.name = name;
@@ -65,7 +69,7 @@ public class User {
         this.role = role;
     }
     
-    public boolean loginProcess() {
+    public boolean loginProcess(String email, String password, String role) {
         String username = null;
         String mail = null;
         String pw = null;
@@ -113,4 +117,10 @@ public class User {
         }
         return email.equals(mail) && password.equals(pw);
     }
+    
+    public static void logout() {                                           
+        SessionManager.clearSession();
+        Login login = new Login();
+        login.setVisible(true);
+    }  
 }

@@ -47,9 +47,10 @@ public class CusMenu extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("Customer Menu");
 
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnLogout.setText("Log Out");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,8 +64,8 @@ public class CusMenu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(346, 346, 346)
+                .addComponent(jLabel1)
+                .addGap(288, 288, 288)
                 .addComponent(btnLogout)
                 .addGap(15, 15, 15))
         );
@@ -73,19 +74,19 @@ public class CusMenu extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(btnLogout)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(27, 27, 27))
+                .addGap(31, 31, 31))
         );
 
         jPanel2.setBackground(new java.awt.Color(51, 102, 255));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setText("Hello, User!");
 
-        btnViewBooking.setFont(new java.awt.Font("Calibri", 1, 16)); // NOI18N
+        btnViewBooking.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnViewBooking.setText("View Booking");
         btnViewBooking.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,7 +94,7 @@ public class CusMenu extends javax.swing.JFrame {
             }
         });
 
-        btnEditProfile.setFont(new java.awt.Font("Calibri", 1, 16)); // NOI18N
+        btnEditProfile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEditProfile.setText("Edit Profile");
         btnEditProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,7 +102,7 @@ public class CusMenu extends javax.swing.JFrame {
             }
         });
 
-        btnRentCar.setFont(new java.awt.Font("Calibri", 1, 16)); // NOI18N
+        btnRentCar.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnRentCar.setText("Rent Car");
         btnRentCar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,7 +176,8 @@ public class CusMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnViewBookingActionPerformed
 
     private void btnRentCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRentCarActionPerformed
-        // TODO add your handling code here:
+        new BookCar().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnRentCarActionPerformed
 
     private void btnEditProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProfileActionPerformed
@@ -185,15 +187,10 @@ public class CusMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditProfileActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        logout();
+        User.logout();
+        dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void logout() {                                           
-        SessionManager.clearSession();
-        dispose();
-        Login login = new Login();
-        login.setVisible(true);
-    }  
     /**
      * @param args the command line arguments
      */

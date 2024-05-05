@@ -65,62 +65,32 @@ public class CusViewBooking extends javax.swing.JFrame {
     }
     
     private void getDetail() {
-        //retireve detail from booking.txt and car info txt        
-        Map<String, String[]> carInfoMap = new HashMap<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 7) {
-                    StringBuilder features = new StringBuilder();
-                    for (int i = 7; i < parts.length; i++) {
-                        features.append(parts[i].trim());
-                        if (i < parts.length - 1) {
-                            features.append(", ");  // Append comma for all but the last feature
-                        }
-                    }
-                    
-                    String[] carDetails = new String[] {parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim(), parts[5].trim(), parts[6].trim(), features.toString()};
-                    carInfoMap.put(parts[0].trim(), carDetails);  // Store carID as key, and details array as value
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading car info file: " + e.getMessage());
-        }
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 7) { 
-                    String fileIndex = parts[0].trim();
-                    if (fileIndex.equals(this.index)) { 
-                        this.carID = parts[2].trim();
-                        this.totalRent = Double.parseDouble(parts[5].trim());
-                        this.rentDate = parts[6].trim();  
-                        this.returnDate = parts[7].trim();  
-                        this.status = parts[8].trim();
-                        break; 
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            //if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
-        } catch (Exception e) {
-            //unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+        // Retrieve booking info using index
+        String[] bookingInfo = booking.getBookingInfo(this.index);
+        
+        if (bookingInfo != null) {
+            this.email = bookingInfo[1].trim();
+            this.carID = bookingInfo[2].trim();
+            this.totalRent = Double.parseDouble(bookingInfo[5].trim());
+            this.rentDate = bookingInfo[6].trim();
+            this.returnDate = bookingInfo[7].trim();
+            this.status = bookingInfo[8].trim();
+
+            // Retrieve and set car details from carInfoMap
+            String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
+            this.carModel = carDetails[0];
+            this.carType = carDetails[1];
+            this.seatNum = Integer.parseInt(carDetails[2]);
+            this.carColor = carDetails[3];
+            this.gearbox = carDetails[4];
+            this.price = Double.parseDouble(carDetails[5]);
+            this.features = carDetails[6];
+        } else {
+            JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
-        //set car info
-        String[] carDetails = carInfoMap.getOrDefault(this.carID, new String[]{"Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "No features available"});
-        this.carModel = carDetails[0];  // Car model
-        this.carType = carDetails[1];  // Car type
-        this.seatNum = Integer.parseInt(carDetails[2]);
-        this.carColor = carDetails[3];
-        this.gearbox = carDetails[4];
-        this.price = Double.parseDouble(carDetails[5]);
-        this.features = carDetails[6];  // Combined features string
     }
     
     private void printDetail() {
@@ -190,6 +160,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("Customer Bookings");
 
+        menuButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         menuButton.setText("Menu");
         menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,7 +192,7 @@ public class CusViewBooking extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        bookingTable.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        bookingTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -256,6 +227,7 @@ public class CusViewBooking extends javax.swing.JFrame {
             bookingTable.getColumnModel().getColumn(5).setPreferredWidth(7);
         }
 
+        viewButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         viewButton.setText("View Detail");
         viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -269,6 +241,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel9.setText("Return Date:");
 
+        cancelButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cancelButton.setText("Cancel Booking");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -438,7 +411,7 @@ public class CusViewBooking extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(32, Short.MAX_VALUE))
+                        .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(13, 13, 13)
@@ -478,7 +451,7 @@ public class CusViewBooking extends javax.swing.JFrame {
 
         } else {
             // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to view details.");
+            JOptionPane.showMessageDialog(null, "Please select a row to view details.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonActionPerformed
 
@@ -495,11 +468,13 @@ public class CusViewBooking extends javax.swing.JFrame {
             
             //call view booking detail   
                 this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-                deleteBooking(this.index);
-
+                int confirm = JOptionPane.showConfirmDialog(null,"Are you sure to cancel the booking?");  
+                if (confirm == JOptionPane.YES_OPTION) {
+                    deleteBooking(this.index);                    
+                }
         } else {
             // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to cancel booking.");
+            JOptionPane.showMessageDialog(null, "Please select a row to cancel booking.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -518,21 +493,8 @@ public class CusViewBooking extends javax.swing.JFrame {
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
-        // Map to store car plate as key and model as value
-        Map<String, String> carModels = new HashMap<>();
-
-        // Load car info
-        try (BufferedReader brCarInfo = new BufferedReader(new FileReader("car_info.txt"))) {
-            String lineCar;
-            while ((lineCar = brCarInfo.readLine()) != null) {
-                String[] carData = lineCar.split(",");
-                if (carData.length >= 8) {
-                    carModels.put(carData[0].trim(), carData[1].trim()); // Assuming plate is index 0, model is index 1
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading car info file: " + e.getMessage());
-        }
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();
 
         // Read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
@@ -540,14 +502,13 @@ public class CusViewBooking extends javax.swing.JFrame {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 8) {
-                    //if (data[1].equals(email)) {
-                    if (data[1].equals("alya@gmail.com")) {
+                    if (data[1].equals(this.email)) {
                         String carPlate = data[2].trim();
-                        String carModel = carModels.getOrDefault(carPlate, "Unknown");
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                         //add row into table
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
-                            carModel,         // Car model
+                            carDetails[0],         // Car model
                             Double.parseDouble(data[5]), // Total Price, assuming it's stored at index 4
                             data[6],         // Use Date
                             data[7],         // Return Date
@@ -557,7 +518,7 @@ public class CusViewBooking extends javax.swing.JFrame {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading customer booking file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         // Set the model to the table
@@ -579,24 +540,23 @@ public class CusViewBooking extends javax.swing.JFrame {
                     if (bookingID.equals(this.index)) {
                         LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                         String status = parts[8].trim();
-                        System.out.println(ChronoUnit.DAYS.between(currentDate, rentDate));
                         //can cancel booking when it is currently more than 7 days from the rent date and the status is booked
                         if (ChronoUnit.DAYS.between(currentDate, rentDate) >= 7 && status.equals("Booked")) {
                             String deletedLine = this.index + ",CANCELED";
                             updatedContent.append(deletedLine).append("\n");
                             deleted = true;
                         } else if (status.equals("Approved")) {
-                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as it has been approved");
+                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as it has been approved", "Alert", JOptionPane.WARNING_MESSAGE);
                             updatedContent.append(line).append("\n");
                         } else if (status.equals("Paid")) {
-                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel paid bookings");
+                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel paid bookings", "Alert", JOptionPane.WARNING_MESSAGE);
                             updatedContent.append(line).append("\n");
                         } else if (ChronoUnit.DAYS.between(currentDate, rentDate) < 0) {
-                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel past bookings");
+                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel past bookings", "Alert", JOptionPane.WARNING_MESSAGE);
                             updatedContent.append(line).append("\n");
                         }
                         else {
-                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as the rent date is less than 7 days from today");
+                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as the rent date is less than 7 days from today", "Alert", JOptionPane.WARNING_MESSAGE);
                             updatedContent.append(line).append("\n");
                         }
                     } else {
@@ -604,14 +564,14 @@ public class CusViewBooking extends javax.swing.JFrame {
                     }                    
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
             
             // Write updated content back to file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
                 writer.write(updatedContent.toString());
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         if (deleted) {
             JOptionPane.showMessageDialog(null, "Booking successfully canceled!");

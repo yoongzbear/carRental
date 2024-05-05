@@ -38,10 +38,10 @@ public class AdminMenu extends javax.swing.JFrame {
         MagCarButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         RegButton = new javax.swing.JButton();
-        CheckInOut = new javax.swing.JButton();
-        CheckInOut1 = new javax.swing.JButton();
-        CheckInOut2 = new javax.swing.JButton();
-        CheckInOut3 = new javax.swing.JButton();
+        rentDueButton = new javax.swing.JButton();
+        returnDueButton = new javax.swing.JButton();
+        bookingConfirmButton = new javax.swing.JButton();
+        cusBookingButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -107,35 +107,35 @@ public class AdminMenu extends javax.swing.JFrame {
             }
         });
 
-        CheckInOut.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CheckInOut.setText("Check In / Check Out Cars");
-        CheckInOut.addActionListener(new java.awt.event.ActionListener() {
+        rentDueButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        rentDueButton.setText("Rent Due Bookings");
+        rentDueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckInOutActionPerformed(evt);
+                rentDueButtonActionPerformed(evt);
             }
         });
 
-        CheckInOut1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CheckInOut1.setText("Payment Collection");
-        CheckInOut1.addActionListener(new java.awt.event.ActionListener() {
+        returnDueButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        returnDueButton.setText("Return Due Bookings");
+        returnDueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckInOut1ActionPerformed(evt);
+                returnDueButtonActionPerformed(evt);
             }
         });
 
-        CheckInOut2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CheckInOut2.setText("Send Booking Confirmation");
-        CheckInOut2.addActionListener(new java.awt.event.ActionListener() {
+        bookingConfirmButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        bookingConfirmButton.setText("Booking Confirmation");
+        bookingConfirmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckInOut2ActionPerformed(evt);
+                bookingConfirmButtonActionPerformed(evt);
             }
         });
 
-        CheckInOut3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CheckInOut3.setText("View Booking Histories");
-        CheckInOut3.addActionListener(new java.awt.event.ActionListener() {
+        cusBookingButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cusBookingButton.setText("Customer Bookings");
+        cusBookingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckInOut3ActionPerformed(evt);
+                cusBookingButtonActionPerformed(evt);
             }
         });
 
@@ -146,13 +146,13 @@ public class AdminMenu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(RegButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(MagCarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
-                    .addComponent(CheckInOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CheckInOut1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CheckInOut2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CheckInOut3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(rentDueButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(returnDueButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bookingConfirmButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cusBookingButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -163,16 +163,16 @@ public class AdminMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MagCarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CheckInOut2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CheckInOut, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bookingConfirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rentDueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(returnDueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CheckInOut1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CheckInOut3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cusBookingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74))
         );
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/subangscarrental/vehicle-management-software.png"))); // NOI18N
@@ -230,21 +230,24 @@ public class AdminMenu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_RegButtonActionPerformed
 
-    private void CheckInOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckInOutActionPerformed
+    private void rentDueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDueButtonActionPerformed
+        new AdminDueRentCar().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_rentDueButtonActionPerformed
 
-    private void CheckInOut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckInOut1ActionPerformed
+    private void returnDueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDueButtonActionPerformed
+        new AdminDueReturnCar().setVisible(true);
+    }//GEN-LAST:event_returnDueButtonActionPerformed
 
-    private void CheckInOut2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckInOut2ActionPerformed
+    private void bookingConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookingConfirmButtonActionPerformed
+        new AdminBookingConfirm().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_bookingConfirmButtonActionPerformed
 
-    private void CheckInOut3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckInOut3ActionPerformed
+    private void cusBookingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cusBookingButtonActionPerformed
+        new AdminCusBooking().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cusBookingButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,17 +285,17 @@ public class AdminMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CheckInOut;
-    private javax.swing.JButton CheckInOut1;
-    private javax.swing.JButton CheckInOut2;
-    private javax.swing.JButton CheckInOut3;
     private javax.swing.JButton MagCarButton;
     private javax.swing.JButton RegButton;
+    private javax.swing.JButton bookingConfirmButton;
+    private javax.swing.JButton cusBookingButton;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton logout;
+    private javax.swing.JButton rentDueButton;
+    private javax.swing.JButton returnDueButton;
     // End of variables declaration//GEN-END:variables
 }

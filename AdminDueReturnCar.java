@@ -49,6 +49,24 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         LocalDate currentDate = LocalDate.now(); //current date
         date = currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         dateTF.setText(date);
+        disableTF();
+    }
+    
+    private void disableTF() {
+        emailTF.setEditable(false);
+        plateTF.setEditable(false);
+        carModelTF.setEditable(false);
+        typeTF.setEditable(false);
+        priceTF.setEditable(false);
+        rentDateTF.setEditable(false);
+        returnDateTF.setEditable(false);
+        rentalFeeTF.setEditable(false);
+        statusTF.setEditable(false);
+        colorTF.setEditable(false);
+        numSeatsTF.setEditable(false);
+        featureTA.setEditable(false);
+        gearboxTF.setEditable(false);
+        dateTF.setEditable(false);
     }
 
     /**
@@ -104,8 +122,9 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 153, 51));
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        jLabel1.setText("Booking's Rental Due");
+        jLabel1.setText("Booking's Return Due");
 
+        menuButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         menuButton.setText("Menu");
         menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,7 +137,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(237, Short.MAX_VALUE)
+                .addContainerGap(230, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(menuButton)
@@ -140,6 +159,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Today's Date:");
 
+        returnButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         returnButton.setText("Return Car");
         returnButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +167,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             }
         });
 
+        bookingTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -224,6 +245,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel17.setText("Car Model:");
 
+        viewButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         viewButton.setText("View Booking");
         viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -306,7 +328,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(returnButton)
@@ -370,14 +392,14 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(115, 115, 115)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(622, Short.MAX_VALUE)))
+                    .addContainerGap(605, Short.MAX_VALUE)))
         );
 
         pack();
@@ -397,12 +419,12 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             //call return car
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             returnCar(this.index);
+            dispose();
 
         } else {
             // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to proceed for payment");
+            JOptionPane.showMessageDialog(null, "Please select a row to update booking status.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
-        dispose();
     }//GEN-LAST:event_returnButtonActionPerformed
 
     private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
@@ -429,7 +451,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
 
         } else {
             // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to proceed for payment");
+            JOptionPane.showMessageDialog(null, "Please select a row to view booking detail.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonActionPerformed
 
@@ -453,13 +475,13 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         // Write updated content back to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
             writer.write(updatedContent.toString());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         if (updated) {
             JOptionPane.showMessageDialog(null, "Car successfully returned!");
@@ -468,65 +490,32 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     }        
     
     private void getDetail() {
-        //retireve detail from booking.txt and car info txt        
-        Map<String, String[]> carInfoMap = new HashMap<>();
-
-        //get car info
-        try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 7) {
-                    StringBuilder features = new StringBuilder();
-                    for (int i = 7; i < parts.length; i++) {
-                        features.append(parts[i].trim());
-                        if (i < parts.length - 1) {
-                            features.append(", ");  // Append comma for all but the last feature
-                        }
-                    }
-                    
-                    String[] carDetails = new String[] {parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim(), parts[5].trim(), parts[6].trim(), features.toString()};
-                    carInfoMap.put(parts[0].trim(), carDetails);  // Store carID as key, and details array as value
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading car info file: " + e.getMessage());
-        }
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        //get booking info
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 7) { 
-                    String fileIndex = parts[0].trim();
-                    if (fileIndex.equals(this.index)) { 
-                        this.email = parts[1].trim();
-                        this.carID = parts[2].trim();
-                        this.totalRent = Double.parseDouble(parts[5].trim());
-                        this.rentDate = parts[6].trim();  
-                        this.returnDate = parts[7].trim();  
-                        this.status = parts[8].trim();  
-                        break; 
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            //if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
-        } catch (Exception e) {
-            //unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+        // Retrieve booking info using index
+        String[] bookingInfo = booking.getBookingInfo(this.index);
+        
+        if (bookingInfo != null) {
+            this.email = bookingInfo[1].trim();
+            this.carID = bookingInfo[2].trim();
+            this.totalRent = Double.parseDouble(bookingInfo[5].trim());
+            this.rentDate = bookingInfo[6].trim();
+            this.returnDate = bookingInfo[7].trim();
+            this.status = bookingInfo[8].trim();
+
+            // Retrieve and set car details from carInfoMap
+            String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
+            this.carModel = carDetails[0];
+            this.carType = carDetails[1];
+            this.seatNum = Integer.parseInt(carDetails[2]);
+            this.carColor = carDetails[3];
+            this.gearbox = carDetails[4];
+            this.price = Double.parseDouble(carDetails[5]);
+            this.features = carDetails[6];
+        } else {
+            JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
-        //set car info
-        String[] carDetails = carInfoMap.getOrDefault(this.carID, new String[]{"Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "No features available"});
-        this.carModel = carDetails[0];  // Car model
-        this.carType = carDetails[1];  // Car type
-        this.seatNum = Integer.parseInt(carDetails[2]);
-        this.carColor = carDetails[3];
-        this.gearbox = carDetails[4];
-        this.price = Double.parseDouble(carDetails[5]);
-        this.features = carDetails[6];  // Combined features string
     }
     
     private void printDetail() {
@@ -549,21 +538,8 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     private void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
-        // Map to store car plate as key and model as value
-        Map<String, String> carModels = new HashMap<>();
-
-        // Load car info
-        try (BufferedReader brCarInfo = new BufferedReader(new FileReader("car_info.txt"))) {
-            String lineCar;
-            while ((lineCar = brCarInfo.readLine()) != null) {
-                String[] carData = lineCar.split(",");
-                if (carData.length >= 8) {
-                    carModels.put(carData[0].trim(), carData[1].trim()); // Assuming plate is index 0, model is index 1
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading car info file: " + e.getMessage());
-        }
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();           
 
         // Read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
@@ -577,12 +553,12 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                     //return date is today and booking is paid
                     if (returnDate.equals(this.date) && data[8].equals("Paid")) {
                         String carPlate = data[2].trim();
-                        String carModel = carModels.getOrDefault(carPlate, "Unknown");
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                         //add row into table
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
                             data[1],        //customer email
-                            carModel,         // Car model
+                            carDetails[0],         // Car model
                             Double.parseDouble(data[5]), //total fee
                             data[6],         // Use Date
                             data[7],         // Return Date
@@ -591,7 +567,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading customer booking file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         // Set the model to the table

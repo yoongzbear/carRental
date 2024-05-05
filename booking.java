@@ -4,6 +4,11 @@
  */
 package SubangsCarRental;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
@@ -89,6 +94,25 @@ public class booking {
 
     public String getStatus() {
         return status;
+    }
+
+    private void updateBooking() {
+        //update booking
+    }
+    
+    public static String[] getBookingInfo(String index) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 7 && parts[0].trim().equals(index)) {
+                    return parts;
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading booking file: " + e.getMessage());
+        }
+        return null;  // Return null if no booking is found
     }
 
 }

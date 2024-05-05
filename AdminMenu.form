@@ -116,13 +116,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jButton3" max="32767" attributes="0"/>
                       <Component id="RegButton" alignment="1" max="32767" attributes="0"/>
                       <Component id="MagCarButton" alignment="0" pref="298" max="32767" attributes="0"/>
-                      <Component id="CheckInOut" alignment="1" max="32767" attributes="0"/>
-                      <Component id="CheckInOut1" alignment="1" max="32767" attributes="0"/>
-                      <Component id="CheckInOut2" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
-                      <Component id="CheckInOut3" alignment="1" max="32767" attributes="0"/>
+                      <Component id="rentDueButton" alignment="1" max="32767" attributes="0"/>
+                      <Component id="returnDueButton" alignment="1" max="32767" attributes="0"/>
+                      <Component id="bookingConfirmButton" alignment="1" max="32767" attributes="0"/>
+                      <Component id="cusBookingButton" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -136,16 +136,16 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="MagCarButton" min="-2" pref="67" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="CheckInOut2" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="CheckInOut" min="-2" pref="74" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="bookingConfirmButton" min="-2" pref="73" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="rentDueButton" min="-2" pref="68" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="returnDueButton" min="-2" pref="66" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jButton3" min="-2" pref="74" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="CheckInOut1" min="-2" pref="66" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="CheckInOut3" min="-2" pref="67" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="cusBookingButton" min="-2" pref="67" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -184,48 +184,48 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="CheckInOut">
+        <Component class="javax.swing.JButton" name="rentDueButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Check In / Check Out Cars"/>
+            <Property name="text" type="java.lang.String" value="Rent Due Bookings"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CheckInOutActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rentDueButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="CheckInOut1">
+        <Component class="javax.swing.JButton" name="returnDueButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Payment Collection"/>
+            <Property name="text" type="java.lang.String" value="Return Due Bookings"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CheckInOut1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="returnDueButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="CheckInOut2">
+        <Component class="javax.swing.JButton" name="bookingConfirmButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Send Booking Confirmation"/>
+            <Property name="text" type="java.lang.String" value="Booking Confirmation"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CheckInOut2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bookingConfirmButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="CheckInOut3">
+        <Component class="javax.swing.JButton" name="cusBookingButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="View Booking Histories"/>
+            <Property name="text" type="java.lang.String" value="Customer Bookings"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CheckInOut3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cusBookingButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

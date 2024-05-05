@@ -125,7 +125,7 @@ public class CusProfile extends javax.swing.JFrame {
                 String[] parts = line.split(",");
                 if (parts.length > 4) { 
                     String fileMail = parts[1].trim();
-                    if (fileMail.equals(email)) { //for testing purpose: if (fileMail.equals(this.email)) {
+                    if (fileMail.equals(email)) { 
                         this.name = parts[0].trim();
                         this.phone = parts[2].trim();
                         this.IC = parts[3].trim();
@@ -157,42 +157,48 @@ public class CusProfile extends javax.swing.JFrame {
             //add edited information into string builder
             StringBuilder updatedContent = new StringBuilder();
 
-            try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (line.contains(this.email)) { // Assuming email is unique and used as identifier
-                        String[] parts = line.split(",");
-                        if (parts.length > 4 && parts[1].trim().equals(this.email)) {
-                            // Construct new line with updated info
-                            String newLine = updatedName + "," + parts[1].trim() + "," + updatedPhone + "," + parts[3].trim() + "," + updatedLicense + "," + parts[5].trim();
-                            updatedContent.append(newLine).append("\n");
-                            updated = true;
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure to update your details?");
+            if (confirm == JOptionPane.YES_OPTION) {
+                try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        if (line.contains(this.email)) { // Assuming email is unique and used as identifier
+                            String[] parts = line.split(",");
+                            if (parts.length > 4 && parts[1].trim().equals(this.email)) {
+                                // Construct new line with updated info
+                                String newLine = updatedName + "," + parts[1].trim() + "," + updatedPhone + "," + parts[3].trim() + "," + updatedLicense + "," + parts[5].trim();
+                                updatedContent.append(newLine).append("\n");
+                                updated = true;
+                            } else {
+                                updatedContent.append(line).append("\n");
+                            }
                         } else {
                             updatedContent.append(line).append("\n");
                         }
-                    } else {
-                        updatedContent.append(line).append("\n");
                     }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage());
-            }
 
-            if (!updated) {
-                // Handle case where no line was updated (e.g., user not found)
-                JOptionPane.showMessageDialog(null, "No user found to update");
-                return;
-            }
+                if (!updated) {
+                    // Handle case where no line was updated (e.g., user not found)
+                    JOptionPane.showMessageDialog(null, "No user found to update", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            // Write updated content back to file
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("account.txt"))) {
-                writer.write(updatedContent.toString());
-                JOptionPane.showMessageDialog(null, "Profile updated successfully!");
-                SessionManager.setUser(this.email, this.role, updatedName);
-                disableButton();
-                btnEdit.setEnabled(true);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage());
+                // Write updated content back to file
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("account.txt"))) {
+                    writer.write(updatedContent.toString());
+                    JOptionPane.showMessageDialog(null, "Profile updated successfully!");
+                    SessionManager.setUser(this.email, this.role, updatedName);
+                    disableButton();
+                    btnEdit.setEnabled(true);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                dispose();
+                new CusProfile().setVisible(true);
             }
         }
     }
@@ -228,9 +234,10 @@ public class CusProfile extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("Customer Profile");
 
+        menuButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         menuButton.setText("Menu");
         menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,27 +249,24 @@ public class CusProfile extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(menuButton)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(299, 299, 299)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(299, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(menuButton)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(238, 238, 238))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(menuButton)
-                .addContainerGap(71, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(34, 34, 34)
-                    .addComponent(jLabel1)
-                    .addContainerGap(35, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 255));
@@ -282,6 +286,7 @@ public class CusProfile extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel6.setText("Driver's License Num:");
 
+        btnEdit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEdit.setText("Edit");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,6 +294,7 @@ public class CusProfile extends javax.swing.JFrame {
             }
         });
 
+        btnSave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,6 +308,7 @@ public class CusProfile extends javax.swing.JFrame {
             }
         });
 
+        btnCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancel.setText("Cancel Edit");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -410,9 +417,8 @@ public class CusProfile extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        disableEditTF();
-        disableButton();
-        btnEdit.setEnabled(true);
+        dispose();
+        new CusProfile().setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     /**

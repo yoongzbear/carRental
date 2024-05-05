@@ -4,6 +4,13 @@
  */
 package SubangsCarRental;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
@@ -94,5 +101,37 @@ public class Car {
 
         public void setFeatures(String features) {
             this.features = features;
+        }
+        
+        public static Map<String, String[]> loadCarInfo() {
+            Map<String, String[]> carInfoMap = new HashMap<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    if (parts.length > 7) {
+                        StringBuilder features = new StringBuilder();
+                        for (int i = 7; i < parts.length; i++) {
+                            features.append(parts[i].trim());
+                            if (i < parts.length - 1) {
+                                features.append(", ");
+                            }
+                        }
+                        String[] carDetails = {
+                            parts[1].trim(), parts[2].trim(), parts[3].trim(), 
+                            parts[4].trim(), parts[5].trim(), parts[6].trim(), 
+                            features.toString()
+                        };
+                        carInfoMap.put(parts[0].trim(), carDetails);
+                    }
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error reading car info file: " + e.getMessage());
+            }
+            return carInfoMap;
+        }
+        
+        public static String[] getCarDetails(String carID, Map<String, String[]> carInfoMap) {
+            return carInfoMap.getOrDefault(carID, new String[]{"Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "No features available"});
         }
 }

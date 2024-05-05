@@ -9,7 +9,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -36,7 +35,8 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         loadTableData(bookingTable);
         LocalDate currentDate = LocalDate.now(); //current date
         date = currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        dateTF.setText(date);        
+        dateTF.setText(date);    
+        dateTF.setEditable(false);
     }
     
     /**
@@ -64,6 +64,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setText("Booking's Rental Due");
 
+        menuButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         menuButton.setText("Menu");
         menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +96,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
+        bookingTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -108,6 +110,9 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Today's Date:");
 
+        dateTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        paymentButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         paymentButton.setText("Rental Fee Payment");
         paymentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,9 +147,9 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                     .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(paymentButton)
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
         pack();
@@ -165,32 +170,17 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                 this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
                 payment payment = new payment(this.index);
                 payment.setVisible(true);
-
+                dispose();
         } else {
             // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to proceed for payment");
+            JOptionPane.showMessageDialog(null, "Please select a row to proceed for payment", "Alert", JOptionPane.WARNING_MESSAGE);
         }
-        dispose();
     }//GEN-LAST:event_paymentButtonActionPerformed
 
-    private void loadTableData(javax.swing.JTable table) {        
-        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
-
-        // Map to store car plate as key and model as value
-        Map<String, String> carModels = new HashMap<>();
-
-        // Load car info
-        try (BufferedReader brCarInfo = new BufferedReader(new FileReader("car_info.txt"))) {
-            String lineCar;
-            while ((lineCar = brCarInfo.readLine()) != null) {
-                String[] carData = lineCar.split(",");
-                if (carData.length >= 8) {
-                    carModels.put(carData[0].trim(), carData[1].trim()); // Assuming plate is index 0, model is index 1
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading car info file: " + e.getMessage());
-        }
+    private void loadTableData(javax.swing.JTable table) {    
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();        
 
         // Read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
@@ -204,12 +194,12 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                     //rent date is today and booking is approved
                     if (rentDate.equals(this.date) && data[8].equals("Approved")) {
                         String carPlate = data[2].trim();
-                        String carModel = carModels.getOrDefault(carPlate, "Unknown");
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                         //add row into table
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
                             data[1],        //customer email
-                            carModel,         // Car model
+                            carDetails[0],         // Car model
                             Double.parseDouble(data[5]), //total fee
                             data[6],         // Use Date
                             data[7],         // Return Date
@@ -218,7 +208,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading customer booking file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         // Set the model to the table

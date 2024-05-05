@@ -42,46 +42,24 @@ public class CusReceipt extends javax.swing.JFrame {
     }
 
     private void getDetail(String index) {
-        //retireve detail from booking.txt and car info txt   
-        System.out.println(index);
-        Map<String, String> carInfoMap = new HashMap<>();
-
-        //get car info
-        try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 7) {                    
-                    carInfoMap.put(parts[0].trim(), parts[1].trim()); 
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading car info file: " + e.getMessage());
-        }
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        //get booking info
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 7) { 
-                    String fileIndex = parts[0].trim();
-                    if (fileIndex.equals(this.index)) { 
-                        this.email = parts[1].trim();
-                        this.carID = parts[2].trim();
-                        this.totalRent = Double.parseDouble(parts[5].trim());
-                        this.rentDate = parts[6].trim();  
-                        this.returnDate = parts[7].trim();  
-                        break; 
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            //if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
-        } catch (Exception e) {
-            //unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+        // Retrieve booking info using index
+        String[] bookingInfo = booking.getBookingInfo(this.index);
+        
+        if (bookingInfo != null) {
+            this.email = bookingInfo[1].trim();
+            this.carID = bookingInfo[2].trim();
+            this.totalRent = Double.parseDouble(bookingInfo[5].trim());
+            this.rentDate = bookingInfo[6].trim();
+            this.returnDate = bookingInfo[7].trim();
+
+            // Retrieve and set car details from carInfoMap
+            String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
+            this.carModel = carDetails[0];
+        } else {
+            JOptionPane.showMessageDialog(null, "No booking found with index: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
         
         //get customer info
@@ -99,13 +77,11 @@ public class CusReceipt extends javax.swing.JFrame {
             }
         } catch (FileNotFoundException e) {
             //if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
+            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);    
         } catch (Exception e) {
             //unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //set car info
-        this.carModel = carInfoMap.getOrDefault(this.carID, "Unknown");
         this.balance = this.amountPaid - this.totalRent;
     }
     
@@ -163,6 +139,7 @@ public class CusReceipt extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("PAYMENT RECEIPT");
 
+        backButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,16 +262,17 @@ public class CusReceipt extends javax.swing.JFrame {
                                     .addComponent(modelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(rentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                                     .addComponent(returnLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(balanceLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(amountPaidLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
+                                    .addComponent(balanceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(amountPaidLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(instructionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(instructionLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
+                        .addComponent(instructionLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(instructionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,7 +318,7 @@ public class CusReceipt extends javax.swing.JFrame {
                 .addComponent(instructionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(instructionLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
 
         pack();
@@ -350,7 +328,6 @@ public class CusReceipt extends javax.swing.JFrame {
         dispose();
         AdminDueRentCar dueRentCar = new AdminDueRentCar();
         dueRentCar.setVisible(true);
-        //go to admin due rent car page
     }//GEN-LAST:event_backButtonActionPerformed
 
     /**

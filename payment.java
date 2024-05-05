@@ -63,64 +63,31 @@ public class payment extends javax.swing.JFrame {
 
     private void getDetail() {
         //retireve detail from booking.txt and car info txt  
-        Map<String, String[]> carInfoMap = new HashMap<>();
-
-        //get car info
-        try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 7) {
-                    StringBuilder features = new StringBuilder();
-                    for (int i = 7; i < parts.length; i++) {
-                        features.append(parts[i].trim());
-                        if (i < parts.length - 1) {
-                            features.append(", ");  // Append comma for all but the last feature
-                        }
-                    }
-                    
-                    String[] carDetails = new String[] {parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim(), parts[5].trim(), parts[6].trim(), features.toString()};
-                    carInfoMap.put(parts[0].trim(), carDetails);  // Store carID as key, and details array as value
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading car info file: " + e.getMessage());
-        }
+        // Load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        //get booking info
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 7) { 
-                    String fileIndex = parts[0].trim();
-                    if (fileIndex.equals(this.index)) { 
-                        this.email = parts[1].trim();
-                        this.carID = parts[2].trim();
-                        this.totalRent = Double.parseDouble(parts[5].trim());
-                        this.rentDate = parts[6].trim();  
-                        this.returnDate = parts[7].trim();  
-                        break; 
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            //if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
-        } catch (Exception e) {
-            //unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
-        }
-        //set car info
-        String[] carDetails = carInfoMap.getOrDefault(this.carID, new String[]{"Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "No features available"});
-        this.carModel = carDetails[0];  // Car model
-        this.carType = carDetails[1];  // Car type
-        this.seatNum = Integer.parseInt(carDetails[2]);
-        this.carColor = carDetails[3];
-        this.gearbox = carDetails[4];
-        this.price = Double.parseDouble(carDetails[5]);
-        this.features = carDetails[6];  // Combined features string
+        // Retrieve booking info using index
+        String[] bookingInfo = booking.getBookingInfo(this.index);
+        
+        if (bookingInfo != null) {
+            this.email = bookingInfo[1].trim();
+            this.carID = bookingInfo[2].trim();
+            this.totalRent = Double.parseDouble(bookingInfo[5].trim());
+            this.rentDate = bookingInfo[6].trim();
+            this.returnDate = bookingInfo[7].trim();
 
+            // Retrieve and set car details from carInfoMap
+            String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
+            this.carModel = carDetails[0];
+            this.carType = carDetails[1];
+            this.seatNum = Integer.parseInt(carDetails[2]);
+            this.carColor = carDetails[3];
+            this.gearbox = carDetails[4];
+            this.price = Double.parseDouble(carDetails[5]);
+            this.features = carDetails[6];
+        } else {
+            JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     private void printDetail() {
@@ -141,13 +108,13 @@ public class payment extends javax.swing.JFrame {
     
     private void calculateBalance() {
         if (paymentTF.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please fill in the amount paid.");
+            JOptionPane.showMessageDialog(null, "Please fill in the amount paid.", "Alert", JOptionPane.WARNING_MESSAGE);
             paymentTF.requestFocusInWindow();
         } else {
             this.amountPaid = Double.parseDouble(paymentTF.getText());
             double balance = this.amountPaid - this.totalRent;
             if (balance < 0) {
-                JOptionPane.showMessageDialog(null, "The amount paid is lesser than the total rental fee.");
+                JOptionPane.showMessageDialog(null, "The amount paid is lesser than the total rental fee.", "Alert", JOptionPane.WARNING_MESSAGE);
                 paymentTF.requestFocusInWindow();
             } else {
                 balanceTF.setText(Double.toString(balance));
@@ -176,13 +143,13 @@ public class payment extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         // Write updated content back to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
             writer.write(updatedContent.toString());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         if (updated) {
             JOptionPane.showMessageDialog(null, "Booking successfully paid!");
@@ -242,6 +209,7 @@ public class payment extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setText("Rental Payment");
 
+        menuButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         menuButton.setText("Menu");
         menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,6 +249,7 @@ public class payment extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel15.setText("Features:");
 
+        calculateButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         calculateButton.setText("Calculate Payment");
         calculateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,6 +321,7 @@ public class payment extends javax.swing.JFrame {
         jLabel24.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel24.setText("Amount Paid:");
 
+        receiptButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         receiptButton.setText("Payment Receipt");
         receiptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -485,9 +455,9 @@ public class payment extends javax.swing.JFrame {
                             .addComponent(jLabel15)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel17)
-                        .addGap(13, 13, 13)
+                        .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20)
                             .addComponent(rentalFeeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -503,7 +473,7 @@ public class payment extends javax.swing.JFrame {
                         .addComponent(calculateButton)
                         .addGap(18, 18, 18)
                         .addComponent(receiptButton)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(123, 123, 123)
