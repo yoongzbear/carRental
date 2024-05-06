@@ -91,6 +91,7 @@ private boolean areAllFieldsFilled() {
            NumSeats.getSelectedItem() != null &&
            CarColor.getSelectedItem() != null &&
            Price.getSelectedItem() != null &&
+           carStatus.getSelectedItem() != null &&
            (Auto.isSelected() || Mannual.isSelected()); // Check gearbox selection
 }
 
@@ -110,6 +111,7 @@ private boolean areAllFieldsFilled() {
         Auto.setEnabled(false);
         Mannual.setEnabled(false);
         Price.setEnabled(false);
+        carStatus.setEnabled(false);
         ReverseCamera.setEnabled(false);
         gpsFeature2.setEnabled(false);
         bluetoothFeature3.setEnabled(false);
@@ -126,6 +128,7 @@ private boolean areAllFieldsFilled() {
         Auto.setEnabled(true);
         Mannual.setEnabled(true);
         Price.setEnabled(true);
+        carStatus.setEnabled(true);
         ReverseCamera.setEnabled(true);
         gpsFeature2.setEnabled(true);
         bluetoothFeature3.setEnabled(true);
@@ -170,6 +173,9 @@ private boolean areAllFieldsFilled() {
 
                     // Update price
                     modifiedContent.append(Price.getSelectedItem()).append(",");
+
+                    //Update status
+                    modifiedContent.append(carStatus.getSelectedItem()).append(",");
 
                     // Update features
                     modifiedContent.append(ReverseCamera.isSelected() ? "Reverse backup camera," : "");
@@ -551,12 +557,14 @@ private boolean areAllFieldsFilled() {
                     String color = parts[4].trim();
                     String gearbox = parts[5].trim();
                     String price = parts[6].trim();
+                    String status = parts[7].trim();
                     
                     // Set the values to the corresponding text fields and components
                     CarModel.setText(model);
                     CarType.setSelectedItem(type);
                     NumSeats.setSelectedItem(numPassengers);
                     CarColor.setSelectedItem(color);
+                    carStatus.setSelectedItem(status);
                     
                     // Set the gearbox radio buttons
                     if (gearbox.equals("Automatic")) {
@@ -574,7 +582,7 @@ private boolean areAllFieldsFilled() {
                     bluetoothFeature3.setSelected(false);
                     airbagFeature4.setSelected(false);
                     sunroofFeature5.setSelected(false);
-                    for (int i = 7; i < parts.length; i++) {
+                    for (int i = 8; i < parts.length; i++) {
                     String feature = parts[i].trim();
                     switch (feature) {
                         case "GPS":
