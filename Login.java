@@ -4,6 +4,7 @@
  */
 package SubangsCarRental;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -23,6 +24,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         inition();
+        addPlaceholderListeners();  
     }
 
     /**
@@ -61,12 +63,15 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Password:");
 
+        txtPassword.setForeground(new java.awt.Color(204, 204, 204));
+        txtPassword.setText("Enter your password");
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
             }
         });
 
+        txtEmail.setText("Enter your email");
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -203,6 +208,39 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Add focus listeners for placeholder functionality
+    private void addPlaceholderListeners() {
+        txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtEmail.getText().equals("Enter your email")) {
+                    txtEmail.setText("");
+                    txtEmail.setForeground(Color.BLACK); // Change font color to black
+                }
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (txtEmail.getText().isEmpty()) {
+                    txtEmail.setText("Enter your email");
+                    txtEmail.setForeground(new Color(204, 204, 204)); // Change font color to gray
+                }
+            }
+        });
+
+        txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtPassword.getText().equals("Enter your password")) {
+                    txtPassword.setText("");
+                    txtPassword.setForeground(Color.BLACK); // Change font color to black
+                }
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (txtPassword.getText().isEmpty()) {
+                    txtPassword.setText("Enter a valid email address");
+                    txtPassword.setForeground(new Color(204, 204, 204)); // Change font color to gray
+                }
+            }
+        });        
+    }
+    
     private void inition() {
         // Other initialization code
         addListenersToComponents(); // This is a method where you add all listeners
