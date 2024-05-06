@@ -218,15 +218,14 @@ public class AdminMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        SalesReport reportFrame = new SalesReport();
+        reportFrame.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void RegButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegButtonActionPerformed
-        // Create an instance of the RegisterNewCar2 frame
         RegisterNewCar registerFrame = new RegisterNewCar();
-        // Set the frame visible
         registerFrame.setVisible(true);
-        // Close the current frame (AdminMenu frame)
         dispose();
     }//GEN-LAST:event_RegButtonActionPerformed
 
