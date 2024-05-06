@@ -447,26 +447,43 @@ public class RegisterNewCar extends javax.swing.JFrame {
         features.setLength(features.length() - 2);
     }
     
-    //Get the current number of rows in the table
-    int rowCount = carInfo.getRowCount();
-    
-    // Add the collected data to the table model
-    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) carInfo.getModel();
-    model.addRow(new Object[]{rowCount + 1, carID, carModel, typeOfCar, numberOfSeats, color, gearBox, pricePerDay, features.toString()});
-    
-    
+    // Check for redundant car plate numbers
+    try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            String car = parts[0]; // Store the car ID as a string
+            if (car.equals(carID)) { // Use equals() for string comparison
+                JOptionPane.showMessageDialog(this, "Redundant car plate number. Please try again!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+    // If the code reaches here, it means the car ID is not redundant, so proceed with writing to the file
+
     // Format the collected data into a string
-    String carInfo = carID +"," + carModel +"," + typeOfCar +","+  numberOfSeats +","+ color +","+ gearBox  +","+ pricePerDay +","+ features.toString();
+    String carinfo = carID + "," + carModel + "," + typeOfCar + "," +  numberOfSeats + "," + color + "," + gearBox  + "," + pricePerDay + "," + features.toString();
 
     // Write the data to a text file using BufferedWriter
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("car_info.txt", true))) {
-        writer.write(carInfo);
+        writer.write(carinfo);
         writer.newLine(); // Add a new line after each entry
         System.out.println("Car information saved to file.");
+        JOptionPane.showMessageDialog(this, "Car information entered successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+        // Add the collected data to the table model
+        int rowCount = carInfo.getRowCount();
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) carInfo.getModel();
+        model.addRow(new Object[]{rowCount + 1, carID, carModel, typeOfCar, numberOfSeats, color, gearBox, pricePerDay, features.toString()});
     } catch (IOException e) {
         System.out.println("An error occurred while writing to the file.");
         e.printStackTrace();
     }
+} catch (IOException e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error occurred while reading car information.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void feature5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feature5ActionPerformed
