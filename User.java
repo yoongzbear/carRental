@@ -4,10 +4,6 @@
  */
 package SubangsCarRental;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,7 +18,6 @@ public class User {
     protected String name;
     protected String password;
     protected String role;
-    private Login loginInstance;
 
     public User() {
         
