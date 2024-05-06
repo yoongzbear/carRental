@@ -21,12 +21,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
 
     private String date;
     private String index;
-    /*
-    - display booking with rental date is today
-    - maybe click on the row and bring to payment page
-    - payment - enter how much customer paid, print the receipt
-    - update status to paid
-    */
+
     /**
      * Creates new form AdminDueRentCar
      */
@@ -200,9 +195,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
     private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
         int selectedRow = bookingTable.getSelectedRow();
         
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-            
+        if (selectedRow >= 0) {            
             //call view booking detail   
                 this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
                 payment payment = new payment(this.index);
@@ -261,12 +254,8 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                         String carPlate = data[2].trim();
                         String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                         switch (category) {
-                            case "Booking ID":
-                                result = data[0].trim();
-                                break;
-                            case "Customer Email":
-                                result = data[1].trim();
-                                break;
+                            case "Booking ID" -> result = data[0].trim();
+                            case "Customer Email" -> result = data[1].trim();
                         }
                         if (search.equals(result)) {
                             //add row into table
@@ -274,7 +263,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                                 data[0],        // Booking ID 
                                 data[1],        // Customer email
                                 carDetails[0],         // Car model 
-                                Double.parseDouble(data[5]), // Total Price
+                                Double.valueOf(data[5]), // Total Price
                                 data[6],        // Use Date
                                 data[7],        // Return Date
                                 data[8]         // Status
@@ -319,7 +308,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                             data[0],        //booking ID 
                             data[1],        //customer email
                             carDetails[0],         // Car model
-                            Double.parseDouble(data[5]), //total fee
+                            Double.valueOf(data[5]), //total fee
                             data[6],         // Use Date
                             data[7],         // Return Date
                     });

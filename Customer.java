@@ -50,7 +50,6 @@ public class Customer extends User {
             return true;
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
-            e.printStackTrace();
             return false; // Account creation failed
         }
     }

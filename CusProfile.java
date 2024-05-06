@@ -49,6 +49,7 @@ public class CusProfile extends javax.swing.JFrame {
         
         // Add action listener to the Edit button
         btnEdit.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 enableEditTF(); // Enable editing components when Edit button is clicked
                 btnSave.setEnabled(true);           
@@ -58,12 +59,14 @@ public class CusProfile extends javax.swing.JFrame {
         });
                
         tfPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 validatePhoneNum();
             }
         });
 
         tfLicense.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 validateDriNum();
             }

@@ -6,13 +6,11 @@ package SubangsCarRental;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -33,7 +31,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     private double totalRent;
     private String rentDate;
     private String returnDate;
-    private String status;
     private String carType;
     private String carModel;
     private String features;
@@ -61,7 +58,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         rentDateTF.setEditable(false);
         returnDateTF.setEditable(false);
         rentalFeeTF.setEditable(false);
-        statusTF.setEditable(false);
         colorTF.setEditable(false);
         numSeatsTF.setEditable(false);
         featureTA.setEditable(false);
@@ -93,9 +89,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         rentDateTF = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        statusTF = new javax.swing.JTextField();
         returnDateTF = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
         emailTF = new javax.swing.JTextField();
         rentalFeeTF = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -207,9 +201,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel11.setText("Status:");
-
         emailTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailTFActionPerformed(evt);
@@ -309,11 +300,9 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel9)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel11))
+                            .addComponent(jLabel16))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(statusTF)
                             .addComponent(emailTF)
                             .addComponent(rentalFeeTF)
                             .addComponent(returnDateTF, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -392,11 +381,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(rentalFeeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(statusTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(rentalFeeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(13, 13, 13)
@@ -447,8 +432,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-
             //call return car
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             returnCar(this.index);
@@ -476,8 +459,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-
             //call return car
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             printDetail();
@@ -535,12 +516,8 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                         String carPlate = data[2].trim();
                         String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                         switch (category) {
-                            case "Booking ID":
-                                result = data[0].trim();
-                                break;
-                            case "Customer Email":
-                                result = data[1].trim();
-                                break;
+                            case "Booking ID" -> result = data[0].trim();
+                            case "Customer Email" -> result = data[1].trim();
                         }
                         if (search.equals(result)) {
                             //add row into table
@@ -548,10 +525,9 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                                 data[0],        // Booking ID 
                                 data[1],        // Customer email
                                 carDetails[0],         // Car model 
-                                Double.parseDouble(data[5]), // Total Price
+                                Double.valueOf(data[5]), // Total Price
                                 data[6],        // Use Date
-                                data[7],        // Return Date
-                                data[8]         // Status
+                                data[7]        // Return Date
                             });
                             found = true;
                         }                
@@ -617,7 +593,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             this.totalRent = Double.parseDouble(bookingInfo[5].trim());
             this.rentDate = bookingInfo[6].trim();
             this.returnDate = bookingInfo[7].trim();
-            this.status = bookingInfo[8].trim();
 
             // Retrieve and set car details from carInfoMap
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
@@ -627,7 +602,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             this.carColor = carDetails[3];
             this.gearbox = carDetails[4];
             this.price = Double.parseDouble(carDetails[5]);
-            this.features = carDetails[6];
+            this.features = carDetails[7];
         } else {
             JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
@@ -639,11 +614,10 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         plateTF.setText(this.carID);
         carModelTF.setText(this.carModel);
         typeTF.setText(this.carType);
-        priceTF.setText(Double.toString(this.price));
+        priceTF.setText("RM"+Double.toString(this.price));
         rentDateTF.setText(this.rentDate);
         returnDateTF.setText(this.returnDate);
-        rentalFeeTF.setText(Double.toString(this.totalRent));
-        statusTF.setText(this.status);
+        rentalFeeTF.setText("RM"+Double.toString(this.totalRent));
         colorTF.setText(this.carColor);
         numSeatsTF.setText(Integer.toString(this.seatNum));
         featureTA.setText(this.features);
@@ -674,9 +648,9 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                             data[0],        //booking ID 
                             data[1],        //customer email
                             carDetails[0],         // Car model
-                            Double.parseDouble(data[5]), //total fee
+                            Double.valueOf(data[5]), //total fee
                             data[6],         // Use Date
-                            data[7],         // Return Date
+                            data[7]         // Return Date
                     });
                     }
                 }
@@ -734,7 +708,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     private javax.swing.JTextField gearboxTF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -763,7 +736,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     private javax.swing.JButton searchButton;
     private javax.swing.JComboBox<String> searchCategory;
     private javax.swing.JTextField searchTF;
-    private javax.swing.JTextField statusTF;
     private javax.swing.JTextField typeTF;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables

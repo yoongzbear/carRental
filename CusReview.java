@@ -9,8 +9,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class CusReview extends javax.swing.JFrame {
 
     private String index; //booking id
+    private final String email;
     private String carID;
     private int seatNum;
     private double price;
@@ -40,6 +39,7 @@ public class CusReview extends javax.swing.JFrame {
     public CusReview() {
         initComponents();
         disableTF();
+        this.email = SessionManager.getEmail();
         loadTableData(bookingTable);
     }
     
@@ -73,16 +73,15 @@ public class CusReview extends javax.swing.JFrame {
                 String[] data = line.split(",");
                 if (data.length == 9) {
                     String status = data[8].trim();
-                    //booking is Paid, add review yeah
-                    //if alrdy reviewed, display it on the view booking and say it has already been reviewed
-                    if (status.equals("Returned")) {
+                    //booking is returned to add review 
+                    if (status.equals("Returned") && data[1].equals(this.email)) {
                         String carPlate = data[2].trim();
                         String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                         //add row into table
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
                             carDetails[0],         // Car model
-                            Double.parseDouble(data[5]), //total fee
+                            Double.valueOf(data[5]), //total fee
                             data[6],         // Use Date
                             data[7],         // Return Date
                     });
@@ -131,10 +130,10 @@ public class CusReview extends javax.swing.JFrame {
         plateTF.setText(this.carID);
         carModelTF.setText(this.carModel);
         typeTF.setText(this.carType);
-        priceTF.setText(Double.toString(this.price));
+        priceTF.setText("RM"+Double.toString(this.price));
         rentDateTF.setText(this.rentDate);
         returnDateTF.setText(this.returnDate);
-        rentalFeeTF.setText(Double.toString(this.totalRent));
+        rentalFeeTF.setText("RM"+Double.toString(this.totalRent));
         statusTF.setText(this.status);
         colorTF.setText(this.carColor);
         numSeatsTF.setText(Integer.toString(this.seatNum));
@@ -147,7 +146,6 @@ public class CusReview extends javax.swing.JFrame {
 
     private void submitReview(String index) {
         //check if user enters rating and feedback - if one is empty, display message
-        //Object ratingSelected = ratingBox.getSelectedItem();
         String ratingSelected = (String) ratingBox.getSelectedItem();
         String feedback = feedbackTA.getText();
         boolean updated = false;
@@ -155,21 +153,11 @@ public class CusReview extends javax.swing.JFrame {
         if (!ratingSelected.equals("Select Rating") && !feedback.isEmpty()) { 
             int rating = 0;
             switch (ratingSelected)  {
-                case "1⭐":
-                    rating = 1;
-                    break;
-                case "2⭐":
-                    rating = 2;
-                    break;
-                case "3⭐":
-                    rating = 3;
-                    break;
-                case "4⭐":
-                    rating = 4;
-                    break;
-                case "5⭐":
-                    rating = 5;
-                    break;
+                case "1⭐" -> rating = 1;
+                case "2⭐" -> rating = 2;
+                case "3⭐" -> rating = 3;
+                case "4⭐" -> rating = 4;
+                case "5⭐" -> rating = 5;
             }
             try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
                 String line;
@@ -255,7 +243,7 @@ public class CusReview extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("Review Booking");
@@ -498,7 +486,7 @@ public class CusReview extends javax.swing.JFrame {
                 .addComponent(viewButton)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -532,9 +520,8 @@ public class CusReview extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -563,8 +550,8 @@ public class CusReview extends javax.swing.JFrame {
                             .addComponent(jLabel19)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(reviewButton)
-                        .addContainerGap(16, Short.MAX_VALUE))))
+                        .addComponent(reviewButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -579,14 +566,12 @@ public class CusReview extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-
             //call view booking detail
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);            
             submitReview(this.index);            
         } else {
             // No row is selected
-            JOptionPane.showMessageDialog(null, "Please select a row to cancel booking.", "Alert", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please select a row to review booking.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_reviewButtonActionPerformed
 
@@ -607,8 +592,6 @@ public class CusReview extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-
             //call view booking detail
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             printDetail();

@@ -295,6 +295,21 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        login();
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegActionPerformed
+        //link to register page
+        CusRegister reg = new CusRegister();
+        reg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnRegActionPerformed
+
+    private void btnCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCusActionPerformed
+
+    private void login() {
         //declare variables - make a new function
         String email = txtEmail.getText();
         String password = txtPassword.getText();
@@ -322,19 +337,7 @@ public class Login extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Wrong credentials, please try again.");
         }
-    }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegActionPerformed
-        //link to register page
-        CusRegister reg = new CusRegister();
-        reg.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_btnRegActionPerformed
-
-    private void btnCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCusActionPerformed
-
+    }      
     /**
      * @param args the command line arguments
      */

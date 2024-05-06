@@ -6,11 +6,9 @@ package SubangsCarRental;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -80,7 +78,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             this.carColor = carDetails[3];
             this.gearbox = carDetails[4];
             this.price = Double.parseDouble(carDetails[5]);
-            this.features = carDetails[6];
+            this.features = carDetails[7];
         } else {
             JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
@@ -92,10 +90,10 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         plateTF.setText(this.carID);
         carModelTF.setText(this.carModel);
         typeTF.setText(this.carType);
-        priceTF.setText(Double.toString(this.price));
+        priceTF.setText("RM"+Double.toString(this.price));
         rentDateTF.setText(this.rentDate);
         returnDateTF.setText(this.returnDate);
-        rentalFeeTF.setText(Double.toString(this.totalRent));
+        rentalFeeTF.setText("RM"+Double.toString(this.totalRent));
         colorTF.setText(this.carColor);
         numSeatsTF.setText(Integer.toString(this.seatNum));
         featureTA.setText(this.features);
@@ -112,7 +110,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 String bookingID = parts[0].trim();
-                if (bookingID.equals(this.index)) {
+                if (bookingID.equals(index)) {
                     //update the status at this line
                     String updatedLine = bookingID + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + "Approved";
                     updatedContent.append(updatedLine).append("\n");
@@ -455,9 +453,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         //get row index to check if row is selected
         int selectedRow = bookingTable.getSelectedRow();
         
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-            
+        if (selectedRow >= 0) {                        
             //call view booking detail   
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             printDetail();                   
@@ -471,9 +467,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         //get row index to check if row is selected
         int selectedRow = bookingTable.getSelectedRow();
         
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-            
+        if (selectedRow >= 0) {            
             //call view booking detail   
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             approveBooking(this.index);                
@@ -506,7 +500,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                if (data.length >= 8) {
+                if (data.length >= 9) {
                     if (data[8].equals("Booked")) {
                         String carPlate = data[2].trim();
                         String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
@@ -515,7 +509,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
                             data[0],        //booking ID 
                             data[1],        //customer email
                             carDetails[0],         // Car model
-                            Double.parseDouble(data[5]), // Total Price
+                            Double.valueOf(data[5]), // Total Price
                             data[6],         // Use Date
                             data[7],         // Return Date
                             data[8]          // Status

@@ -41,6 +41,7 @@ public class CusMenu extends javax.swing.JFrame {
         btnViewBooking = new javax.swing.JButton();
         btnEditProfile = new javax.swing.JButton();
         btnRentCar = new javax.swing.JButton();
+        reviewButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -110,6 +111,14 @@ public class CusMenu extends javax.swing.JFrame {
             }
         });
 
+        reviewButton.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        reviewButton.setText("Review Booking");
+        reviewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reviewButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -121,7 +130,8 @@ public class CusMenu extends javax.swing.JFrame {
                         .addComponent(btnViewBooking, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnEditProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnRentCar, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -138,6 +148,8 @@ public class CusMenu extends javax.swing.JFrame {
                 .addComponent(btnRentCar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnViewBooking, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -192,6 +204,11 @@ public class CusMenu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void reviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewButtonActionPerformed
+        new CusReview().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_reviewButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -237,5 +254,6 @@ public class CusMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton reviewButton;
     // End of variables declaration//GEN-END:variables
 }

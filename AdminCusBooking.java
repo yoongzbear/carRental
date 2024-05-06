@@ -6,14 +6,12 @@ package SubangsCarRental;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +40,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
      * Creates new form AdminCusBooking
      */
     public AdminCusBooking() {
+        updateMissingBooking();
         initComponents();
         loadTableData(bookingTable);
         disableTF();
@@ -86,7 +85,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
             this.carColor = carDetails[3];
             this.gearbox = carDetails[4];
             this.price = Double.parseDouble(carDetails[5]);
-            this.features = carDetails[6];
+            this.features = carDetails[7];
         } else {
             JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
@@ -98,10 +97,10 @@ public class AdminCusBooking extends javax.swing.JFrame {
         plateTF.setText(this.carID);
         carModelTF.setText(this.carModel);
         typeTF.setText(this.carType);
-        priceTF.setText(Double.toString(this.price));
+        priceTF.setText("RM"+Double.toString(this.price));
         rentDateTF.setText(this.rentDate);
         returnDateTF.setText(this.returnDate);
-        rentalFeeTF.setText(Double.toString(this.totalRent));
+        rentalFeeTF.setText("RM"+Double.toString(this.totalRent));
         statusTF.setText(this.status);
         colorTF.setText(this.carColor);
         numSeatsTF.setText(Integer.toString(this.seatNum));
@@ -123,7 +122,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
         menuButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         bookingTable = new javax.swing.JTable();
-        viewButton1 = new javax.swing.JButton();
+        viewButton = new javax.swing.JButton();
         typeTF = new javax.swing.JTextField();
         plateTF = new javax.swing.JTextField();
         priceTF = new javax.swing.JTextField();
@@ -156,7 +155,6 @@ public class AdminCusBooking extends javax.swing.JFrame {
         searchCategory = new javax.swing.JComboBox<>();
         searchTF = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
-        updateBookingButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -212,11 +210,11 @@ public class AdminCusBooking extends javax.swing.JFrame {
             bookingTable.getColumnModel().getColumn(0).setPreferredWidth(3);
         }
 
-        viewButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        viewButton1.setText("View Booking");
-        viewButton1.addActionListener(new java.awt.event.ActionListener() {
+        viewButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        viewButton.setText("View Booking");
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewButton1ActionPerformed(evt);
+                viewButtonActionPerformed(evt);
             }
         });
 
@@ -310,14 +308,6 @@ public class AdminCusBooking extends javax.swing.JFrame {
             }
         });
 
-        updateBookingButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        updateBookingButton.setText("Update Bookings");
-        updateBookingButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateBookingButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -350,39 +340,37 @@ public class AdminCusBooking extends javax.swing.JFrame {
                         .addGap(110, 110, 110)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(updateBookingButton)
-                                .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel12)
-                                                    .addComponent(jLabel13)
-                                                    .addComponent(jLabel14)
-                                                    .addComponent(jLabel2)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addGap(1, 1, 1)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(jLabel4)
-                                                            .addComponent(jLabel5))))
-                                                .addGap(48, 48, 48))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jLabel7)
-                                                .addGap(18, 18, 18)))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel15)
-                                            .addGap(82, 82, 82)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addComponent(viewButton1))
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel12)
+                                                .addComponent(jLabel13)
+                                                .addComponent(jLabel14)
+                                                .addComponent(jLabel2)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addGap(1, 1, 1)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel4)
+                                                        .addComponent(jLabel5))))
+                                            .addGap(48, 48, 48))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(jLabel7)
+                                            .addGap(18, 18, 18)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel15)
+                                        .addGap(82, 82, 82)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gearboxTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(priceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(plateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(carModelTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(numSeatsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(colorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(viewButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -401,9 +389,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(viewButton1)
-                    .addComponent(updateBookingButton))
+                .addComponent(viewButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -486,13 +472,11 @@ public class AdminCusBooking extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_emailTFActionPerformed
 
-    private void viewButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButton1ActionPerformed
+    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         //get row index to check if row is selected
         int selectedRow = bookingTable.getSelectedRow();
         
-        if (selectedRow >= 0) {
-            DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-            
+        if (selectedRow >= 0) {            
             //call view booking detail   
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             printDetail();                   
@@ -500,7 +484,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
             // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to view details.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_viewButton1ActionPerformed
+    }//GEN-LAST:event_viewButtonActionPerformed
 
     private void searchCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCategoryActionPerformed
         // TODO add your handling code here:
@@ -513,16 +497,9 @@ public class AdminCusBooking extends javax.swing.JFrame {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         searchResult();
     }//GEN-LAST:event_searchButtonActionPerformed
-
-    private void updateBookingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBookingButtonActionPerformed
-        updateMissingBooking();
-        dispose();
-        new AdminCusBooking().setVisible(true);
-    }//GEN-LAST:event_updateBookingButtonActionPerformed
     
     public void updateMissingBooking() {
         //update booking status to missing when customer did not come to pay on the date
-        boolean updated = false;
         LocalDate currentDate = LocalDate.now(); //current date
         //string build to rewrite status
         StringBuilder updatedContent = new StringBuilder();
@@ -537,7 +514,6 @@ public class AdminCusBooking extends javax.swing.JFrame {
                     //update the status at this line
                     String updatedLine = parts[0].trim() + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + "Missing";
                     updatedContent.append(updatedLine).append("\n");
-                    updated = true;
                 } else {
                     updatedContent.append(line).append("\n");
                 }
@@ -550,9 +526,6 @@ public class AdminCusBooking extends javax.swing.JFrame {
             writer.write(updatedContent.toString());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        if (updated) {
-            JOptionPane.showMessageDialog(null, "Booking statuses successfully updated!");
         }
     }
     
@@ -589,15 +562,9 @@ public class AdminCusBooking extends javax.swing.JFrame {
                     String carPlate = data[2].trim();
                     String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                     switch (category) {
-                        case "Booking ID":
-                            result = data[0].trim();
-                            break;
-                        case "Customer Email":
-                            result = data[1].trim();
-                            break;
-                        case "Car Model":
-                            result = carModel;
-                            break;
+                        case "Booking ID" -> result = data[0].trim();
+                        case "Customer Email" -> result = data[1].trim();
+                        case "Car Model" -> result = carModel;
                     }
                     if (search.equals(result)) {
                         //add row into table
@@ -605,7 +572,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
                             data[0],        // Booking ID 
                             data[1],        // Customer email
                             carDetails[0],         // Car model 
-                            Double.parseDouble(data[5]), // Total Price
+                            Double.valueOf(data[5]), // Total Price
                             data[6],        // Use Date
                             data[7],        // Return Date
                             data[8]         // Status
@@ -645,7 +612,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
                             data[0],        //booking ID 
                             data[1],        //customer email
                             carDetails[0],         // Car model
-                            Double.parseDouble(data[5]), // Total Price
+                            Double.valueOf(data[5]), // Total Price
                             data[6],         // Use Date
                             data[7],         // Return Date
                             data[8]          // Status
@@ -734,7 +701,6 @@ public class AdminCusBooking extends javax.swing.JFrame {
     private javax.swing.JTextField searchTF;
     private javax.swing.JTextField statusTF;
     private javax.swing.JTextField typeTF;
-    private javax.swing.JButton updateBookingButton;
-    private javax.swing.JButton viewButton1;
+    private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
 }

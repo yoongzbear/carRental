@@ -7,8 +7,6 @@ package SubangsCarRental;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 
@@ -18,7 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class CusReceipt extends javax.swing.JFrame {
     
-    private String index;
+    private final String index;
     private String email;
     private String carID;
     private String name;
@@ -26,7 +24,7 @@ public class CusReceipt extends javax.swing.JFrame {
     private String rentDate;
     private String returnDate;
     private String carModel;
-    private double amountPaid;
+    private final double amountPaid;
     private double balance;
     
     /**
@@ -46,7 +44,7 @@ public class CusReceipt extends javax.swing.JFrame {
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
         // Retrieve booking info using index
-        String[] bookingInfo = booking.getBookingInfo(this.index);
+        String[] bookingInfo = booking.getBookingInfo(index);
         
         if (bookingInfo != null) {
             this.email = bookingInfo[1].trim();
@@ -59,7 +57,7 @@ public class CusReceipt extends javax.swing.JFrame {
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
         } else {
-            JOptionPane.showMessageDialog(null, "No booking found with index: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
         
         //get customer info
@@ -93,9 +91,9 @@ public class CusReceipt extends javax.swing.JFrame {
         modelLabel.setText(this.carModel);
         rentLabel.setText(this.rentDate);
         returnLabel.setText(this.returnDate);
-        feeLabel.setText(Double.toString(this.totalRent));
-        amountPaidLabel.setText(Double.toString(this.amountPaid));
-        balanceLabel.setText(Double.toString(this.balance));
+        feeLabel.setText("RM"+Double.toString(this.totalRent));
+        amountPaidLabel.setText("RM"+Double.toString(this.amountPaid));
+        balanceLabel.setText("RM"+Double.toString(this.balance));
         instructionLabel.setText("Please proceed to car with Plate Number "+this.carID);
     }
     

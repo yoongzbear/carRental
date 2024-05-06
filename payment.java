@@ -6,11 +6,8 @@ package SubangsCarRental;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 
@@ -20,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class payment extends javax.swing.JFrame {
 
-    private String index;
+    private final String index;
     private String email;
     private String carID;
     private int seatNum;
@@ -61,8 +58,7 @@ public class payment extends javax.swing.JFrame {
         gearboxTF.setEditable(false);
     }
 
-    private void getDetail() {
-        //retireve detail from booking.txt and car info txt  
+    private void getDetail() { 
         // Load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
@@ -84,7 +80,7 @@ public class payment extends javax.swing.JFrame {
             this.carColor = carDetails[3];
             this.gearbox = carDetails[4];
             this.price = Double.parseDouble(carDetails[5]);
-            this.features = carDetails[6];
+            this.features = carDetails[7];
         } else {
             JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
@@ -96,10 +92,10 @@ public class payment extends javax.swing.JFrame {
         plateTF.setText(this.carID);
         carModelTF.setText(this.carModel);
         typeTF.setText(this.carType);
-        priceTF.setText(Double.toString(this.price));
+        priceTF.setText("RM"+Double.toString(this.price));
         rentDateTF.setText(this.rentDate);
         returnDateTF.setText(this.returnDate);
-        rentalFeeTF.setText(Double.toString(this.totalRent));
+        rentalFeeTF.setText("RM"+Double.toString(this.totalRent));
         colorTF.setText(this.carColor);
         numSeatsTF.setText(Integer.toString(this.seatNum));
         featureTA.setText(this.features);
@@ -117,7 +113,7 @@ public class payment extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "The amount paid is lesser than the total rental fee.", "Alert", JOptionPane.WARNING_MESSAGE);
                 paymentTF.requestFocusInWindow();
             } else {
-                balanceTF.setText(Double.toString(balance));
+                balanceTF.setText("RM"+Double.toString(balance));
                 receiptButton.setEnabled(true);
             }
         }
@@ -509,9 +505,9 @@ public class payment extends javax.swing.JFrame {
         //show receipt, update booking status to paid
         updateStatus();
         //send booking id and amount paid to receipt
-        dispose();
         CusReceipt receipt = new CusReceipt(this.index, this.amountPaid);
         receipt.setVisible(true);
+        dispose();
     }//GEN-LAST:event_receiptButtonActionPerformed
 
     /**

@@ -5,13 +5,8 @@
 package SubangsCarRental;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,6 +23,8 @@ public class booking {
     private String rentDate;
     private String returnDate;
     private String status;
+    private int rating;
+    private String feedback;
 
     public void setBookingID(String bookingID) {
         this.bookingID = bookingID;
@@ -63,6 +60,14 @@ public class booking {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+    
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 
     public String getBookingID() {
@@ -100,6 +105,13 @@ public class booking {
     public String getStatus() {
         return status;
     }
+    
+    public int getRating() {
+        return rating;
+    }
+    public String getFeedback() {
+        return feedback;
+    }
      
     public static String[] getBookingInfo(String index) {
         try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
@@ -114,13 +126,5 @@ public class booking {
             JOptionPane.showMessageDialog(null, "Error reading booking file: " + e.getMessage());
         }
         return null;  // Return null if no booking is found
-    }
-        // Method to calculate total fee
-    public static double calculateTotalFee(LocalDate useDate, LocalDate returnDate, double pricePerDay) {
-        // Calculate the number of days between use date and return date
-        long numberOfDays = ChronoUnit.DAYS.between(useDate, returnDate);
-        // Calculate total fee
-        double totalFee = pricePerDay * numberOfDays;
-        return totalFee;
     }
 }
