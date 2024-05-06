@@ -770,7 +770,7 @@ public class BookCar extends javax.swing.JFrame {
     }//GEN-LAST:event_bookActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        AdminMenu Menu = new AdminMenu();
+        CusMenu Menu = new CusMenu();
         Menu.setVisible(true);
         dispose(); 
     }//GEN-LAST:event_backActionPerformed

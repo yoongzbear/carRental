@@ -34,18 +34,15 @@ public class AdminMenu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         logout = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        logout1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         MagCarButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         RegButton = new javax.swing.JButton();
-        CheckInOut = new javax.swing.JButton();
-        CheckInOut1 = new javax.swing.JButton();
-        CheckInOut2 = new javax.swing.JButton();
-        CheckInOut3 = new javax.swing.JButton();
+        rentDueButton = new javax.swing.JButton();
+        returnDueButton = new javax.swing.JButton();
+        bookingConfirmButton = new javax.swing.JButton();
+        cusBookingButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,7 +65,7 @@ public class AdminMenu extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(536, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(353, 353, 353)
                 .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -83,43 +80,6 @@ public class AdminMenu extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGap(14, 14, 14))
         );
-
-        jPanel3.setBackground(new java.awt.Color(255, 102, 102));
-        jPanel3.setForeground(new java.awt.Color(255, 102, 102));
-
-        jLabel3.setFont(new java.awt.Font("Tempus Sans ITC", 1, 36)); // NOI18N
-        jLabel3.setText("ADMIN PAGE");
-
-        logout1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        logout1.setText("Logout");
-        logout1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logout1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(353, 353, 353)
-                .addComponent(logout1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(logout1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(14, 14, 14))
-        );
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/subangscarrental/vehicle-management-software.png"))); // NOI18N
 
         jPanel2.setBackground(new java.awt.Color(255, 51, 51));
 
@@ -147,35 +107,35 @@ public class AdminMenu extends javax.swing.JFrame {
             }
         });
 
-        CheckInOut.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CheckInOut.setText("Check In / Check Out Cars");
-        CheckInOut.addActionListener(new java.awt.event.ActionListener() {
+        rentDueButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        rentDueButton.setText("Rent Due Bookings");
+        rentDueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckInOutActionPerformed(evt);
+                rentDueButtonActionPerformed(evt);
             }
         });
 
-        CheckInOut1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CheckInOut1.setText("Payment Collection");
-        CheckInOut1.addActionListener(new java.awt.event.ActionListener() {
+        returnDueButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        returnDueButton.setText("Return Due Bookings");
+        returnDueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckInOut1ActionPerformed(evt);
+                returnDueButtonActionPerformed(evt);
             }
         });
 
-        CheckInOut2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CheckInOut2.setText("Send Booking Confirmation");
-        CheckInOut2.addActionListener(new java.awt.event.ActionListener() {
+        bookingConfirmButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        bookingConfirmButton.setText("Booking Confirmation");
+        bookingConfirmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckInOut2ActionPerformed(evt);
+                bookingConfirmButtonActionPerformed(evt);
             }
         });
 
-        CheckInOut3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CheckInOut3.setText("View Booking Histories");
-        CheckInOut3.addActionListener(new java.awt.event.ActionListener() {
+        cusBookingButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cusBookingButton.setText("Customer Bookings");
+        cusBookingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckInOut3ActionPerformed(evt);
+                cusBookingButtonActionPerformed(evt);
             }
         });
 
@@ -186,13 +146,13 @@ public class AdminMenu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(RegButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(MagCarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
-                    .addComponent(CheckInOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CheckInOut1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CheckInOut2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CheckInOut3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(rentDueButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(returnDueButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bookingConfirmButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cusBookingButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -203,48 +163,39 @@ public class AdminMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MagCarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CheckInOut2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CheckInOut, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bookingConfirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rentDueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(returnDueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CheckInOut1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CheckInOut3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cusBookingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74))
         );
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/subangscarrental/vehicle-management-software.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)))
-                    .addContainerGap()))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 956, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(638, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(46, 46, 46)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(46, 46, 46)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -258,13 +209,37 @@ public class AdminMenu extends javax.swing.JFrame {
         login.setVisible(true); 
     }//GEN-LAST:event_logoutActionPerformed
 
-    private void logout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logout1ActionPerformed
-        SessionManager.clearSession();
+    private void cusBookingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cusBookingButtonActionPerformed
+        new AdminCusBooking().setVisible(true);
         dispose();
-        JOptionPane.showMessageDialog(this, "Log Out Successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
-        Login login = new Login();
-        login.setVisible(true);
-    }//GEN-LAST:event_logout1ActionPerformed
+    }//GEN-LAST:event_cusBookingButtonActionPerformed
+
+    private void bookingConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookingConfirmButtonActionPerformed
+        new AdminBookingConfirm().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_bookingConfirmButtonActionPerformed
+
+    private void returnDueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDueButtonActionPerformed
+        new AdminDueReturnCar().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_returnDueButtonActionPerformed
+
+    private void rentDueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDueButtonActionPerformed
+        new AdminDueRentCar().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_rentDueButtonActionPerformed
+
+    private void RegButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegButtonActionPerformed
+        RegisterNewCar registerFrame = new RegisterNewCar();
+        registerFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_RegButtonActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        SalesReport reportFrame = new SalesReport();
+        reportFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void MagCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MagCarButtonActionPerformed
         MagCar MagCarFrame = new MagCar();
@@ -273,34 +248,6 @@ public class AdminMenu extends javax.swing.JFrame {
         // Close the current frame (AdminMenu frame)
         dispose();
     }//GEN-LAST:event_MagCarButtonActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        SalesReport reportFrame = new SalesReport();
-        reportFrame.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void RegButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegButtonActionPerformed
-        RegisterNewCar registerFrame = new RegisterNewCar();
-        registerFrame.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_RegButtonActionPerformed
-
-    private void CheckInOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckInOutActionPerformed
-
-    private void CheckInOut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckInOut1ActionPerformed
-
-    private void CheckInOut2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckInOut2ActionPerformed
-
-    private void CheckInOut3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckInOut3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckInOut3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,20 +285,17 @@ public class AdminMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CheckInOut;
-    private javax.swing.JButton CheckInOut1;
-    private javax.swing.JButton CheckInOut2;
-    private javax.swing.JButton CheckInOut3;
     private javax.swing.JButton MagCarButton;
     private javax.swing.JButton RegButton;
+    private javax.swing.JButton bookingConfirmButton;
+    private javax.swing.JButton cusBookingButton;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JButton logout;
-    private javax.swing.JButton logout1;
+    private javax.swing.JButton rentDueButton;
+    private javax.swing.JButton returnDueButton;
     // End of variables declaration//GEN-END:variables
 }
