@@ -41,8 +41,7 @@ public class BookCar extends javax.swing.JFrame {
             Gear.setEditable(false);
             carColor.setEditable(false);
             Price.setEditable(false);
-            Features.setEditable(false);
-    
+            Features.setEditable(false);    
        addPlaceholderListeners();
     }
  
@@ -194,10 +193,10 @@ public class BookCar extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 153));
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setForeground(new java.awt.Color(204, 255, 153));
 
-        jPanel2.setBackground(new java.awt.Color(0, 204, 153));
+        jPanel2.setBackground(new java.awt.Color(51, 102, 255));
 
         jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel11.setText("Book Car");
@@ -296,7 +295,7 @@ public class BookCar extends javax.swing.JFrame {
         );
 
         back.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        back.setText("Back");
+        back.setText("Menu");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backActionPerformed(evt);
