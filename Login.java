@@ -211,12 +211,14 @@ public class Login extends javax.swing.JFrame {
     // Add focus listeners for placeholder functionality
     private void addPlaceholderListeners() {
         txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (txtEmail.getText().equals("Enter your email")) {
                     txtEmail.setText("");
                     txtEmail.setForeground(Color.BLACK); // Change font color to black
                 }
             }
+            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (txtEmail.getText().isEmpty()) {
                     txtEmail.setText("Enter your email");
@@ -226,12 +228,14 @@ public class Login extends javax.swing.JFrame {
         });
 
         txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (txtPassword.getText().equals("Enter your password")) {
                     txtPassword.setText("");
                     txtPassword.setForeground(Color.BLACK); // Change font color to black
                 }
             }
+            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (txtPassword.getText().isEmpty()) {
                     txtPassword.setText("Enter a valid email address");
