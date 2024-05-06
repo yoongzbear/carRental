@@ -19,6 +19,8 @@ import java.io.FileWriter;
 import java.time.temporal.ChronoUnit;
 
 
+
+
 /**
  *
  * @author User
@@ -113,6 +115,8 @@ public class BookCar extends javax.swing.JFrame {
         numPassengers = new javax.swing.JComboBox<>();
         search = new javax.swing.JButton();
         back = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        totalfee = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -299,6 +303,16 @@ public class BookCar extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel12.setText("Total fee:");
+
+        totalfee.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        totalfee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalfeeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -336,7 +350,11 @@ public class BookCar extends javax.swing.JFrame {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(carColor, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                    .addComponent(Features, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(Features, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addGap(37, 37, 37)
+                                        .addComponent(totalfee, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(233, 233, 233)
                                 .addComponent(book, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -376,8 +394,12 @@ public class BookCar extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(Features, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                    .addComponent(Features, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(totalfee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Next)
                     .addComponent(Previous)
@@ -467,6 +489,18 @@ public class BookCar extends javax.swing.JFrame {
         
         // Display available cars
         displayAvailableCars(availableCarsFiltered, currentIndex);
+        
+                // Display available cars
+        displayAvailableCars(availableCarsFiltered, currentIndex);
+        
+        // Calculate the number of days between use date and return date
+        long numberOfDays = ChronoUnit.DAYS.between(useDate, returnDate);
+
+        // Calculate total fee
+        double totalFee = Double.parseDouble(Price.getText()) * numberOfDays;
+
+        // Set the total fee to the text field
+        totalfee.setText(String.valueOf("RM"+totalFee));
         
     }
     
@@ -586,6 +620,16 @@ public class BookCar extends javax.swing.JFrame {
         Price.setText(String.valueOf(car.getPricePerDay()));
         Features.setText(car.getFeatures());
         
+        
+        // Calculate total fee using booking class
+        LocalDate useDate = parseDate(this.useDate.getText());
+        LocalDate returnDate = parseDate(this.returnDate.getText());
+
+        double totalFee = booking.calculateTotalFee(useDate, returnDate, car.getPricePerDay());
+
+        // Set the total fee to the text field
+        totalfee.setText("RM" + totalFee);
+        
         // Set features text, or "None" if features are not available
         String featuresText = car.getFeatures().isEmpty() ? "None" : car.getFeatures();
         Features.setText(featuresText);
@@ -598,6 +642,7 @@ public class BookCar extends javax.swing.JFrame {
         carColor.setEditable(false);
         Price.setEditable(false);
         Features.setEditable(false);
+        totalfee.setEditable(false);
         // Set the selected car ID
         selectedCarId = car.getId();
     }//GEN-LAST:event_searchActionPerformed
@@ -673,12 +718,35 @@ public class BookCar extends javax.swing.JFrame {
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     String formattedUseDate = useDate.format(dateFormatter);
     String formattedReturnDate = returnDate.format(dateFormatter);
-    // Calculate the total price
-    double totalPrice = pricePerDay * ChronoUnit.DAYS.between(useDate, returnDate);
-    
+
+    // Calculate total price using the booking class
+    double totalPrice = booking.calculateTotalFee(useDate, returnDate, pricePerDay);
+
     // Get the next booking ID
     int bookingId = getNextBookingId();
-    
+      
+    // Write the booking details to a text file
+    try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] bookingDetails = line.split(",");
+            if (bookingDetails.length <8) {
+                continue;
+            }
+            LocalDate bookedUseDate = LocalDate.parse(bookingDetails[6], dateFormatter);
+            LocalDate bookedReturnDate = LocalDate.parse(bookingDetails[7], dateFormatter);
+
+            // Check if the selected car is already booked for the same date range
+            if (carId.equals(bookingDetails[2]) &&
+                !(returnDate.isBefore(bookedUseDate) || useDate.isAfter(bookedReturnDate))) {
+                JOptionPane.showMessageDialog(this, "This car is already booked for the selected date range.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error occurred while reading booking details.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     // Write the booking details to a text file
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt", true))) {
         // Format: Name/Gmail,Car ID,Number of Passengers,Price,Use Date,Return Date
@@ -706,6 +774,10 @@ public class BookCar extends javax.swing.JFrame {
         Menu.setVisible(true);
         dispose(); 
     }//GEN-LAST:event_backActionPerformed
+
+    private void totalfeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalfeeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalfeeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -757,6 +829,7 @@ public class BookCar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -770,6 +843,7 @@ public class BookCar extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> numPassengers;
     private javax.swing.JTextField returnDate;
     private javax.swing.JButton search;
+    private javax.swing.JTextField totalfee;
     private javax.swing.JTextField useDate;
     // End of variables declaration//GEN-END:variables
 }
