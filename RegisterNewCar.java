@@ -56,7 +56,7 @@ public class RegisterNewCar extends javax.swing.JFrame {
                 
                 // Features might have multiple values, so concatenate them
                 StringBuilder features = new StringBuilder();
-                for (int i = 7; i < parts.length; i++) {
+                for (int i = 8; i < parts.length; i++) {
                     features.append(parts[i].trim());
                     if (i < parts.length - 1) {
                         features.append(", ");
@@ -462,7 +462,7 @@ public class RegisterNewCar extends javax.swing.JFrame {
     // If the code reaches here, it means the car ID is not redundant, so proceed with writing to the file
 
     // Format the collected data into a string
-    String carinfo = carID + "," + carModel + "," + typeOfCar + "," +  numberOfSeats + "," + color + "," + gearBox  + "," + pricePerDay + "," + features.toString();
+    String carinfo = carID + "," + carModel + "," + typeOfCar + "," +  numberOfSeats + "," + color + "," + gearBox  + "," + pricePerDay + "," + "Available" + "," + features.toString();
 
     // Write the data to a text file using BufferedWriter
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("car_info.txt", true))) {
