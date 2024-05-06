@@ -556,9 +556,12 @@ public class BookCar extends javax.swing.JFrame {
                     car.setColor(parts[4].trim());
                     car.setGearbox(parts[5].trim());
                     car.setPricePerDay(Double.parseDouble(parts[6].trim()));
+                    if (parts[7].trim().equals("Under Maintenance")){
+                         continue;
+                    }
                     // Features start from index 7
                     StringBuilder features = new StringBuilder();
-                    for (int i = 7; i < parts.length; i++) {
+                    for (int i = 8; i < parts.length; i++) {
                         features.append(parts[i].trim()).append(", ");
                     }
                     if (features.length() > 0) {
