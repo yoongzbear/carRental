@@ -111,7 +111,7 @@ public class Car {
                     String[] parts = line.split(",");
                     if (parts.length > 7) {
                         StringBuilder features = new StringBuilder();
-                        for (int i = 7; i < parts.length; i++) {
+                        for (int i = 8; i < parts.length; i++) {
                             features.append(parts[i].trim());
                             if (i < parts.length - 1) {
                                 features.append(", ");
@@ -120,7 +120,7 @@ public class Car {
                         String[] carDetails = {
                             parts[1].trim(), parts[2].trim(), parts[3].trim(), 
                             parts[4].trim(), parts[5].trim(), parts[6].trim(), 
-                            features.toString()
+                            parts[7].trim(), features.toString()
                         };
                         carInfoMap.put(parts[0].trim(), carDetails);
                     }
@@ -132,6 +132,6 @@ public class Car {
         }
         
         public static String[] getCarDetails(String carID, Map<String, String[]> carInfoMap) {
-            return carInfoMap.getOrDefault(carID, new String[]{"Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "No features available"});
+            return carInfoMap.getOrDefault(carID, new String[]{"Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "No features available"});
         }
 }

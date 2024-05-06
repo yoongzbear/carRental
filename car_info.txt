@@ -1,1 +1,2 @@
-wow 123, myvi, Trucks, 5, Red, Automatic, 200, Air conditioning, GPS, Sunroof
+bmx 123, myvi, Sedan, 5, Red, Automatic, 200, Available, Air conditioning, GPS, Sunroof
+mow 789, axia, Sedan, 5, Blue, Automatic, 200, Available, GPS, BlueTooth
