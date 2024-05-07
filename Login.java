@@ -16,8 +16,6 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class Login extends javax.swing.JFrame {
-
-    //File f = new File("C:\\Users\\User\\Desktop\\Car Rental");
     /**
      * Creates new form Login
      */
@@ -238,7 +236,7 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (txtPassword.getText().isEmpty()) {
-                    txtPassword.setText("Enter a valid email address");
+                    txtPassword.setText("Enter your password");
                     txtPassword.setForeground(new Color(204, 204, 204)); // Change font color to gray
                 }
             }
