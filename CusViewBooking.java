@@ -159,6 +159,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         feedbackTA = new javax.swing.JTextArea();
+        update = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -199,7 +200,6 @@ public class CusViewBooking extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        bookingTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -234,7 +234,6 @@ public class CusViewBooking extends javax.swing.JFrame {
             bookingTable.getColumnModel().getColumn(5).setPreferredWidth(7);
         }
 
-        viewButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         viewButton.setText("View Detail");
         viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,7 +247,6 @@ public class CusViewBooking extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel9.setText("Return Date:");
 
-        cancelButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cancelButton.setText("Cancel Booking");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -333,6 +331,13 @@ public class CusViewBooking extends javax.swing.JFrame {
         feedbackTA.setRows(5);
         jScrollPane3.setViewportView(feedbackTA);
 
+        update.setText("Update");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -343,7 +348,10 @@ public class CusViewBooking extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(viewButton)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(viewButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(update))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,7 +425,9 @@ public class CusViewBooking extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(viewButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewButton)
+                    .addComponent(update))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -544,6 +554,38 @@ public class CusViewBooking extends javax.swing.JFrame {
     private void ratingTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ratingTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ratingTFActionPerformed
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+     int selectedRow = bookingTable.getSelectedRow();
+
+    if (selectedRow >= 0) {
+        String bookingID = (String) bookingTable.getModel().getValueAt(selectedRow, 0); // Get the booking ID
+        String rentDateString = (String) bookingTable.getModel().getValueAt(selectedRow, 3); 
+        LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate currentDate = LocalDate.now();
+        String bookstatus = (String) bookingTable.getModel().getValueAt(selectedRow, 5); 
+
+        long daysDifference = ChronoUnit.DAYS.between(currentDate, rentDate);
+
+        if (daysDifference < 7) {
+            JOptionPane.showMessageDialog(null, "Unable to update as the rent date is less than 7 days away from the current date", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            // Check if the booking status is "Approved"
+            if (bookstatus.equals("Approved")) {
+                int choice = JOptionPane.showConfirmDialog(this, "This booking has already been approved. If updated, the booking will be unapproved. Are you sure you want to make the changes?", "Booking Already Approved", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.NO_OPTION) {
+                    // If the user chooses not to update, return without making any changes
+                    return;
+                }
+            }
+            // Proceed with the update operation by passing booking ID to UpdateBookCar constructor
+            new UpdateBookCar(bookingID).setVisible(true);
+            dispose();
+        }
+            } else {
+        JOptionPane.showMessageDialog(null, "Please select a row to update booking.", "Alert", JOptionPane.WARNING_MESSAGE);
+    }
+    }//GEN-LAST:event_updateActionPerformed
     
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
@@ -710,6 +752,7 @@ public class CusViewBooking extends javax.swing.JFrame {
     private javax.swing.JTextField returnDateTF;
     private javax.swing.JTextField statusTF;
     private javax.swing.JTextField typeTF;
+    private javax.swing.JButton update;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
 }
