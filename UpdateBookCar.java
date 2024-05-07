@@ -99,7 +99,7 @@ public class UpdateBookCar extends javax.swing.JFrame {
                     useDate.setText(usedDate);
                     returnDate.setText(returndate);
                     useDate.setForeground(Color.BLACK);
-                    returnDate.setForeground(Color.BLACK);        
+                    returnDate.setForeground(Color.BLACK);  
                     break;
                 }
             }
@@ -146,7 +146,7 @@ public class UpdateBookCar extends javax.swing.JFrame {
         totalfee = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         Next = new javax.swing.JButton();
-        book = new javax.swing.JButton();
+        update = new javax.swing.JButton();
         Previous = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -337,11 +337,11 @@ public class UpdateBookCar extends javax.swing.JFrame {
             }
         });
 
-        book.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        book.setText("Update");
-        book.addActionListener(new java.awt.event.ActionListener() {
+        update.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        update.setText("Update");
+        update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bookActionPerformed(evt);
+                updateActionPerformed(evt);
             }
         });
 
@@ -361,7 +361,7 @@ public class UpdateBookCar extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addComponent(Previous)
                 .addGap(262, 262, 262)
-                .addComponent(book, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Next)
                 .addGap(46, 46, 46))
@@ -371,7 +371,7 @@ public class UpdateBookCar extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(book)
+                    .addComponent(update)
                     .addComponent(Previous)
                     .addComponent(Next))
                 .addContainerGap(26, Short.MAX_VALUE))
@@ -744,7 +744,7 @@ public class UpdateBookCar extends javax.swing.JFrame {
         }
         return maxBookingId + 1; // Increment the maximum booking ID by 1
     }
-    private void bookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookActionPerformed
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
     String Email = SessionManager.getEmail();
 
     // Get the selected car ID
@@ -842,7 +842,7 @@ public class UpdateBookCar extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Error occurred while updating booking.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    }//GEN-LAST:event_bookActionPerformed
+    }//GEN-LAST:event_updateActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         CusMenu Menu = new CusMenu();
@@ -899,7 +899,6 @@ public class UpdateBookCar extends javax.swing.JFrame {
     private javax.swing.JTextField Price;
     private javax.swing.JTextField Type;
     private javax.swing.JButton back;
-    private javax.swing.JButton book;
     private javax.swing.JTextField carColor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -920,6 +919,7 @@ public class UpdateBookCar extends javax.swing.JFrame {
     private javax.swing.JTextField returnDate;
     private javax.swing.JButton search;
     private javax.swing.JTextField totalfee;
+    private javax.swing.JButton update;
     private javax.swing.JTextField useDate;
     // End of variables declaration//GEN-END:variables
 }
