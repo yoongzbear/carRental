@@ -845,8 +845,8 @@ public class UpdateBookCar extends javax.swing.JFrame {
     }//GEN-LAST:event_updateActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        CusMenu Menu = new CusMenu();
-        Menu.setVisible(true);
+        CusViewBooking ViewBook = new CusViewBooking();
+        ViewBook.setVisible(true);
         dispose(); 
     }//GEN-LAST:event_backActionPerformed
 
