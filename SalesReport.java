@@ -106,7 +106,7 @@ public class SalesReport extends javax.swing.JFrame {
         Report.setSelectionBackground(Color.darkGray);
         // Adjust row heights for merged cell and hide the next row
         Report.setRowHeight(rowCount, 20); // Adjust row height for merged cell
-        Report.setRowHeight(rowCount + 1, 0); // Hide the next row
+        Report.setRowHeight(rowCount + 1, Math.max(0, 1)); // Hide the next row
     }
     
     /**
