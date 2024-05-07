@@ -99,8 +99,7 @@ public class UpdateBookCar extends javax.swing.JFrame {
                     useDate.setText(usedDate);
                     returnDate.setText(returndate);
                     useDate.setForeground(Color.BLACK);
-                    returnDate.setForeground(Color.BLACK);
-                    searchActionPerformed(null); // Pass null as action event          
+                    returnDate.setForeground(Color.BLACK);        
                     break;
                 }
             }
