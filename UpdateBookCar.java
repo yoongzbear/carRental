@@ -17,6 +17,9 @@ import java.time.format.DateTimeParseException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 
 
@@ -45,12 +48,40 @@ public class UpdateBookCar extends javax.swing.JFrame {
             carColor.setEditable(false);
             Price.setEditable(false);
             Features.setEditable(false);
-
+            populatePassengerComboBox();
             addPlaceholderListeners();
             setDataFromFile();
     }
- 
-// Add focus listeners for placeholder functionality
+
+    private void populatePassengerComboBox() {
+        Set<Integer> passengerSet = new HashSet<>(); // Use a set to store unique passenger numbers
+
+        // Read the car information from car_info.txt and extract passenger numbers
+        try (BufferedReader reader = new BufferedReader(new FileReader("car_info.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 4 && !parts[3].trim().isEmpty()) { // Ensure the line has the passenger number
+                    int numSeats = Integer.parseInt(parts[3].trim());
+                    passengerSet.add(numSeats); // Add the passenger number to the set
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert the set of passenger numbers to an array and sort it
+        Integer[] passengerArray = passengerSet.toArray(new Integer[0]);
+        Arrays.sort(passengerArray);
+
+        // Populate the combo box with passenger numbers
+        numPassengers.removeAllItems(); // Clear existing items
+        for (Integer numSeats : passengerArray) {
+            numPassengers.addItem(numSeats.toString());
+        }
+    }  
+    
+    // Add focus listeners for placeholder functionality
     private void addPlaceholderListeners() {
         useDate.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -490,6 +521,12 @@ public class UpdateBookCar extends javax.swing.JFrame {
         return;
     }
 
+    // Check if use date is the same as the return date and they are not placeholders
+    if (useDate.getText().equals(returnDate.getText()) && !useDate.getText().equals("DD/MM/YYYY") && !returnDate.getText().equals("DD/MM/YYYY")) {
+        JOptionPane.showMessageDialog(this, "The use date cannot be the same as the return date!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
     // After ensuring both use date and return date are filled, proceed with the rest of the logic
     String useDateText = useDate.getText().trim();
     LocalDate useDateValue;
@@ -743,6 +780,12 @@ public class UpdateBookCar extends javax.swing.JFrame {
         return maxBookingId + 1; // Increment the maximum booking ID by 1
     }
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+    // Check if other required fields are filled
+    if (useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||Model.getText().trim().isEmpty() || Type.getText().trim().isEmpty() || carColor.getText().trim().isEmpty() || Price.getText().trim().isEmpty() || numPassengers.getSelectedItem() == null) {
+        JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
     String Email = SessionManager.getEmail();
 
     // Get the selected car ID
@@ -764,10 +807,9 @@ public class UpdateBookCar extends javax.swing.JFrame {
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     String formattedUseDate = useDate.format(dateFormatter);
     String formattedReturnDate = returnDate.format(dateFormatter);
-
+    
     // Calculate total price using the booking class
     double totalPrice = booking.calculateTotalFee(useDate, returnDate, pricePerDay);
-
       
     // Write the booking details to a text file
     try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
