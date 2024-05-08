@@ -57,10 +57,10 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
     }
     
     private void getDetail() {
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        // Retrieve booking info using index
+        //retrieve booking info using index
         String[] bookingInfo = booking.getBookingInfo(this.index);
         
         if (bookingInfo != null) {
@@ -70,7 +70,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             this.rentDate = bookingInfo[6].trim();
             this.returnDate = bookingInfo[7].trim();
 
-            // Retrieve and set car details from carInfoMap
+            //retrieve and set car details from carInfoMap
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
             this.carType = carDetails[1];
@@ -84,6 +84,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         }
     }
     
+    //display booking detail
     private void printDetail() {
         getDetail();
         emailTF.setText(this.email);
@@ -100,9 +101,10 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         gearboxTF.setText(this.gearbox);
     }
     
+    //approve booking
     private void approveBooking(String index) {
         boolean updated = false;
-        //string build to rewrite status
+        //string builder to rewrite status
         StringBuilder updatedContent = new StringBuilder();
 
         try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
@@ -129,10 +131,10 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         if (updated) {
-            JOptionPane.showMessageDialog(null, "Booking successfully approved!");
+            JOptionPane.showMessageDialog(null, "Booking successfully approved!", "Success", JOptionPane.INFORMATION_MESSAGE);
             dispose();
-            AdminBookingConfirm newParent = new AdminBookingConfirm();
-            newParent.setVisible(true);
+            AdminBookingConfirm bookingConfirm = new AdminBookingConfirm();
+            bookingConfirm.setVisible(true);
         }
     }
     /**
@@ -492,10 +494,10 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();   
 
-        // Read customer booking data and display table - display with status booked only
+        //read customer booking data and display table with status booked only
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -508,11 +510,11 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
                             data[1],        //customer email
-                            carDetails[0],         // Car model
-                            Double.valueOf(data[5]), // Total Price
-                            data[6],         // Use Date
-                            data[7],         // Return Date
-                            data[8]          // Status
+                            carDetails[0],         //car model
+                            Double.valueOf(data[5]), //total price
+                            data[6],         //rent date
+                            data[7],         //return date
+                            data[8]          //status
                         });
                     }
                 }
@@ -521,9 +523,9 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
+        table.revalidate();  //refresh the table to display new data             
     }
     
     /**

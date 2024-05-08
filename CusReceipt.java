@@ -4,9 +4,6 @@
  */
 package SubangsCarRental;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Map;
 import javax.swing.JOptionPane;
 
@@ -40,10 +37,10 @@ public class CusReceipt extends javax.swing.JFrame {
     }
 
     private void getDetail(String index) {
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        // Retrieve booking info using index
+        //eetrieve booking info using index
         String[] bookingInfo = booking.getBookingInfo(index);
         
         if (bookingInfo != null) {
@@ -53,33 +50,21 @@ public class CusReceipt extends javax.swing.JFrame {
             this.rentDate = bookingInfo[6].trim();
             this.returnDate = bookingInfo[7].trim();
 
-            // Retrieve and set car details from carInfoMap
+            // retrieve and set car details from carInfoMap
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
         } else {
             JOptionPane.showMessageDialog(null, "No booking found with Booking ID: " + index, "Alert", JOptionPane.WARNING_MESSAGE);
         }
         
-        //get customer info
-        try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 5) { 
-                    String fileEmail = parts[1].trim();
-                    if (fileEmail.equals(this.email)) { 
-                        this.name = parts[0].trim();
-                        break; 
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            //if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);    
-        } catch (Exception e) {
-            //unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        //retrieve customer info
+        String[] cusInfo = Customer.getCusInfo(this.email);
+        if (cusInfo != null) {
+            this.name = cusInfo[0].trim();
+        } else {
+            JOptionPane.showMessageDialog(null, "No customer information found for " + this.email, "Alert", JOptionPane.WARNING_MESSAGE);
+        }         
+        //calculate balance
         this.balance = this.amountPaid - this.totalRent;
     }
     

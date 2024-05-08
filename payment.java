@@ -59,10 +59,10 @@ public class payment extends javax.swing.JFrame {
     }
 
     private void getDetail() { 
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        // Retrieve booking info using index
+        //retrieve booking info using index
         String[] bookingInfo = booking.getBookingInfo(this.index);
         
         if (bookingInfo != null) {
@@ -72,7 +72,7 @@ public class payment extends javax.swing.JFrame {
             this.rentDate = bookingInfo[6].trim();
             this.returnDate = bookingInfo[7].trim();
 
-            // Retrieve and set car details from carInfoMap
+            //retrieve and set car details from carInfoMap
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
             this.carType = carDetails[1];
@@ -108,6 +108,7 @@ public class payment extends javax.swing.JFrame {
             paymentTF.requestFocusInWindow();
         } else {
             this.amountPaid = Double.parseDouble(paymentTF.getText());
+            //calculate balance
             double balance = this.amountPaid - this.totalRent;
             if (balance < 0) {
                 JOptionPane.showMessageDialog(null, "The amount paid is lesser than the total rental fee.", "Alert", JOptionPane.WARNING_MESSAGE);
@@ -121,7 +122,7 @@ public class payment extends javax.swing.JFrame {
     
     private void updateStatus() {
         boolean updated = false;
-        //string build to rewrite status
+        //string builder to rewrite status
         StringBuilder updatedContent = new StringBuilder();
 
         try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
@@ -141,16 +142,17 @@ public class payment extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        // Write updated content back to file
+        //write updated content back to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
             writer.write(updatedContent.toString());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         if (updated) {
-            JOptionPane.showMessageDialog(null, "Booking successfully paid!");
+            JOptionPane.showMessageDialog(null, "Booking successfully paid!", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

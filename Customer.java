@@ -4,7 +4,10 @@
  */
 package SubangsCarRental;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -27,6 +30,11 @@ public class Customer extends User {
         this.icNumber = icNumber;
         this.driNumber = driNumber;
     }
+    
+    //construct overloading
+    public Customer(String email) {
+        super(email, "", "","");
+    }
 
     // Method to create an account for the customer
     public boolean createAccount() {
@@ -44,7 +52,6 @@ public class Customer extends User {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("account.txt", true))) {
             writer.write(account);
             writer.newLine();
-            System.out.println("Your account has been created");
             JOptionPane.showMessageDialog(null, "Your account has been created", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             return true;
@@ -52,5 +59,28 @@ public class Customer extends User {
             System.out.println("An error occurred while writing to the file.");
             return false; // Account creation failed
         }
+    }
+    
+    public static String[] getCusInfo(String email) {
+        //retireve info from account.txt
+        try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 4) { 
+                    String fileMail = parts[1].trim();
+                    if (fileMail.equals(email)) { 
+                        return parts;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            //if file not found
+            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
+        } catch (Exception e) {
+            //unexpected errors
+            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+        }
+        return null;
     }
 }

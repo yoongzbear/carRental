@@ -196,13 +196,12 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
         
         if (selectedRow >= 0) {            
-            //call view booking detail   
-                this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-                payment payment = new payment(this.index);
-                payment.setVisible(true);
-                dispose();
+            //go to payment   
+            this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
+            payment payment = new payment(this.index);
+            payment.setVisible(true);
+            dispose();
         } else {
-            // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to proceed for payment", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_paymentButtonActionPerformed
@@ -216,6 +215,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTFActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        //search method
         searchResult();
     }//GEN-LAST:event_searchButtonActionPerformed
 
@@ -225,7 +225,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         if (!"Category".equals(category)) {
             String search = searchTF.getText();
             if (!search.isEmpty()) {
-                loadTableSearch(bookingTable, category, search);
+                loadTableData(bookingTable, category, search);
             } else {
                 JOptionPane.showMessageDialog(null, "Please enter your search.", "Alert", JOptionPane.WARNING_MESSAGE);
             }
@@ -234,14 +234,15 @@ public class AdminDueRentCar extends javax.swing.JFrame {
         }
     }
     
-    private void loadTableSearch(javax.swing.JTable table, String category, String search) {
+    //method overload
+    private void loadTableData(javax.swing.JTable table, String category, String search) {
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
-        model.setRowCount(0);
+        model.setRowCount(0); //clear table
 
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();     
 
-        // Read customer booking data and display table
+        //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             boolean found = false;
@@ -254,19 +255,23 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                         String carPlate = data[2].trim();
                         String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                         switch (category) {
-                            case "Booking ID" -> result = data[0].trim();
-                            case "Customer Email" -> result = data[1].trim();
+                            case "Booking ID":
+                                result = data[0].trim();
+                                break;
+                            case "Customer Email":
+                                result = data[1].trim();
+                                break;
                         }
                         if (search.equals(result)) {
                             //add row into table
                             model.addRow(new Object[]{                            
-                                data[0],        // Booking ID 
-                                data[1],        // Customer email
-                                carDetails[0],         // Car model 
-                                Double.valueOf(data[5]), // Total Price
-                                data[6],        // Use Date
-                                data[7],        // Return Date
-                                data[8]         // Status
+                                data[0],        //booking ID 
+                                data[1],        //customer email
+                                carDetails[0],         //car model 
+                                Double.valueOf(data[5]), //total price
+                                data[6],        //rent date
+                                data[7],        //return date
+                                data[8]         //status
                             });
                             found = true;
                         }                
@@ -280,17 +285,17 @@ public class AdminDueRentCar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
+        table.revalidate();  //refresh the table to display new data             
     }
     
     private void loadTableData(javax.swing.JTable table) {    
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();        
 
-        // Read customer booking data and display table
+        //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -307,10 +312,10 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
                             data[1],        //customer email
-                            carDetails[0],         // Car model
+                            carDetails[0],         //car model
                             Double.valueOf(data[5]), //total fee
-                            data[6],         // Use Date
-                            data[7],         // Return Date
+                            data[6],         //rent date
+                            data[7],         //return date
                     });
                     }
                 }
@@ -319,9 +324,9 @@ public class AdminDueRentCar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
+        table.revalidate();  //refresh the table to display new data             
     }
     /**
      * @param args the command line arguments

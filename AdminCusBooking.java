@@ -521,7 +521,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        // Write updated content back to file
+        //write updated content back to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
             writer.write(updatedContent.toString());
         } catch (Exception e) {
@@ -529,13 +529,14 @@ public class AdminCusBooking extends javax.swing.JFrame {
         }
     }
     
+    //display search result based on category and search
     private void searchResult() {
         Object categorySelected = searchCategory.getSelectedItem();
         String category = (String) categorySelected;
         if (!"Category".equals(category)) {
             String search = searchTF.getText();
             if (!search.isEmpty()) {
-                loadTableSearch(bookingTable, category, search);
+                loadTableData(bookingTable, category, search);
             } else {
                 JOptionPane.showMessageDialog(null, "Please enter your search.", "Alert", JOptionPane.WARNING_MESSAGE);
             }
@@ -544,14 +545,15 @@ public class AdminCusBooking extends javax.swing.JFrame {
         }
     }
     
-    private void loadTableSearch(javax.swing.JTable table, String category, String search) {
+    //method overloading
+    private void loadTableData(javax.swing.JTable table, String category, String search) {
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
-        model.setRowCount(0);
+        model.setRowCount(0); //clear the table
 
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();     
 
-        // Read customer booking data and display table
+        //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             boolean found = false;
@@ -581,13 +583,13 @@ public class AdminCusBooking extends javax.swing.JFrame {
                     if (search.equals(result)) {
                         //add row into table
                         model.addRow(new Object[]{                            
-                            data[0],        // Booking ID 
-                            data[1],        // Customer email
-                            carDetails[0],         // Car model 
-                            Double.valueOf(data[5]), // Total Price
-                            data[6],        // Use Date
-                            data[7],        // Return Date
-                            data[8]         // Status
+                            data[0],        //booking ID 
+                            data[1],        //customer email
+                            carDetails[0],         // car model 
+                            Double.valueOf(data[5]), //total price
+                            data[6],        //rent date
+                            data[7],        //return date
+                            data[8]         //status
                         });
                         found = true;
                     }                    
@@ -600,18 +602,18 @@ public class AdminCusBooking extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
+        table.revalidate();  //refresh the table to display new data             
     }
     
     private void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();     
 
-        // Read customer booking data and display table
+        //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -623,11 +625,11 @@ public class AdminCusBooking extends javax.swing.JFrame {
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
                             data[1],        //customer email
-                            carDetails[0],         // Car model
-                            Double.valueOf(data[5]), // Total Price
-                            data[6],         // Use Date
-                            data[7],         // Return Date
-                            data[8]          // Status
+                            carDetails[0],         //car model
+                            Double.valueOf(data[5]), //total price
+                            data[6],         //rent date
+                            data[7],         //return date
+                            data[8]          //status
                         });
                 }
             }
@@ -635,9 +637,9 @@ public class AdminCusBooking extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
+        table.revalidate();  //refresh the table to display new data             
     }
     
     /**

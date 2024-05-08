@@ -32,7 +32,6 @@ public class CusProfile extends javax.swing.JFrame {
     
     public CusProfile() {
         initComponents();        
-        //testing purpose
         this.email = SessionManager.getEmail();
         this.name = SessionManager.getName();
         this.role = SessionManager.getRole();                
@@ -121,30 +120,17 @@ public class CusProfile extends javax.swing.JFrame {
     }
     
     private void getInfo() {
-        //retireve info from account.txt
-        try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 4) { 
-                    String fileMail = parts[1].trim();
-                    if (fileMail.equals(email)) { 
-                        this.name = parts[0].trim();
-                        this.phone = parts[2].trim();
-                        this.IC = parts[3].trim();
-                        this.license = parts[4].trim();                        
-                        break; 
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            //if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
-        } catch (Exception e) {
-            //unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+        String[] cusInfo = Customer.getCusInfo(this.email);
+        if (cusInfo != null) {
+            this.name = cusInfo[0].trim();
+            this.phone = cusInfo[2].trim();
+            this.IC = cusInfo[3].trim();
+            this.license = cusInfo[4].trim();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No customer information found for " + this.email, "Alert", JOptionPane.WARNING_MESSAGE);
         }
-    }
+    }    
     
     private void saveInfo() {
         // Validate input fields
@@ -192,7 +178,7 @@ public class CusProfile extends javax.swing.JFrame {
                 // Write updated content back to file
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter("account.txt"))) {
                     writer.write(updatedContent.toString());
-                    JOptionPane.showMessageDialog(null, "Profile updated successfully!");
+                    JOptionPane.showMessageDialog(null, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     SessionManager.setUser(this.email, this.role, updatedName);
                     disableButton();
                     btnEdit.setEnabled(true);

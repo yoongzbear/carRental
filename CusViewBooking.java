@@ -65,10 +65,10 @@ public class CusViewBooking extends javax.swing.JFrame {
     }
     
     private void getDetail() {
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        // Retrieve booking info using index
+        //retrieve booking info using index
         String[] bookingInfo = booking.getBookingInfo(this.index);
         
         if (bookingInfo != null) {
@@ -86,7 +86,7 @@ public class CusViewBooking extends javax.swing.JFrame {
                 this.feedback = null;
             }
 
-            // Retrieve and set car details from carInfoMap
+            //retrieve and set car details from carInfoMap
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
             this.carType = carDetails[1];
@@ -525,12 +525,10 @@ public class CusViewBooking extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
         
         if (selectedRow >= 0) {            
-            //call view booking detail   
+            //view booking detail   
                 this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
                 printDetail();
-
         } else {
-            // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to view details.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonActionPerformed
@@ -545,13 +543,12 @@ public class CusViewBooking extends javax.swing.JFrame {
         
         if (selectedRow >= 0) {            
             //call view booking detail   
-                this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-                int confirm = JOptionPane.showConfirmDialog(null,"Are you sure to cancel the booking?");  
-                if (confirm == JOptionPane.YES_OPTION) {
-                    deleteBooking(this.index);                    
-                }
+            this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
+            int confirm = JOptionPane.showConfirmDialog(null,"Are you sure to cancel the booking?");  
+            if (confirm == JOptionPane.YES_OPTION) {
+                deleteBooking(this.index);                    
+            }
         } else {
-            // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to cancel booking.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_cancelButtonActionPerformed
@@ -587,8 +584,8 @@ public class CusViewBooking extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Please select a row to update booking.", "Alert", JOptionPane.WARNING_MESSAGE);
     }
     }//GEN-LAST:event_updateActionPerformed
-
-     public class BookingUpdater {
+    
+    public class BookingUpdater {
         public void updateBooking(String bookingID, String rentDateString, String bookstatus) {
             LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             LocalDate currentDate = LocalDate.now();
@@ -616,10 +613,10 @@ public class CusViewBooking extends javax.swing.JFrame {
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
 
-        // Read customer booking data and display table
+        //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -631,11 +628,11 @@ public class CusViewBooking extends javax.swing.JFrame {
                         //add row into table
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
-                            carDetails[0],         // Car model
-                            Double.valueOf(data[5]), // Total Price, assuming it's stored at index 4
-                            data[6],         // Use Date
-                            data[7],         // Return Date
-                            data[8]          // Status
+                            carDetails[0],         //car model
+                            Double.valueOf(data[5]), //total price
+                            data[6],         //remt date
+                            data[7],         //return date
+                            data[8]          //status
                     });
                     }
                 }
@@ -644,63 +641,62 @@ public class CusViewBooking extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
+        table.revalidate();  //refresh the table to display new data             
     }
     
     private void deleteBooking(String index) {
         boolean deleted = false;
         LocalDate currentDate = LocalDate.now(); //current date
-            //delete when rent date is 7 days away from current date
-            StringBuilder updatedContent = new StringBuilder();
+        //delete when rent date is 7 days away from current date
+        StringBuilder updatedContent = new StringBuilder();
 
-            try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(",");
-                    String bookingID = parts[0].trim();
-                    if (bookingID.equals(this.index)) {
-                        LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                        String status = parts[8].trim();
-                        //can cancel booking when it is currently more than 7 days from the rent date and the status is booked
-                        if (ChronoUnit.DAYS.between(currentDate, rentDate) >= 7 && status.equals("Booked")) {
-                            String deletedLine = this.index + ",CANCELED";
-                            updatedContent.append(deletedLine).append("\n");
-                            deleted = true;
-                        } else if (status.equals("Approved")) {
-                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as it has been approved", "Alert", JOptionPane.WARNING_MESSAGE);
-                            updatedContent.append(line).append("\n");
-                        } else if (status.equals("Paid")) {
-                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel paid bookings", "Alert", JOptionPane.WARNING_MESSAGE);
-                            updatedContent.append(line).append("\n");
-                        } else if (ChronoUnit.DAYS.between(currentDate, rentDate) < 0) {
-                            JOptionPane.showMessageDialog(null, "You are not allowed to cancel past bookings", "Alert", JOptionPane.WARNING_MESSAGE);
-                            updatedContent.append(line).append("\n");
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Booking cannot be canceled as the rent date is less than 7 days from today", "Alert", JOptionPane.WARNING_MESSAGE);
-                            updatedContent.append(line).append("\n");
-                        }
-                    } else {
+        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                String bookingID = parts[0].trim();
+                if (bookingID.equals(this.index)) {
+                    LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    String status = parts[8].trim();
+                    //can cancel booking when it is currently more than 7 days from the rent date and the status is booked
+                    if (ChronoUnit.DAYS.between(currentDate, rentDate) >= 7 && status.equals("Booked")) {
+                        String deletedLine = this.index + ",CANCELED";
+                        updatedContent.append(deletedLine).append("\n");
+                        deleted = true;
+                    } else if (status.equals("Approved")) {
+                        JOptionPane.showMessageDialog(null, "Booking cannot be canceled as it has been approved", "Alert", JOptionPane.WARNING_MESSAGE);
                         updatedContent.append(line).append("\n");
-                    }                    
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    } else if (status.equals("Paid")) {
+                        JOptionPane.showMessageDialog(null, "You are not allowed to cancel paid bookings", "Alert", JOptionPane.WARNING_MESSAGE);
+                        updatedContent.append(line).append("\n");
+                    } else if (ChronoUnit.DAYS.between(currentDate, rentDate) < 0) {
+                        JOptionPane.showMessageDialog(null, "You are not allowed to cancel past bookings", "Alert", JOptionPane.WARNING_MESSAGE);
+                        updatedContent.append(line).append("\n");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Booking cannot be canceled as the rent date is less than 7 days from today", "Alert", JOptionPane.WARNING_MESSAGE);
+                        updatedContent.append(line).append("\n");
+                    }
+                } else {
+                    updatedContent.append(line).append("\n");
+                }                    
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
             
-            // Write updated content back to file
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
-                writer.write(updatedContent.toString());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        //write updated content back to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
+            writer.write(updatedContent.toString());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
         if (deleted) {
-            JOptionPane.showMessageDialog(null, "Booking successfully canceled!");
+            JOptionPane.showMessageDialog(null, "Booking successfully canceled!", "Success", JOptionPane.INFORMATION_MESSAGE);
             dispose();
-            CusViewBooking newParent = new CusViewBooking();
-            newParent.setVisible(true);
+            CusViewBooking viewBooking = new CusViewBooking();
+            viewBooking.setVisible(true);
         }
     }
     /**

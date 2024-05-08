@@ -61,49 +61,13 @@ public class AdminCusReview extends javax.swing.JFrame {
         gearboxTF.setEditable(false);
         ratingTF.setEditable(false);
         feedbackTA.setEditable(false);
-    }
-    
-    private void loadTableData(javax.swing.JTable table) {        
-        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
-
-        // Load all car info into a map
-        Map<String, String[]> carInfoMap = Car.loadCarInfo();           
-
-        // Read customer booking data and display table
-        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                //booking has more than 10
-                if (data.length >= 10) {
-                        String carPlate = data[2].trim();
-                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
-                        //add row into table
-                        model.addRow(new Object[]{                            
-                            data[0],        //booking ID 
-                            data[1],        //email
-                            carDetails[0],         // Car model
-                            Double.valueOf(data[5]), //total fee
-                            data[6],         // Use Date
-                            data[7],         // Return Date
-                            data[9]         //rating
-                    });
-                }
-            } 
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Set the model to the table
-        table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
-    }
+    }        
     
     private void getDetail() {
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        // Retrieve booking info using index
+        //retrieve booking info using index
         String[] bookingInfo = booking.getBookingInfo(this.index);
         
         if (bookingInfo != null) {
@@ -115,7 +79,7 @@ public class AdminCusReview extends javax.swing.JFrame {
             this.rating = bookingInfo[9].trim();
             this.feedback = bookingInfo[10].trim();
 
-            // Retrieve and set car details from carInfoMap
+            //retrieve and set car details from carInfoMap
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
             this.carType = carDetails[1];
@@ -129,6 +93,7 @@ public class AdminCusReview extends javax.swing.JFrame {
         }
     }
     
+    //display detail
     private void printDetail() {
         getDetail();
         emailTF.setText(this.email);
@@ -147,15 +112,52 @@ public class AdminCusReview extends javax.swing.JFrame {
         feedbackTA.setText(this.feedback);
     }
     
-    private void sortTable(javax.swing.JTable table, String sortOrder) {
+    private void loadTableData(javax.swing.JTable table) {        
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
+
+        //load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();           
+
+        //read customer booking data and display table
+        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                //booking has more than 10
+                if (data.length >= 10) {
+                        String carPlate = data[2].trim();
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
+                        //add row into table
+                        model.addRow(new Object[]{                            
+                            data[0],        //booking ID 
+                            data[1],        //email
+                            carDetails[0],         //car model
+                            Double.valueOf(data[5]), //total fee
+                            data[6],         //rent date
+                            data[7],         //return date
+                            data[9]         //rating
+                    });
+                }
+            } 
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        //set the model to the table
+        table.setModel(model);
+        table.revalidate();  //refresh the table to display new data             
+    }
+    
+    //method overloading
+    private void loadTableData(javax.swing.JTable table, String sortOrder) {
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();    
         model.setRowCount(0); //clear table
         List<Object[]> rowDataList = new ArrayList<>();
         
-         // Load all car info into a map
-        Map<String, String[]> carInfoMap = Car.loadCarInfo(); // Make sure Car.loadCarInfo is correctly fetching data.
+         //load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo(); 
 
-        // Read customer booking data and display table
+        //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -163,7 +165,6 @@ public class AdminCusReview extends javax.swing.JFrame {
                 if (data.length >= 10) {
                     String carPlate = data[2].trim();
                     String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
-                    // Gather data in a list for sorting
                     rowDataList.add(new Object[]{
                             data[0],        // booking ID
                             data[1],        // email
@@ -178,24 +179,25 @@ public class AdminCusReview extends javax.swing.JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        // Sort the list based on rating
+        //sort the list based on rating
         Collections.sort(rowDataList, new Comparator<Object[]>() {
             @Override
             public int compare(Object[] row1, Object[] row2) {
-                Double rating1 = Double.valueOf((String) row1[6]); // Assuming rating is a numeric string
-                Double rating2 = Double.valueOf((String) row2[6]); // Convert to double for comparison
+                Double rating1 = Double.valueOf((String) row1[6]); 
+                Double rating2 = Double.valueOf((String) row2[6]); 
+                //sort based on selected order
                 return sortOrder.equals("Highest to Lowest") ? rating2.compareTo(rating1) : rating1.compareTo(rating2);
             }
         });
 
-        // Add sorted data to the table model
+        //add sorted data to the table model
         for (Object[] row : rowDataList) {
             model.addRow(row);
         }
         
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data
+        table.revalidate();  //refresh the table to display new data
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -590,11 +592,10 @@ public class AdminCusReview extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            //call view booking detail
+            //view booking detail
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             printDetail();
         } else {
-            // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to view details.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonActionPerformed
@@ -615,8 +616,8 @@ public class AdminCusReview extends javax.swing.JFrame {
         //check if order is selected
         String sortSelected = (String) sortBox.getSelectedItem();
         if (!sortSelected.equals("Sort Rating Order")) {
-            //call sort
-            sortTable(bookingTable, sortSelected);
+            //sort table
+            loadTableData(bookingTable, sortSelected);
         } else {
             JOptionPane.showMessageDialog(null, "Please select an order to sort.", "Alert", JOptionPane.WARNING_MESSAGE);
         }

@@ -63,10 +63,10 @@ public class CusReview extends javax.swing.JFrame {
     private void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();           
 
-        // Read customer booking data and display table
+        //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -80,10 +80,10 @@ public class CusReview extends javax.swing.JFrame {
                         //add row into table
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
-                            carDetails[0],         // Car model
+                            carDetails[0],         //car model
                             Double.valueOf(data[5]), //total fee
-                            data[6],         // Use Date
-                            data[7],         // Return Date
+                            data[6],         //rent date
+                            data[7],         //return date
                     });
                     }
                 }
@@ -92,16 +92,16 @@ public class CusReview extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
+        table.revalidate();  //refresh the table to display new data             
     }
     
     private void getDetail() {
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        // Retrieve booking info using index
+        //retrieve booking info using index
         String[] bookingInfo = booking.getBookingInfo(this.index);
         
         if (bookingInfo != null) {
@@ -111,7 +111,7 @@ public class CusReview extends javax.swing.JFrame {
             this.returnDate = bookingInfo[7].trim();
             this.status = bookingInfo[8].trim();
 
-            // Retrieve and set car details from carInfoMap
+            //retrieve and set car details
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
             this.carType = carDetails[1];
@@ -141,8 +141,7 @@ public class CusReview extends javax.swing.JFrame {
         gearboxTF.setText(this.gearbox);
         ratingBox.setEnabled(true);
         feedbackTA.setEditable(true);
-    }    
-    
+    }        
 
     private void submitReview(String index) {
         //check if user enters rating and feedback - if one is empty, display message
@@ -153,11 +152,21 @@ public class CusReview extends javax.swing.JFrame {
         if (!ratingSelected.equals("Select Rating") && !feedback.isEmpty()) { 
             int rating = 0;
             switch (ratingSelected)  {
-                case "1⭐" -> rating = 1;
-                case "2⭐" -> rating = 2;
-                case "3⭐" -> rating = 3;
-                case "4⭐" -> rating = 4;
-                case "5⭐" -> rating = 5;
+                case "1⭐":
+                    rating = 1;
+                    break;
+                case "2⭐":
+                    rating = 2;
+                    break;
+                case "3⭐":
+                    rating = 3;
+                    break;
+                case "4⭐":
+                    rating = 4;
+                    break;
+                case "5⭐":
+                    rating = 5;
+                    break;
             }
             try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
                 String line;
@@ -183,7 +192,7 @@ public class CusReview extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
             if (updated) {
-                JOptionPane.showMessageDialog(null, "Booking review successfully submitted! Thank you for using our service");
+                JOptionPane.showMessageDialog(null, "Booking review successfully submitted! Thank you for using our service", "Success", JOptionPane.INFORMATION_MESSAGE);
                 new CusReview().setVisible(true);
                 dispose();
             }
@@ -566,11 +575,10 @@ public class CusReview extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            //call view booking detail
+            //review booking
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);            
             submitReview(this.index);            
         } else {
-            // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to review booking.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_reviewButtonActionPerformed
@@ -592,12 +600,11 @@ public class CusReview extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            //call view booking detail
+            //view booking detail
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             printDetail();
 
         } else {
-            // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to view details.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonActionPerformed

@@ -432,13 +432,11 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            //call return car
+            //return car
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             returnCar(this.index);
             dispose();
-
         } else {
-            // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to update booking status.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_returnButtonActionPerformed
@@ -459,12 +457,10 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         int selectedRow = bookingTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            //call return car
+            //display detail
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             printDetail();
-
         } else {
-            // No row is selected
             JOptionPane.showMessageDialog(null, "Please select a row to view booking detail.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonActionPerformed
@@ -478,6 +474,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTFActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        //search 
         searchResult();
     }//GEN-LAST:event_searchButtonActionPerformed
 
@@ -487,7 +484,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         if (!"Category".equals(category)) {
             String search = searchTF.getText();
             if (!search.isEmpty()) {
-                loadTableSearch(bookingTable, category, search);
+                loadTableData(bookingTable, category, search);
             } else {
                 JOptionPane.showMessageDialog(null, "Please enter your search.", "Alert", JOptionPane.WARNING_MESSAGE);
             }
@@ -495,57 +492,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select category to search.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
-    private void loadTableSearch(javax.swing.JTable table, String category, String search) {
-        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
-        model.setRowCount(0);
-
-        // Load all car info into a map
-        Map<String, String[]> carInfoMap = Car.loadCarInfo();     
-
-        // Read customer booking data and display table
-        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            boolean found = false;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 9) {
-                    String returnDate = data[7].trim();
-                    if (returnDate.equals(this.date) && data[8].equals("Paid")) {
-                        String result = "";
-                        String carPlate = data[2].trim();
-                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
-                        switch (category) {
-                            case "Booking ID" -> result = data[0].trim();
-                            case "Customer Email" -> result = data[1].trim();
-                        }
-                        if (search.equals(result)) {
-                            //add row into table
-                            model.addRow(new Object[]{                            
-                                data[0],        // Booking ID 
-                                data[1],        // Customer email
-                                carDetails[0],         // Car model 
-                                Double.valueOf(data[5]), // Total Price
-                                data[6],        // Use Date
-                                data[7]        // Return Date
-                            });
-                            found = true;
-                        }                
-                    }                                        
-                }
-            }
-            if (!found) {
-                JOptionPane.showMessageDialog(null, "Search not found.", "Alert", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Set the model to the table
-        table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
-    }
-    
+            
     private void returnCar(String index) {
         boolean updated = false;
         //string build to rewrite status
@@ -568,23 +515,23 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        // Write updated content back to file
+        //write updated content back to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
             writer.write(updatedContent.toString());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         if (updated) {
-            JOptionPane.showMessageDialog(null, "Car successfully returned!");
+            JOptionPane.showMessageDialog(null, "Car successfully returned!", "Success", JOptionPane.INFORMATION_MESSAGE);
             new AdminDueReturnCar().setVisible(true);
         }
     }        
     
     private void getDetail() {
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
         
-        // Retrieve booking info using index
+        //retrieve booking info using index
         String[] bookingInfo = booking.getBookingInfo(this.index);
         
         if (bookingInfo != null) {
@@ -594,7 +541,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             this.rentDate = bookingInfo[6].trim();
             this.returnDate = bookingInfo[7].trim();
 
-            // Retrieve and set car details from carInfoMap
+            //retrieve and set car details from carInfoMap
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
             this.carType = carDetails[1];
@@ -627,18 +574,16 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     private void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
 
-        // Load all car info into a map
+        //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();           
 
-        // Read customer booking data and display table
+        //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 8) {
-                    String returnDate = data[7].trim();
-                    LocalDate currentDate = LocalDate.now(); //current date
-                    date = currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    String returnDate = data[7].trim();                    
                     //return date is today and booking is paid
                     if (returnDate.equals(this.date) && data[8].equals("Paid")) {
                         String carPlate = data[2].trim();
@@ -647,10 +592,10 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                         model.addRow(new Object[]{                            
                             data[0],        //booking ID 
                             data[1],        //customer email
-                            carDetails[0],         // Car model
+                            carDetails[0],         //car model
                             Double.valueOf(data[5]), //total fee
-                            data[6],         // Use Date
-                            data[7]         // Return Date
+                            data[6],         //rent date
+                            data[7]         //return date
                     });
                     }
                 }
@@ -659,10 +604,65 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Set the model to the table
+        //set the model to the table
         table.setModel(model);
-        table.revalidate();  // Refresh the table to display new data             
+        table.revalidate();  //refresh the table to display new data             
     }
+    
+    private void loadTableData(javax.swing.JTable table, String category, String search) {
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
+        model.setRowCount(0); //clear table
+
+        //load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();     
+
+        //read customer booking data and display table
+        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            boolean found = false;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 9) {
+                    String returnDate = data[7].trim();
+                    if (returnDate.equals(this.date) && data[8].equals("Paid")) {
+                        String result = "";
+                        String carPlate = data[2].trim();
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
+                        switch (category) {
+                            case "Booking ID":
+                                result = data[0].trim();
+                                break;
+                            case "Customer Email":
+                                result = data[1].trim();
+                                break;
+                        }
+                        if (search.equals(result)) {
+                            //add row into table
+                            model.addRow(new Object[]{                            
+                                data[0],        //booking ID 
+                                data[1],        //customer email
+                                carDetails[0],         //car model 
+                                Double.valueOf(data[5]), //total price
+                                data[6],        //rent date
+                                data[7]        //return date
+                            });
+                            found = true;
+                        }                
+                    }                                        
+                }
+            }
+            if (!found) {
+                JOptionPane.showMessageDialog(null, "Search not found.", "Alert", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        //set the model to the table
+        table.setModel(model);
+        table.revalidate();  //refresh the table to display new data             
+    }
+    
     /**
      * @param args the command line arguments
      */
