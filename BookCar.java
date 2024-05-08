@@ -458,7 +458,10 @@ public class BookCar extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Please enter a return date.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
-
+    if (useDate.getText().equals(returnDate.getText())){
+        JOptionPane.showMessageDialog(this, "The use date can not same as the return date!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
     // After ensuring both use date and return date are filled, proceed with the rest of the logic
     String useDateText = useDate.getText().trim();
     LocalDate useDateValue;
@@ -505,9 +508,6 @@ public class BookCar extends javax.swing.JFrame {
         // Display available cars
         displayAvailableCars(availableCarsFiltered, currentIndex);
         
-                // Display available cars
-        displayAvailableCars(availableCarsFiltered, currentIndex);
-        
         // Calculate the number of days between use date and return date
         long numberOfDays = ChronoUnit.DAYS.between(useDate, returnDate);
 
@@ -541,7 +541,6 @@ public class BookCar extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Return date cannot be before use date.", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-
             return true;
         } else {
             JOptionPane.showMessageDialog(this, "Please enter a valid date following the format 'DD/MM/YYYY'.", "Error", JOptionPane.ERROR_MESSAGE);

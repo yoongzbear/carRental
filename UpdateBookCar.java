@@ -536,8 +536,6 @@ public class UpdateBookCar extends javax.swing.JFrame {
         // Display available cars
         displayAvailableCars(availableCarsFiltered, currentIndex);
         
-        // Display available cars
-        displayAvailableCars(availableCarsFiltered, currentIndex);
         
         // Calculate the number of days between use date and return date
         long numberOfDays = ChronoUnit.DAYS.between(useDate, returnDate);
