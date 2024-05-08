@@ -286,7 +286,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
         jLabel11.setText("Status:");
 
         searchCategory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        searchCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Booking ID", "Customer Email", "Car Model" }));
+        searchCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Booking ID", "Customer Email", "Car Model", "Rent Date", "Return Date" }));
         searchCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchCategoryActionPerformed(evt);
@@ -562,9 +562,21 @@ public class AdminCusBooking extends javax.swing.JFrame {
                     String carPlate = data[2].trim();
                     String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
                     switch (category) {
-                        case "Booking ID" -> result = data[0].trim();
-                        case "Customer Email" -> result = data[1].trim();
-                        case "Car Model" -> result = carModel;
+                        case "Booking ID":
+                            result = data[0].trim();
+                            break;
+                        case "Customer Email":
+                            result = data[1].trim();
+                            break;
+                        case "Car Model":
+                            result = carDetails[0].trim();
+                            break;
+                        case "Rent Date":
+                            result = data[6].trim();
+                            break;
+                        case "Return Date":
+                            result = data[7].trim();
+                            break;
                     }
                     if (search.equals(result)) {
                         //add row into table
@@ -582,7 +594,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
                 }
             }
             if (!found) {
-                JOptionPane.showMessageDialog(null, "Search not found.", "Alert", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Search not found. Please ensure your search is correct.", "Alert", JOptionPane.WARNING_MESSAGE);
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

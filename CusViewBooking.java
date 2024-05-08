@@ -4,6 +4,7 @@
  */
 package SubangsCarRental;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -59,6 +60,8 @@ public class CusViewBooking extends javax.swing.JFrame {
         numSeatsTF.setEditable(false);
         featureTA.setEditable(false);
         gearboxTF.setEditable(false);
+        ratingTF.setEditable(false);
+        feedbackTA.setEditable(false);
     }
     
     private void getDetail() {
@@ -75,8 +78,13 @@ public class CusViewBooking extends javax.swing.JFrame {
             this.rentDate = bookingInfo[6].trim();
             this.returnDate = bookingInfo[7].trim();
             this.status = bookingInfo[8].trim();
-            this.rating = bookingInfo[9].trim();
-            this.feedback = bookingInfo[10].trim();
+            if (bookingInfo.length >= 10) {
+                this.rating = bookingInfo[9].trim();
+                this.feedback = bookingInfo[10].trim();
+            } else {
+                this.rating = null;
+                this.feedback = null;
+            }
 
             // Retrieve and set car details from carInfoMap
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
@@ -106,8 +114,17 @@ public class CusViewBooking extends javax.swing.JFrame {
         numSeatsTF.setText(Integer.toString(this.seatNum));
         featureTA.setText(this.features);
         gearboxTF.setText(this.gearbox);
-        ratingTF.setText(this.rating);
-        feedbackTA.setText(this.feedback);
+        if (this.rating == null && this.feedback == null) {
+            ratingTF.setText("Not reviewed");
+            ratingTF.setForeground(Color.GRAY);
+            feedbackTA.setText("Not reviewed");
+            feedbackTA.setForeground(Color.GRAY);
+        } else {
+            ratingTF.setText(this.rating);
+            ratingTF.setForeground(Color.BLACK);
+            feedbackTA.setText(this.feedback);
+            feedbackTA.setForeground(Color.BLACK);
+        }        
     }
 
     /**

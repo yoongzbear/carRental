@@ -516,7 +516,7 @@
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Category&quot;, &quot;Booking ID&quot;, &quot;Customer Email&quot;, &quot;Car Model&quot; })" type="code"/>
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Category&quot;, &quot;Booking ID&quot;, &quot;Customer Email&quot;, &quot;Car Model&quot;, &quot;Rent Date&quot;, &quot;Return Date&quot; })" type="code"/>
         </Property>
       </Properties>
       <Events>

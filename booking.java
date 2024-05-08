@@ -7,6 +7,8 @@ package SubangsCarRental;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
 /**
@@ -127,6 +129,7 @@ public class booking {
         }
         return null;  // Return null if no booking is found
     }
+    
        // Method to calculate total fee
     public static double calculateTotalFee(LocalDate useDate, LocalDate returnDate, double pricePerDay) {
         // Calculate the number of days between use date and return date
