@@ -703,7 +703,12 @@ public class BookCar extends javax.swing.JFrame {
 
     private List<Car> availableCarsFiltered;
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
-     currentIndex++; // Increment the current index
+    // Check if other required fields are filled
+    if (useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||Model.getText().trim().isEmpty() || Type.getText().trim().isEmpty() || carColor.getText().trim().isEmpty() || Price.getText().trim().isEmpty() || numPassengers.getSelectedItem() == null) {
+        JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    currentIndex++; // Increment the current index
 
     // Check if the index exceeds the size of available cars
     if (currentIndex >= availableCarsFiltered.size()) {
@@ -718,6 +723,11 @@ public class BookCar extends javax.swing.JFrame {
     }//GEN-LAST:event_NextActionPerformed
 
     private void PreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviousActionPerformed
+    // Check if other required fields are filled
+    if (useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||Model.getText().trim().isEmpty() || Type.getText().trim().isEmpty() || carColor.getText().trim().isEmpty() || Price.getText().trim().isEmpty() || numPassengers.getSelectedItem() == null) {
+        JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
     currentIndex--; // Decrement the current index
 
     // Check if the index becomes less than 0
