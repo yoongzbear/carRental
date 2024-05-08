@@ -573,36 +573,45 @@ public class CusViewBooking extends javax.swing.JFrame {
     }//GEN-LAST:event_ratingTFActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-     int selectedRow = bookingTable.getSelectedRow();
+    int selectedRow = bookingTable.getSelectedRow();
 
     if (selectedRow >= 0) {
         String bookingID = (String) bookingTable.getModel().getValueAt(selectedRow, 0); // Get the booking ID
         String rentDateString = (String) bookingTable.getModel().getValueAt(selectedRow, 3); 
-        LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        LocalDate currentDate = LocalDate.now();
         String bookstatus = (String) bookingTable.getModel().getValueAt(selectedRow, 5); 
 
-        long daysDifference = ChronoUnit.DAYS.between(currentDate, rentDate);
-
-        if (daysDifference < 7) {
-            JOptionPane.showMessageDialog(null, "Unable to update as the rent date is less than 7 days away from the current date", "Alert", JOptionPane.WARNING_MESSAGE);
-        } else {
-            // Check if the booking status is "Approved"
-            if (bookstatus.equals("Approved")) {
-                int choice = JOptionPane.showConfirmDialog(this, "This booking has already been approved. If updated, the booking will be unapproved. Are you sure you want to make the changes?", "Booking Already Approved", JOptionPane.YES_NO_OPTION);
-                if (choice == JOptionPane.NO_OPTION) {
-                    // If the user chooses not to update, return without making any changes
-                    return;
-                }
-            }
-            // Proceed with the update operation by passing booking ID to UpdateBookCar constructor
-            new UpdateBookCar(bookingID).setVisible(true);
-            dispose();
-        }
-            } else {
+        // Update the booking using the BookingUpdater class
+        BookingUpdater bookingUpdater = new BookingUpdater();
+        bookingUpdater.updateBooking(bookingID, rentDateString, bookstatus);
+    } else {
         JOptionPane.showMessageDialog(null, "Please select a row to update booking.", "Alert", JOptionPane.WARNING_MESSAGE);
     }
     }//GEN-LAST:event_updateActionPerformed
+
+     public class BookingUpdater {
+        public void updateBooking(String bookingID, String rentDateString, String bookstatus) {
+            LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            LocalDate currentDate = LocalDate.now();
+            
+            long daysDifference = ChronoUnit.DAYS.between(currentDate, rentDate);
+    
+            if (daysDifference < 7) {
+                JOptionPane.showMessageDialog(null, "Unable to update as the rent date is less than 7 days away from the current date", "Alert", JOptionPane.WARNING_MESSAGE);
+            } else {
+                // Check if the booking status is "Approved"
+                if (bookstatus.equals("Approved")) {
+                    int choice = JOptionPane.showConfirmDialog(null, "This booking has already been approved. If updated, the booking will be unapproved. Are you sure you want to make the changes?", "Booking Already Approved", JOptionPane.YES_NO_OPTION);
+                    if (choice == JOptionPane.NO_OPTION) {
+                        // If the user chooses not to update, return without making any changes
+                        return;
+                    }
+                }
+                // Proceed with the update operation
+                new UpdateBookCar(bookingID).setVisible(true);
+                // Dispose resources or perform other clean-up tasks as needed
+            }
+        }
+    }
     
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
