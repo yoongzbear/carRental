@@ -361,7 +361,7 @@ public class BookCar extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(97, 97, 97)
                 .addComponent(Previous)
-                .addGap(194, 194, 194)
+                .addGap(217, 217, 217)
                 .addComponent(book, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Next)

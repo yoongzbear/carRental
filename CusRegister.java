@@ -271,17 +271,17 @@ private void validateConPass() {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(190, 190, 190)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
                     .addComponent(jLabel1))
-                .addGap(151, 151, 151))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
@@ -291,6 +291,7 @@ private void validateConPass() {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel2.setText("Full Name: ");
 
+        Name.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Name.setForeground(new java.awt.Color(204, 204, 204));
         Name.setText("Enter your full name");
         Name.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -308,8 +309,9 @@ private void validateConPass() {
         jLabel3.setText("Email:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel4.setText("Phone Number:");
+        jLabel4.setText("Phone No:");
 
+        Email.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Email.setForeground(new java.awt.Color(204, 204, 204));
         Email.setText("Enter a valid email address");
         Email.addActionListener(new java.awt.event.ActionListener() {
@@ -318,6 +320,7 @@ private void validateConPass() {
             }
         });
 
+        PhoneNum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         PhoneNum.setForeground(new java.awt.Color(204, 204, 204));
         PhoneNum.setText("XXX-XXXXXXX");
         PhoneNum.addActionListener(new java.awt.event.ActionListener() {
@@ -327,8 +330,9 @@ private void validateConPass() {
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel5.setText("IC number:");
+        jLabel5.setText("IC Number:");
 
+        ICnum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ICnum.setForeground(new java.awt.Color(204, 204, 204));
         ICnum.setText("XXXXXX-XX-XXXX");
         ICnum.addActionListener(new java.awt.event.ActionListener() {
@@ -338,8 +342,9 @@ private void validateConPass() {
         });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel6.setText("Driving lisence num:");
+        jLabel6.setText("Driving License No:");
 
+        DriNum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         DriNum.setForeground(new java.awt.Color(204, 204, 204));
         DriNum.setText("eg. 0110051 U3OVqjEe");
         DriNum.addActionListener(new java.awt.event.ActionListener() {
@@ -354,6 +359,7 @@ private void validateConPass() {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel8.setText("Confirm Password: ");
 
+        Pass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Pass.setForeground(new java.awt.Color(204, 204, 204));
         Pass.setText("At least 6 character including 1 special symbol");
         Pass.addActionListener(new java.awt.event.ActionListener() {
@@ -362,6 +368,7 @@ private void validateConPass() {
             }
         });
 
+        ConPass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ConPass.setForeground(new java.awt.Color(204, 204, 204));
         ConPass.setText("Confirm your password");
         ConPass.addActionListener(new java.awt.event.ActionListener() {
@@ -419,7 +426,7 @@ private void validateConPass() {
                             .addComponent(Email, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Name, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ConPass, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -453,7 +460,7 @@ private void validateConPass() {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(ConPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))

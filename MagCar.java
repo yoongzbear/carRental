@@ -393,6 +393,8 @@ private boolean areAllFieldsFilled() {
             }
         });
 
+        search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
         sunroofFeature5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         sunroofFeature5.setText("Sunroof");
 
@@ -662,7 +664,7 @@ private boolean areAllFieldsFilled() {
 
         // If car ID not found, display an error message
         if (!found) {
-            JOptionPane.showMessageDialog(this, "Car ID not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Car Plate Number not found!", "Error", JOptionPane.ERROR_MESSAGE);
             savaButton.setEnabled(false);
             deleteButton.setEnabled(false);
             editButton.setEnabled(false);

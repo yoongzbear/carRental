@@ -468,7 +468,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
                   <Component id="Previous" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="194" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
                   <Component id="book" min="-2" pref="119" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="Next" min="-2" max="-2" attributes="0"/>
