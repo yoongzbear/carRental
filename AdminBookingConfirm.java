@@ -132,9 +132,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         }
         if (updated) {
             JOptionPane.showMessageDialog(null, "Booking successfully approved!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-            AdminBookingConfirm bookingConfirm = new AdminBookingConfirm();
-            bookingConfirm.setVisible(true);
+            loadTableData(bookingTable);
         }
     }
     /**
@@ -493,7 +491,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
 
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
-
+        model.setRowCount(0);
         //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();   
 

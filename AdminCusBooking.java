@@ -40,7 +40,7 @@ public class AdminCusBooking extends javax.swing.JFrame {
      * Creates new form AdminCusBooking
      */
     public AdminCusBooking() {
-        updateMissingBooking();
+        booking.updateMissingBooking();
         initComponents();
         loadTableData(bookingTable);
         disableTF();
@@ -497,37 +497,6 @@ public class AdminCusBooking extends javax.swing.JFrame {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         searchResult();
     }//GEN-LAST:event_searchButtonActionPerformed
-    
-    public void updateMissingBooking() {
-        //update booking status to missing when customer did not come to pay on the date
-        LocalDate currentDate = LocalDate.now(); //current date
-        //string build to rewrite status
-        StringBuilder updatedContent = new StringBuilder();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                String status = parts[8].trim();
-                if (ChronoUnit.DAYS.between(currentDate, rentDate) <= -1 && (status.equals("Booked")|| status.equals("Approved"))) {
-                    //update the status at this line
-                    String updatedLine = parts[0].trim() + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + "Missing";
-                    updatedContent.append(updatedLine).append("\n");
-                } else {
-                    updatedContent.append(line).append("\n");
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        //write updated content back to file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
-            writer.write(updatedContent.toString());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
     
     //display search result based on category and search
     private void searchResult() {

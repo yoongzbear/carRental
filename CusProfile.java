@@ -181,13 +181,13 @@ public class CusProfile extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     SessionManager.setUser(this.email, this.role, updatedName);
                     disableButton();
+                    disableEditTF();
                     btnEdit.setEnabled(true);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                dispose();
-                new CusProfile().setVisible(true);
+                printInfo();
             }
         }
     }
@@ -414,8 +414,10 @@ public class CusProfile extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        dispose();
-        new CusProfile().setVisible(true);
+        printInfo();
+        disableEditTF();
+        disableButton();
+        btnEdit.setEnabled(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     /**

@@ -5,9 +5,12 @@
 package SubangsCarRental;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
@@ -137,5 +140,36 @@ public class booking {
         // Calculate total fee
         double totalFee = pricePerDay * numberOfDays;
         return totalFee;
+    }
+    
+    public static void updateMissingBooking() {
+        //update booking status to missing when customer did not come to pay on the date
+        LocalDate currentDate = LocalDate.now(); //current date
+        //string build to rewrite status
+        StringBuilder updatedContent = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                String status = parts[8].trim();
+                if (ChronoUnit.DAYS.between(currentDate, rentDate) <= -1 && (status.equals("Booked")|| status.equals("Approved"))) {
+                    //update the status at this line
+                    String updatedLine = parts[0].trim() + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + "Missing";
+                    updatedContent.append(updatedLine).append("\n");
+                } else {
+                    updatedContent.append(line).append("\n");
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        //write updated content back to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
+            writer.write(updatedContent.toString());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

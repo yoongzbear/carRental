@@ -435,7 +435,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             //return car
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
             returnCar(this.index);
-            dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Please select a row to update booking status.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
@@ -523,7 +522,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         }
         if (updated) {
             JOptionPane.showMessageDialog(null, "Car successfully returned!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            new AdminDueReturnCar().setVisible(true);
+            loadTableData(bookingTable);
         }
     }        
     
@@ -572,10 +571,14 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
     }
     
     private void loadTableData(javax.swing.JTable table) {        
-        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();   
+        model.setRowCount(0);
 
         //load all car info into a map
-        Map<String, String[]> carInfoMap = Car.loadCarInfo();           
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();  
+        
+        LocalDate currentDate = LocalDate.now(); //current date
+        date = currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         //read customer booking data and display table
         try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {

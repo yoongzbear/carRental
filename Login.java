@@ -335,7 +335,12 @@ public class Login extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Wrong credentials, please try again.");
         }
-    }      
+    }  
+
+    private void disableButton() {
+        btnLogin.setEnabled(false);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -390,7 +395,4 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField txtPassword;
     // End of variables declaration//GEN-END:variables
 
-    private void disableButton() {
-        btnLogin.setEnabled(false);
-    }
 }

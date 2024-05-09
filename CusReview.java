@@ -62,7 +62,7 @@ public class CusReview extends javax.swing.JFrame {
 
     private void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
-
+        model.setRowCount(0);
         //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();           
 
@@ -193,8 +193,7 @@ public class CusReview extends javax.swing.JFrame {
             }
             if (updated) {
                 JOptionPane.showMessageDialog(null, "Booking review successfully submitted! Thank you for using our service", "Success", JOptionPane.INFORMATION_MESSAGE);
-                new CusReview().setVisible(true);
-                dispose();
+                loadTableData(bookingTable);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Please complete rating and feedback.", "Alert", JOptionPane.WARNING_MESSAGE);
