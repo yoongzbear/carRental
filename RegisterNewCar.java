@@ -136,7 +136,7 @@ public class RegisterNewCar extends javax.swing.JFrame {
         });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel9.setText("CarID:");
+        jLabel9.setText("Car Plat No:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Number of Seats:");

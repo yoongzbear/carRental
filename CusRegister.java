@@ -497,6 +497,10 @@ private void validateConPass() {
         JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
+    if (!password.isEmpty() && password.length() < 6 && !password.matches(".*[!@#$%^&*()-_=+\\\\|\\[{\\]};:'\",<.>/?].*")) {
+        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long and with a special character.","Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
         // Check if passwords match
     if (!password.equals(conPassword)) {
         JOptionPane.showMessageDialog(null, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
