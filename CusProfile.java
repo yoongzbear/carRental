@@ -32,7 +32,6 @@ public class CusProfile extends javax.swing.JFrame {
     
     public CusProfile() {
         initComponents();        
-        //testing purpose
         this.email = SessionManager.getEmail();
         this.name = SessionManager.getName();
         this.role = SessionManager.getRole();                
@@ -49,6 +48,7 @@ public class CusProfile extends javax.swing.JFrame {
         
         // Add action listener to the Edit button
         btnEdit.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 enableEditTF(); // Enable editing components when Edit button is clicked
                 btnSave.setEnabled(true);           
@@ -58,12 +58,14 @@ public class CusProfile extends javax.swing.JFrame {
         });
                
         tfPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 validatePhoneNum();
             }
         });
 
         tfLicense.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 validateDriNum();
             }
@@ -75,7 +77,7 @@ public class CusProfile extends javax.swing.JFrame {
         String phonePattern = "\\d{3}-\\d{7,8}";
         String phone = tfPhone.getText().trim(); // Remove leading and trailing whitespace
         if (!phone.isEmpty() && !phone.matches(phonePattern)) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid phone number in the format XXX-XXXXXXX(X).","Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a valid phone number in the format XXX-XXXXXXX.","Error", JOptionPane.ERROR_MESSAGE);
             tfPhone.requestFocusInWindow();// Prompt user back to the field
         }
     }
@@ -118,30 +120,17 @@ public class CusProfile extends javax.swing.JFrame {
     }
     
     private void getInfo() {
-        //retireve info from account.txt
-        try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length > 4) { 
-                    String fileMail = parts[1].trim();
-                    if (fileMail.equals(email)) { //for testing purpose: if (fileMail.equals(this.email)) {
-                        this.name = parts[0].trim();
-                        this.phone = parts[2].trim();
-                        this.IC = parts[3].trim();
-                        this.license = parts[4].trim();                        
-                        break; 
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            //if file not found
-            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
-        } catch (Exception e) {
-            //unexpected errors
-            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+        String[] cusInfo = Customer.getCusInfo(this.email);
+        if (cusInfo != null) {
+            this.name = cusInfo[0].trim();
+            this.phone = cusInfo[2].trim();
+            this.IC = cusInfo[3].trim();
+            this.license = cusInfo[4].trim();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No customer information found for " + this.email, "Alert", JOptionPane.WARNING_MESSAGE);
         }
-    }
+    }    
     
     private void saveInfo() {
         // Validate input fields
@@ -157,42 +146,48 @@ public class CusProfile extends javax.swing.JFrame {
             //add edited information into string builder
             StringBuilder updatedContent = new StringBuilder();
 
-            try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (line.contains(this.email)) { // Assuming email is unique and used as identifier
-                        String[] parts = line.split(",");
-                        if (parts.length > 4 && parts[1].trim().equals(this.email)) {
-                            // Construct new line with updated info
-                            String newLine = updatedName + "," + parts[1].trim() + "," + updatedPhone + "," + parts[3].trim() + "," + updatedLicense + "," + parts[5].trim();
-                            updatedContent.append(newLine).append("\n");
-                            updated = true;
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure to update your details?");
+            if (confirm == JOptionPane.YES_OPTION) {
+                try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        if (line.contains(this.email)) { // Assuming email is unique and used as identifier
+                            String[] parts = line.split(",");
+                            if (parts.length > 4 && parts[1].trim().equals(this.email)) {
+                                // Construct new line with updated info
+                                String newLine = updatedName + "," + parts[1].trim() + "," + updatedPhone + "," + parts[3].trim() + "," + updatedLicense + "," + parts[5].trim();
+                                updatedContent.append(newLine).append("\n");
+                                updated = true;
+                            } else {
+                                updatedContent.append(line).append("\n");
+                            }
                         } else {
                             updatedContent.append(line).append("\n");
                         }
-                    } else {
-                        updatedContent.append(line).append("\n");
                     }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage());
-            }
 
-            if (!updated) {
-                // Handle case where no line was updated (e.g., user not found)
-                JOptionPane.showMessageDialog(null, "No user found to update");
-                return;
-            }
+                if (!updated) {
+                    // Handle case where no line was updated (e.g., user not found)
+                    JOptionPane.showMessageDialog(null, "No user found to update", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            // Write updated content back to file
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("account.txt"))) {
-                writer.write(updatedContent.toString());
-                JOptionPane.showMessageDialog(null, "Profile updated successfully!");
-                SessionManager.setUser(this.email, this.role, updatedName);
-                disableButton();
-                btnEdit.setEnabled(true);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage());
+                // Write updated content back to file
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("account.txt"))) {
+                    writer.write(updatedContent.toString());
+                    JOptionPane.showMessageDialog(null, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    SessionManager.setUser(this.email, this.role, updatedName);
+                    disableButton();
+                    disableEditTF();
+                    btnEdit.setEnabled(true);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                printInfo();
             }
         }
     }
@@ -223,14 +218,16 @@ public class CusProfile extends javax.swing.JFrame {
         tfIC = new javax.swing.JTextField();
         tfLicense = new javax.swing.JTextField();
         btnCancel = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("Customer Profile");
 
+        menuButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         menuButton.setText("Menu");
         menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,27 +239,24 @@ public class CusProfile extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(menuButton)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(299, 299, 299)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(299, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(menuButton)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(238, 238, 238))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(menuButton)
-                .addContainerGap(71, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(34, 34, 34)
-                    .addComponent(jLabel1)
-                    .addContainerGap(35, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 255));
@@ -282,6 +276,7 @@ public class CusProfile extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel6.setText("Driver's License Num:");
 
+        btnEdit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEdit.setText("Edit");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,6 +284,7 @@ public class CusProfile extends javax.swing.JFrame {
             }
         });
 
+        btnSave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,12 +298,16 @@ public class CusProfile extends javax.swing.JFrame {
             }
         });
 
+        btnCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancel.setText("Cancel Edit");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
+
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jLabel7.setText("You are not allowed to update your email.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -316,27 +316,30 @@ public class CusProfile extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfLicense, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfIC, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfName, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(231, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEdit)
-                .addGap(18, 18, 18)
-                .addComponent(btnSave)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancel)
-                .addGap(17, 17, 17))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEdit)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSave)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancel)
+                        .addGap(17, 17, 17))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfLicense, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfIC, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfName, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(231, Short.MAX_VALUE))))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tfEmail, tfIC, tfLicense, tfName, tfPhone});
@@ -368,7 +371,8 @@ public class CusProfile extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEdit)
                     .addComponent(btnSave)
-                    .addComponent(btnCancel))
+                    .addComponent(btnCancel)
+                    .addComponent(jLabel7))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -410,6 +414,7 @@ public class CusProfile extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        printInfo();
         disableEditTF();
         disableButton();
         btnEdit.setEnabled(true);
@@ -460,6 +465,7 @@ public class CusProfile extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton menuButton;

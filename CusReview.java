@@ -4,15 +4,11 @@
  */
 package SubangsCarRental;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,9 +17,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author User
  */
-public class CusViewBooking extends javax.swing.JFrame {
-    private String email = SessionManager.getEmail();
+public class CusReview extends javax.swing.JFrame {
+
     private String index; //booking id
+    private final String email;
     private String carID;
     private int seatNum;
     private double price;
@@ -36,15 +33,14 @@ public class CusViewBooking extends javax.swing.JFrame {
     private String features;
     private String carColor;
     private String gearbox;
-    private String rating;
-    private String feedback;
     /**
-     * Creates new form CusViewBooking
+     * Creates new form CusReview
      */
-    public CusViewBooking() {
+    public CusReview() {
         initComponents();
-        loadTableData(bookingTable);
         disableTF();
+        this.email = SessionManager.getEmail();
+        loadTableData(bookingTable);
     }
     
     private void disableTF() {
@@ -60,8 +56,45 @@ public class CusViewBooking extends javax.swing.JFrame {
         numSeatsTF.setEditable(false);
         featureTA.setEditable(false);
         gearboxTF.setEditable(false);
-        ratingTF.setEditable(false);
+        ratingBox.setEnabled(false);
         feedbackTA.setEditable(false);
+    }
+
+    private void loadTableData(javax.swing.JTable table) {        
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
+        model.setRowCount(0);
+        //load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();           
+
+        //read customer booking data and display table
+        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length == 9) {
+                    String status = data[8].trim();
+                    //booking is returned to add review 
+                    if (status.equals("Returned") && data[1].equals(this.email)) {
+                        String carPlate = data[2].trim();
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
+                        //add row into table
+                        model.addRow(new Object[]{                            
+                            data[0],        //booking ID 
+                            carDetails[0],         //car model
+                            Double.valueOf(data[5]), //total fee
+                            data[6],         //rent date
+                            data[7],         //return date
+                    });
+                    }
+                }
+            } 
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        //set the model to the table
+        table.setModel(model);
+        table.revalidate();  //refresh the table to display new data             
     }
     
     private void getDetail() {
@@ -72,21 +105,13 @@ public class CusViewBooking extends javax.swing.JFrame {
         String[] bookingInfo = booking.getBookingInfo(this.index);
         
         if (bookingInfo != null) {
-            this.email = bookingInfo[1].trim();
             this.carID = bookingInfo[2].trim();
             this.totalRent = Double.parseDouble(bookingInfo[5].trim());
             this.rentDate = bookingInfo[6].trim();
             this.returnDate = bookingInfo[7].trim();
             this.status = bookingInfo[8].trim();
-            if (bookingInfo.length >= 10) {
-                this.rating = bookingInfo[9].trim();
-                this.feedback = bookingInfo[10].trim();
-            } else {
-                this.rating = null;
-                this.feedback = null;
-            }
 
-            //retrieve and set car details from carInfoMap
+            //retrieve and set car details
             String[] carDetails = Car.getCarDetails(this.carID, carInfoMap);
             this.carModel = carDetails[0];
             this.carType = carDetails[1];
@@ -114,19 +139,66 @@ public class CusViewBooking extends javax.swing.JFrame {
         numSeatsTF.setText(Integer.toString(this.seatNum));
         featureTA.setText(this.features);
         gearboxTF.setText(this.gearbox);
-        if (this.rating == null && this.feedback == null) {
-            ratingTF.setText("Not reviewed");
-            ratingTF.setForeground(Color.GRAY);
-            feedbackTA.setText("Not reviewed");
-            feedbackTA.setForeground(Color.GRAY);
-        } else {
-            ratingTF.setText(this.rating);
-            ratingTF.setForeground(Color.BLACK);
-            feedbackTA.setText(this.feedback);
-            feedbackTA.setForeground(Color.BLACK);
-        }        
-    }
+        ratingBox.setEnabled(true);
+        feedbackTA.setEditable(true);
+    }        
 
+    private void submitReview(String index) {
+        //check if user enters rating and feedback - if one is empty, display message
+        String ratingSelected = (String) ratingBox.getSelectedItem();
+        String feedback = feedbackTA.getText();
+        boolean updated = false;
+        StringBuilder updatedContent = new StringBuilder();
+        if (!ratingSelected.equals("Select Rating") && !feedback.isEmpty()) { 
+            int rating = 0;
+            switch (ratingSelected)  {
+                case "1⭐":
+                    rating = 1;
+                    break;
+                case "2⭐":
+                    rating = 2;
+                    break;
+                case "3⭐":
+                    rating = 3;
+                    break;
+                case "4⭐":
+                    rating = 4;
+                    break;
+                case "5⭐":
+                    rating = 5;
+                    break;
+            }
+            try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    String bookingID = parts[0].trim();
+                    if (bookingID.equals(index)) {
+                        //update the review at this line
+                        String updatedLine = bookingID + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + parts[8].trim() + "," + rating + "," + feedback;
+                        updatedContent.append(updatedLine).append("\n");
+                        updated = true;
+                    } else {
+                        updatedContent.append(line).append("\n");
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            // Write updated content back to file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
+                writer.write(updatedContent.toString());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            if (updated) {
+                JOptionPane.showMessageDialog(null, "Booking review successfully submitted! Thank you for using our service", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadTableData(bookingTable);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please complete rating and feedback.", "Alert", JOptionPane.WARNING_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,14 +211,17 @@ public class CusViewBooking extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         menuButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        bookingTable = new javax.swing.JTable();
-        viewButton = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        cancelButton = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        reviewButton = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         plateTF = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         carModelTF = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        featureTA = new javax.swing.JTextArea();
         typeTF = new javax.swing.JTextField();
         priceTF = new javax.swing.JTextField();
         rentDateTF = new javax.swing.JTextField();
@@ -161,29 +236,25 @@ public class CusViewBooking extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        bookingTable = new javax.swing.JTable();
         gearboxTF = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        featureTA = new javax.swing.JTextArea();
-        ratingTF = new javax.swing.JTextField();
+        viewButton = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        ratingBox = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         feedbackTA = new javax.swing.JTextArea();
-        update = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
-        jLabel1.setText("Customer Bookings");
+        jLabel1.setText("Review Booking");
 
         menuButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         menuButton.setText("Menu");
@@ -205,7 +276,7 @@ public class CusViewBooking extends javax.swing.JFrame {
                         .addGap(28, 28, 28))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(186, 186, 186))))
+                        .addGap(212, 212, 212))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,59 +288,35 @@ public class CusViewBooking extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        bookingTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel14.setText("Price per day:");
 
-            },
-            new String [] {
-                "Booking ID", "Car Model", "Total Price (RM)", "Rent Date", "Return Date", "Status"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; //all cells non-editable
-            }
-        });
-        jScrollPane1.setViewportView(bookingTable);
-        if (bookingTable.getColumnModel().getColumnCount() > 0) {
-            bookingTable.getColumnModel().getColumn(0).setResizable(false);
-            bookingTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            bookingTable.getColumnModel().getColumn(1).setPreferredWidth(10);
-            bookingTable.getColumnModel().getColumn(2).setPreferredWidth(10);
-            bookingTable.getColumnModel().getColumn(3).setPreferredWidth(1);
-            bookingTable.getColumnModel().getColumn(4).setResizable(false);
-            bookingTable.getColumnModel().getColumn(4).setPreferredWidth(5);
-            bookingTable.getColumnModel().getColumn(5).setResizable(false);
-            bookingTable.getColumnModel().getColumn(5).setPreferredWidth(7);
-        }
-
-        viewButton.setText("View Detail");
-        viewButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewButtonActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel8.setText("Total Rental Fee:");
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel5.setText("Car Type:");
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel9.setText("Return Date:");
 
-        cancelButton.setText("Cancel Booking");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+        jLabel15.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel15.setText("Features:");
+
+        reviewButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        reviewButton.setText("Submit Review");
+        reviewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
+                reviewButtonActionPerformed(evt);
             }
         });
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel6.setText("Rent Date:");
+
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel7.setText("Number of Seats:");
+
+        featureTA.setColumns(20);
+        featureTA.setRows(5);
+        jScrollPane2.setViewportView(featureTA);
 
         rentDateTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,39 +354,56 @@ public class CusViewBooking extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel13.setText("Gearbox:");
 
+        bookingTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        bookingTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Booking ID", "Car Model", "Total Price (RM)", "Rent Date", "Return Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; //all cells non-editable
+            }
+        });
+        jScrollPane1.setViewportView(bookingTable);
+
         jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel4.setText("Car Plate:");
 
-        jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel14.setText("Price per day:");
-
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel5.setText("Car Type:");
-
-        jLabel15.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel15.setText("Features:");
-
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel6.setText("Rent Date:");
-
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel7.setText("Number of Seats:");
-
-        featureTA.setColumns(20);
-        featureTA.setRows(5);
-        jScrollPane2.setViewportView(featureTA);
-
-        ratingTF.addActionListener(new java.awt.event.ActionListener() {
+        viewButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        viewButton.setText("Review");
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ratingTFActionPerformed(evt);
+                viewButtonActionPerformed(evt);
             }
         });
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel8.setText("Total Rental Fee:");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setText("Review");
 
         jLabel17.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel17.setText("Rating:");
+
+        ratingBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Rating", "1⭐", "2⭐", "3⭐", "4⭐", "5⭐" }));
+        ratingBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ratingBoxActionPerformed(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel19.setText("Feedback:");
@@ -348,32 +412,21 @@ public class CusViewBooking extends javax.swing.JFrame {
         feedbackTA.setRows(5);
         jScrollPane3.setViewportView(feedbackTA);
 
-        update.setText("Update");
-        update.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(viewButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(update))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
+                        .addComponent(viewButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -389,11 +442,7 @@ public class CusViewBooking extends javax.swing.JFrame {
                                                 .addComponent(rentalFeeTF, javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(returnDateTF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(rentDateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(cancelButton))
-                                .addGap(101, 101, 101))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(reviewButton)
                                     .addComponent(jLabel16)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,55 +450,53 @@ public class CusViewBooking extends javax.swing.JFrame {
                                             .addComponent(jLabel17))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ratingTF, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(18, 18, 18)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addGroup(layout.createSequentialGroup()
+                                            .addComponent(ratingBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jLabel13)
-                                            .addComponent(jLabel14)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jLabel2)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addGap(1, 1, 1)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel4)
-                                                    .addComponent(jLabel5))))
-                                        .addGap(48, 48, 48))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(gearboxTF)
-                                    .addComponent(priceTF)
-                                    .addComponent(plateTF)
-                                    .addComponent(carModelTF)
-                                    .addComponent(typeTF)
-                                    .addComponent(numSeatsTF)
-                                    .addComponent(colorTF)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                                                    .addComponent(jLabel12)
+                                                    .addComponent(jLabel13)
+                                                    .addComponent(jLabel14)
+                                                    .addComponent(jLabel15)
+                                                    .addComponent(jLabel2)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(1, 1, 1)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(jLabel4)
+                                                            .addComponent(jLabel5))))
+                                                .addGap(48, 48, 48))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addGap(18, 18, 18)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(gearboxTF)
+                                            .addComponent(priceTF)
+                                            .addComponent(plateTF)
+                                            .addComponent(carModelTF)
+                                            .addComponent(typeTF)
+                                            .addComponent(numSeatsTF)
+                                            .addComponent(colorTF)
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addContainerGap(24, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(viewButton)
-                    .addComponent(update))
+                .addComponent(viewButton)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(13, 13, 13)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -481,9 +528,8 @@ public class CusViewBooking extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(22, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -501,57 +547,40 @@ public class CusViewBooking extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
                             .addComponent(statusTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(20, 20, 20)
                         .addComponent(jLabel16)
                         .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(ratingBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel19)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(ratingTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                        .addComponent(cancelButton)
-                        .addGap(16, 16, 16))))
+                            .addComponent(jLabel19)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(reviewButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
-        //get row index to check if row is selected
-        int selectedRow = bookingTable.getSelectedRow();
-        
-        if (selectedRow >= 0) {            
-            //view booking detail   
-                this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-                printDetail();
-        } else {
-            JOptionPane.showMessageDialog(null, "Please select a row to view details.", "Alert", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_viewButtonActionPerformed
 
     private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
         new CusMenu().setVisible(true);
         dispose();
     }//GEN-LAST:event_menuButtonActionPerformed
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+    private void reviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewButtonActionPerformed
         int selectedRow = bookingTable.getSelectedRow();
-        
-        if (selectedRow >= 0) {            
-            //call view booking detail   
-            this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-            int confirm = JOptionPane.showConfirmDialog(null,"Are you sure to cancel the booking?");  
-            if (confirm == JOptionPane.YES_OPTION) {
-                deleteBooking(this.index);                    
-            }
+
+        if (selectedRow >= 0) {
+            //review booking
+            this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);            
+            submitReview(this.index);            
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a row to cancel booking.", "Alert", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please select a row to review booking.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_cancelButtonActionPerformed
+    }//GEN-LAST:event_reviewButtonActionPerformed
 
     private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
         // TODO add your handling code here:
@@ -565,140 +594,24 @@ public class CusViewBooking extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_statusTFActionPerformed
 
-    private void ratingTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ratingTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ratingTFActionPerformed
+    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
+        //get row index to check if row is selected
+        int selectedRow = bookingTable.getSelectedRow();
 
-    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-    int selectedRow = bookingTable.getSelectedRow();
+        if (selectedRow >= 0) {
+            //view booking detail
+            this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
+            printDetail();
 
-    if (selectedRow >= 0) {
-        String bookingID = (String) bookingTable.getModel().getValueAt(selectedRow, 0); // Get the booking ID
-        String rentDateString = (String) bookingTable.getModel().getValueAt(selectedRow, 3); 
-        String bookstatus = (String) bookingTable.getModel().getValueAt(selectedRow, 5); 
-
-       
-         // Update the booking using the updatedBooking method
-        updateBooking(bookingID, rentDateString, bookstatus);
-    } else {
-        JOptionPane.showMessageDialog(null, "Please select a row to update booking.", "Alert", JOptionPane.WARNING_MESSAGE);
-    }
-    }//GEN-LAST:event_updateActionPerformed
-    
-    
-    public void updateBooking(String bookingID, String rentDateString, String bookstatus) {
-        LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        LocalDate currentDate = LocalDate.now();
-            
-        long daysDifference = ChronoUnit.DAYS.between(currentDate, rentDate);
-    
-        if (daysDifference < 7) {
-            JOptionPane.showMessageDialog(null, "Unable to update as the rent date is less than 7 days away from the current date", "Alert", JOptionPane.WARNING_MESSAGE);
         } else {
-            // Check if the booking status is "Approved"
-            if (bookstatus.equals("Approved")) {
-                int choice = JOptionPane.showConfirmDialog(null, "This booking has already been approved. If updated, the booking will be unapproved. Are you sure you want to make the changes?", "Booking Already Approved", JOptionPane.YES_NO_OPTION);
-                if (choice == JOptionPane.NO_OPTION) {
-                    // If the user chooses not to update, return without making any changes
-                    return;
-                }
-            }
-            // Proceed with the update operation
-            new UpdateBookCar(bookingID).setVisible(true);
-            dispose();
+            JOptionPane.showMessageDialog(null, "Please select a row to view details.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
-    }
-    
-    
-    public void loadTableData(javax.swing.JTable table) {        
-        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
+    }//GEN-LAST:event_viewButtonActionPerformed
 
-        //load all car info into a map
-        Map<String, String[]> carInfoMap = Car.loadCarInfo();
+    private void ratingBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ratingBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ratingBoxActionPerformed
 
-        //read customer booking data and display table
-        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 8) {
-                    if (data[1].equals(this.email)) {
-                        String carPlate = data[2].trim();
-                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
-                        //add row into table
-                        model.addRow(new Object[]{                            
-                            data[0],        //booking ID 
-                            carDetails[0],         //car model
-                            Double.valueOf(data[5]), //total price
-                            data[6],         //remt date
-                            data[7],         //return date
-                            data[8]          //status
-                    });
-                    }
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        //set the model to the table
-        table.setModel(model);
-        table.revalidate();  //refresh the table to display new data             
-    }
-    
-    private void deleteBooking(String index) {
-        boolean deleted = false;
-        LocalDate currentDate = LocalDate.now(); //current date
-        //delete when rent date is 7 days away from current date
-        StringBuilder updatedContent = new StringBuilder();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                String bookingID = parts[0].trim();
-                if (bookingID.equals(this.index)) {
-                    LocalDate rentDate = LocalDate.parse(parts[6].trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                    String status = parts[8].trim();
-                    //can cancel booking when it is currently more than 7 days from the rent date and the status is booked
-                    if (ChronoUnit.DAYS.between(currentDate, rentDate) >= 7 && status.equals("Booked")) {
-                        String deletedLine = this.index + ",CANCELED";
-                        updatedContent.append(deletedLine).append("\n");
-                        deleted = true;
-                    } else if (status.equals("Approved")) {
-                        JOptionPane.showMessageDialog(null, "Booking cannot be canceled as it has been approved", "Alert", JOptionPane.WARNING_MESSAGE);
-                        updatedContent.append(line).append("\n");
-                    } else if (status.equals("Paid")) {
-                        JOptionPane.showMessageDialog(null, "You are not allowed to cancel paid bookings", "Alert", JOptionPane.WARNING_MESSAGE);
-                        updatedContent.append(line).append("\n");
-                    } else if (ChronoUnit.DAYS.between(currentDate, rentDate) < 0) {
-                        JOptionPane.showMessageDialog(null, "You are not allowed to cancel past bookings", "Alert", JOptionPane.WARNING_MESSAGE);
-                        updatedContent.append(line).append("\n");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Booking cannot be canceled as the rent date is less than 7 days from today", "Alert", JOptionPane.WARNING_MESSAGE);
-                        updatedContent.append(line).append("\n");
-                    }
-                } else {
-                    updatedContent.append(line).append("\n");
-                }                    
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-            
-        //write updated content back to file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
-            writer.write(updatedContent.toString());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        if (deleted) {
-            JOptionPane.showMessageDialog(null, "Booking successfully canceled!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-            CusViewBooking viewBooking = new CusViewBooking();
-            viewBooking.setVisible(true);
-        }
-    }
     /**
      * @param args the command line arguments
      */
@@ -716,27 +629,26 @@ public class CusViewBooking extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CusReview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CusReview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CusReview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CusViewBooking.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CusReview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CusViewBooking().setVisible(true);
+                new CusReview().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable bookingTable;
-    private javax.swing.JButton cancelButton;
     private javax.swing.JTextField carModelTF;
     private javax.swing.JTextField colorTF;
     private javax.swing.JTextArea featureTA;
@@ -768,13 +680,13 @@ public class CusViewBooking extends javax.swing.JFrame {
     private javax.swing.JTextField numSeatsTF;
     private javax.swing.JTextField plateTF;
     private javax.swing.JTextField priceTF;
-    private javax.swing.JTextField ratingTF;
+    private javax.swing.JComboBox<String> ratingBox;
     private javax.swing.JTextField rentDateTF;
     private javax.swing.JTextField rentalFeeTF;
     private javax.swing.JTextField returnDateTF;
+    private javax.swing.JButton reviewButton;
     private javax.swing.JTextField statusTF;
     private javax.swing.JTextField typeTF;
-    private javax.swing.JButton update;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
 }
