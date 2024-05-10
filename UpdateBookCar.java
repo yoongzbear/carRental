@@ -204,31 +204,16 @@ public class UpdateBookCar extends javax.swing.JFrame {
         jLabel7.setText("Features:");
 
         Model.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        Model.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ModelActionPerformed(evt);
-            }
-        });
 
         Type.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
 
         NumSeats.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        NumSeats.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NumSeatsActionPerformed(evt);
-            }
-        });
 
         Gear.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
 
         carColor.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
 
         Price.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        Price.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PriceActionPerformed(evt);
-            }
-        });
 
         Features.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
 
@@ -285,22 +270,12 @@ public class UpdateBookCar extends javax.swing.JFrame {
         returnDate.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         returnDate.setForeground(new java.awt.Color(204, 204, 204));
         returnDate.setText("DD/MM/YYYY");
-        returnDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnDateActionPerformed(evt);
-            }
-        });
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setText("Return Date:");
 
         numPassengers.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         numPassengers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" }));
-        numPassengers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                numPassengersActionPerformed(evt);
-            }
-        });
 
         search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         search.setText("Search");
@@ -352,11 +327,6 @@ public class UpdateBookCar extends javax.swing.JFrame {
         jLabel12.setText("Total fee:");
 
         totalfee.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        totalfee.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                totalfeeActionPerformed(evt);
-            }
-        });
 
         jPanel3.setBackground(new java.awt.Color(51, 102, 255));
 
@@ -487,26 +457,6 @@ public class UpdateBookCar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ModelActionPerformed
-
-    private void NumSeatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumSeatsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NumSeatsActionPerformed
-
-    private void PriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PriceActionPerformed
-
-    private void returnDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_returnDateActionPerformed
-
-    private void numPassengersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numPassengersActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_numPassengersActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
     // Check if use date is filled
@@ -738,36 +688,34 @@ public class UpdateBookCar extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
+
     currentIndex++; // Increment the current index
 
     // Check if the index exceeds the size of available cars
     if (currentIndex >= availableCarsFiltered.size()) {
-        currentIndex = 0; // Wrap around to the beginning if it does
+        currentIndex = availableCarsFiltered.size() - 1; // Set to the last index
         JOptionPane.showMessageDialog(this, "This is the last available car", "Information", JOptionPane.INFORMATION_MESSAGE);
-            return;
+        return;
     }
 
     // Display the car information at the updated index
     displayAvailableCars(availableCarsFiltered, currentIndex);
-
     }//GEN-LAST:event_NextActionPerformed
 
     private void PreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviousActionPerformed
-    // Check if other required fields are filled
+// Check if other required fields are filled
     if (useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||Model.getText().trim().isEmpty() || Type.getText().trim().isEmpty() || carColor.getText().trim().isEmpty() || Price.getText().trim().isEmpty() || numPassengers.getSelectedItem() == null) {
         JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
+
     currentIndex--; // Decrement the current index
 
     // Check if the index becomes less than 0
     if (currentIndex < 0) {
-        // Wrap around to the end of the list
-        if (availableCarsFiltered != null && !availableCarsFiltered.isEmpty()) {
-            currentIndex = availableCarsFiltered.size() - 1;
-        } else {
-            currentIndex = 0; // Set to 0 if the list is empty or null
-        }
+        currentIndex = 0; // Set to the first index
+        JOptionPane.showMessageDialog(this, "This is the first available car", "Information", JOptionPane.INFORMATION_MESSAGE);
+        return;
     }
 
     // Display the car information at the updated index
@@ -899,10 +847,6 @@ public class UpdateBookCar extends javax.swing.JFrame {
         ViewBook.setVisible(true);
         dispose(); 
     }//GEN-LAST:event_backActionPerformed
-
-    private void totalfeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalfeeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalfeeActionPerformed
 
     /**
      * @param args the command line arguments
