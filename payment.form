@@ -402,9 +402,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="rentDateTF">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rentDateTFActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel16">
       <Properties>
@@ -415,14 +412,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="returnDateTF">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="returnDateTFActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="emailTF">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailTFActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>

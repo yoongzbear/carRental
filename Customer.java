@@ -34,6 +34,9 @@ public class Customer extends User {
     //construct overloading
     public Customer(String email) {
         super(email, "", "","");
+        this.phoneNumber = null;
+        this.icNumber = null;
+        this.driNumber = null;
     }
 
     // Method to create an account for the customer

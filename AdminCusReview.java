@@ -311,6 +311,7 @@ public class AdminCusReview extends javax.swing.JFrame {
                 "Booking ID", "Customer  Email", "Car Model", "Total Price (RM)", "Rent Date", "Return Date", "Rating"
             }
         ));
+        bookingTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(bookingTable);
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -346,18 +347,6 @@ public class AdminCusReview extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel19.setText("Feedback:");
 
-        rentDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentDateTFActionPerformed(evt);
-            }
-        });
-
-        returnDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnDateTFActionPerformed(evt);
-            }
-        });
-
         jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel14.setText("Price per day:");
 
@@ -381,11 +370,6 @@ public class AdminCusReview extends javax.swing.JFrame {
         jLabel18.setText("Sort by:");
 
         sortBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort Rating Order", "Highest to Lowest", "Lowest to Highest" }));
-        sortBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sortBoxActionPerformed(evt);
-            }
-        });
 
         sortButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         sortButton.setText("Sort");
@@ -395,20 +379,8 @@ public class AdminCusReview extends javax.swing.JFrame {
             }
         });
 
-        emailTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailTFActionPerformed(evt);
-            }
-        });
-
         jLabel20.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel20.setText("Customer Email:");
-
-        ratingTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ratingTFActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -600,18 +572,6 @@ public class AdminCusReview extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_viewButtonActionPerformed
 
-    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentDateTFActionPerformed
-
-    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_returnDateTFActionPerformed
-
-    private void sortBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sortBoxActionPerformed
-
     private void sortButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortButtonActionPerformed
         //check if order is selected
         String sortSelected = (String) sortBox.getSelectedItem();
@@ -622,14 +582,6 @@ public class AdminCusReview extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select an order to sort.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_sortButtonActionPerformed
-
-    private void emailTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailTFActionPerformed
-
-    private void ratingTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ratingTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ratingTFActionPerformed
 
     /**
      * @param args the command line arguments

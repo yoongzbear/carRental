@@ -283,26 +283,8 @@ public class payment extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel9.setText("Return Date:");
 
-        rentDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentDateTFActionPerformed(evt);
-            }
-        });
-
         jLabel16.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel16.setText("Customer Email:");
-
-        returnDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnDateTFActionPerformed(evt);
-            }
-        });
-
-        emailTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailTFActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel6.setText("Rent Date:");
@@ -491,18 +473,6 @@ public class payment extends javax.swing.JFrame {
         calculateBalance();
     }//GEN-LAST:event_calculateButtonActionPerformed
 
-    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentDateTFActionPerformed
-
-    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_returnDateTFActionPerformed
-
-    private void emailTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailTFActionPerformed
-
     private void receiptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiptButtonActionPerformed
         //show receipt, update booking status to paid
         updateStatus();
@@ -514,8 +484,7 @@ public class payment extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
-     */
-    
+     */    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField balanceTF;

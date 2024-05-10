@@ -175,6 +175,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
                 "Booking ID", "Customer Email", "Car Model", "Total Fee (RM)", "Rent Date", "Return Date"
             }
         ));
+        bookingTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(bookingTable);
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -183,29 +184,11 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel8.setText("Total Rental Fee:");
 
-        rentDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentDateTFActionPerformed(evt);
-            }
-        });
-
         jLabel16.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel16.setText("Customer Email:");
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel9.setText("Return Date:");
-
-        returnDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnDateTFActionPerformed(evt);
-            }
-        });
-
-        emailTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailTFActionPerformed(evt);
-            }
-        });
 
         featureTA.setColumns(20);
         featureTA.setRows(5);
@@ -251,18 +234,8 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
 
         searchCategory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         searchCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Booking ID", "Customer Email" }));
-        searchCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchCategoryActionPerformed(evt);
-            }
-        });
 
         searchTF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        searchTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchTFActionPerformed(evt);
-            }
-        });
 
         searchButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         searchButton.setText("Search");
@@ -440,18 +413,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_returnButtonActionPerformed
 
-    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentDateTFActionPerformed
-
-    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_returnDateTFActionPerformed
-
-    private void emailTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailTFActionPerformed
-
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         int selectedRow = bookingTable.getSelectedRow();
 
@@ -463,14 +424,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select a row to view booking detail.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonActionPerformed
-
-    private void searchCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCategoryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchCategoryActionPerformed
-
-    private void searchTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchTFActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         //search 

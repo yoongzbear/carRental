@@ -227,6 +227,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
                 "Booking ID", "Customer Email", "Car Model", "Total Fee (RM)", "Rent Date", "Return Date"
             }
         ));
+        bookingTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(bookingTable);
         if (bookingTable.getColumnModel().getColumnCount() > 0) {
             bookingTable.getColumnModel().getColumn(0).setResizable(false);
@@ -277,26 +278,8 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             }
         });
 
-        rentDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentDateTFActionPerformed(evt);
-            }
-        });
-
         jLabel16.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel16.setText("Customer Email:");
-
-        returnDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnDateTFActionPerformed(evt);
-            }
-        });
-
-        emailTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailTFActionPerformed(evt);
-            }
-        });
 
         featureTA.setColumns(20);
         featureTA.setRows(5);
@@ -476,18 +459,6 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select to approve booking.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_approveButtonActionPerformed
-
-    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentDateTFActionPerformed
-
-    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_returnDateTFActionPerformed
-
-    private void emailTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailTFActionPerformed
 
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        

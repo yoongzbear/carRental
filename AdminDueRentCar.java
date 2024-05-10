@@ -103,6 +103,7 @@ public class AdminDueRentCar extends javax.swing.JFrame {
                 "Booking ID", "Customer Email", "Car Model", "Total Fee (RM)", "Rent Date", "Return Date"
             }
         ));
+        bookingTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(bookingTable);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -120,18 +121,8 @@ public class AdminDueRentCar extends javax.swing.JFrame {
 
         searchCategory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         searchCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Booking ID", "Customer Email" }));
-        searchCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchCategoryActionPerformed(evt);
-            }
-        });
 
         searchTF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        searchTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchTFActionPerformed(evt);
-            }
-        });
 
         searchButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         searchButton.setText("Search");
@@ -205,14 +196,6 @@ public class AdminDueRentCar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select a row to proceed for payment", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_paymentButtonActionPerformed
-
-    private void searchCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCategoryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchCategoryActionPerformed
-
-    private void searchTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchTFActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         //search method

@@ -135,17 +135,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Enter your password"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPasswordActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtEmail">
       <Properties>
         <Property name="text" type="java.lang.String" value="Enter your email"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEmailActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnLogin">
       <Properties>
@@ -195,9 +189,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Customer"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCusActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="btnAdmin">
       <Properties>
