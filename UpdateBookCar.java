@@ -29,14 +29,17 @@ import java.util.Set;
  * @author User
  */
 
-public class BookCar extends javax.swing.JFrame {
+public class UpdateBookCar extends javax.swing.JFrame {
+    private String bookingID;
     private final String email;
     /**
      * Creates new form BookCar
+     * @param bookingID
      */
-    public BookCar() {
+    public UpdateBookCar(String bookingID) {
         initComponents();
             this.email = SessionManager.getEmail();
+            this.bookingID = bookingID; // Store the booking ID in a member variable
             // Disable text fields initially
             Model.setEditable(false);
             Type.setEditable(false);
@@ -44,11 +47,12 @@ public class BookCar extends javax.swing.JFrame {
             Gear.setEditable(false);
             carColor.setEditable(false);
             Price.setEditable(false);
-            Features.setEditable(false);    
-       addPlaceholderListeners();
-       populatePassengerComboBox();
+            Features.setEditable(false);
+            populatePassengerComboBox();
+            addPlaceholderListeners();
+            setDataFromFile();
     }
- 
+
     private void populatePassengerComboBox() {
         Set<Integer> passengerSet = new HashSet<>(); // Use a set to store unique passenger numbers
 
@@ -75,7 +79,8 @@ public class BookCar extends javax.swing.JFrame {
         for (Integer numSeats : passengerArray) {
             numPassengers.addItem(numSeats.toString());
         }
-    }    
+    }  
+    
     // Add focus listeners for placeholder functionality
     private void addPlaceholderListeners() {
         useDate.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -107,6 +112,33 @@ public class BookCar extends javax.swing.JFrame {
             }
         });
     }
+    
+    // Method to read data from file and set text fields
+    private void setDataFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 9 && data[0].trim().equals(this.bookingID)) {
+                    // Extract required details
+                    String numSeats = data[4].trim();
+                    String usedDate = data[6].trim();
+                    String returndate = data[7].trim();
+                    
+                    // Set values to text fields
+                    numPassengers.setSelectedItem(numSeats);
+                    useDate.setText(usedDate);
+                    returnDate.setText(returndate);
+                    useDate.setForeground(Color.BLACK);
+                    returnDate.setForeground(Color.BLACK);  
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -144,9 +176,9 @@ public class BookCar extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         totalfee = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        Previous = new javax.swing.JButton();
-        book = new javax.swing.JButton();
         Next = new javax.swing.JButton();
+        update = new javax.swing.JButton();
+        Previous = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -191,10 +223,10 @@ public class BookCar extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(51, 102, 255));
 
         jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
-        jLabel11.setText("Book Car");
+        jLabel11.setText("Update Booking");
 
         back.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        back.setText("Menu");
+        back.setText("Back");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backActionPerformed(evt);
@@ -208,18 +240,21 @@ public class BookCar extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel11)
-                .addGap(253, 253, 253)
+                .addGap(180, 180, 180)
                 .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(back)
-                    .addComponent(jLabel11))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(back))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel11)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -295,22 +330,6 @@ public class BookCar extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(51, 102, 255));
 
-        Previous.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
-        Previous.setText("<<");
-        Previous.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PreviousActionPerformed(evt);
-            }
-        });
-
-        book.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        book.setText("Book");
-        book.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bookActionPerformed(evt);
-            }
-        });
-
         Next.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
         Next.setText(">>");
         Next.addActionListener(new java.awt.event.ActionListener() {
@@ -319,28 +338,44 @@ public class BookCar extends javax.swing.JFrame {
             }
         });
 
+        update.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        update.setText("Update");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+
+        Previous.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
+        Previous.setText("<<");
+        Previous.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PreviousActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(97, 97, 97)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
                 .addComponent(Previous)
-                .addGap(229, 229, 229)
-                .addComponent(book, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(262, 262, 262)
+                .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Next)
-                .addGap(61, 61, 61))
+                .addGap(46, 46, 46))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Next)
+                    .addComponent(update)
                     .addComponent(Previous)
-                    .addComponent(book))
-                .addContainerGap(38, Short.MAX_VALUE))
+                    .addComponent(Next))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -381,7 +416,7 @@ public class BookCar extends javax.swing.JFrame {
                         .addComponent(jLabel12)
                         .addGap(37, 37, 37)
                         .addComponent(totalfee, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -416,7 +451,7 @@ public class BookCar extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(totalfee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -435,13 +470,13 @@ public class BookCar extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Please enter a return date.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
-    
+
     // Check if use date is the same as the return date and they are not placeholders
     if (useDate.getText().equals(returnDate.getText()) && !useDate.getText().equals("DD/MM/YYYY") && !returnDate.getText().equals("DD/MM/YYYY")) {
         JOptionPane.showMessageDialog(this, "The use date cannot be the same as the return date!", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
-
+    
     // After ensuring both use date and return date are filled, proceed with the rest of the logic
     String useDateText = useDate.getText().trim();
     LocalDate useDateValue;
@@ -484,8 +519,10 @@ public class BookCar extends javax.swing.JFrame {
         // Read the car information from car_info.txt
         availableCarsFiltered  = getCarsWithMatchingSeatsAndAvailability(passengers, useDate, returnDate);
 
+        
         // Display available cars
         displayAvailableCars(availableCarsFiltered, currentIndex);
+        
         
         // Calculate the number of days between use date and return date
         long numberOfDays = ChronoUnit.DAYS.between(useDate, returnDate);
@@ -520,6 +557,7 @@ public class BookCar extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Return date cannot be before use date.", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
+
             return true;
         } else {
             JOptionPane.showMessageDialog(this, "Please enter a valid date following the format 'DD/MM/YYYY'.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -607,7 +645,7 @@ public class BookCar extends javax.swing.JFrame {
             return;
         }
 
-        Car car = cars.get(index); 
+        Car car = cars.get(index); // Assuming you want to display only the first available car
         Model.setText(car.getModel());
         Type.setText(car.getType());
         NumSeats.setText(String.valueOf(car.getNumSeats()));
@@ -699,12 +737,13 @@ public class BookCar extends javax.swing.JFrame {
         }
         return maxBookingId + 1; // Increment the maximum booking ID by 1
     }
-    private void bookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookActionPerformed
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
     // Check if other required fields are filled
     if (useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||useDate.getText().trim().isEmpty() || useDate.getText().equals("DD/MM/YYYY")||Model.getText().trim().isEmpty() || Type.getText().trim().isEmpty() || carColor.getText().trim().isEmpty() || Price.getText().trim().isEmpty() || numPassengers.getSelectedItem() == null) {
         JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
+    
     String Email = SessionManager.getEmail();
 
     // Get the selected car ID
@@ -726,12 +765,9 @@ public class BookCar extends javax.swing.JFrame {
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     String formattedUseDate = useDate.format(dateFormatter);
     String formattedReturnDate = returnDate.format(dateFormatter);
-
+    
     // Calculate total price using the booking class
     double totalPrice = booking.calculateTotalFee(useDate, returnDate, pricePerDay);
-
-    // Get the next booking ID
-    int bookingId = getNextBookingId();
       
     // Write the booking details to a text file
     try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
@@ -755,31 +791,60 @@ public class BookCar extends javax.swing.JFrame {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error occurred while reading booking details.", "Error", JOptionPane.ERROR_MESSAGE);
     }
-    // Write the booking details to a text file
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt", true))) {
-        // Format: Name/Gmail,Car ID,Number of Passengers,Price,Use Date,Return Date
-        String bookingInfo = bookingId + "," +
-                             Email+ "," +
-                             carId + "," +
-                             type + "," +
-                             passengers + "," +
-                             totalPrice + "," +
-                             formattedUseDate + "," +
-                             formattedReturnDate + "," +
-                             bookingStatus;
-        writer.write(bookingInfo);
-        writer.newLine();
-        writer.flush();
-        JOptionPane.showMessageDialog(this, "Booking successful!", "Information", JOptionPane.INFORMATION_MESSAGE);
+    // Find and update the booking if it exists
+    boolean found = false;
+    List<String> bookings = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] bookingDetails = line.split(",");
+            if (bookingDetails.length >= 9 && bookingDetails[0].equals(bookingID)){
+                // Update the existing booking
+                String updatedBookingInfo = bookingID + "," +
+                                            Email + "," +
+                                            carId + "," +
+                                            type + "," +
+                                            passengers + "," +
+                                            totalPrice + "," +
+                                            formattedUseDate + "," +
+                                            formattedReturnDate + "," +
+                                            bookingStatus;
+                bookings.add(updatedBookingInfo);
+                found = true;
+            } else {
+                // Add other bookings without changes
+                bookings.add(line);
+            }
+        }
     } catch (IOException e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error occurred while booking.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error occurred while reading booking details.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
     }
-    }//GEN-LAST:event_bookActionPerformed
+
+    // If the booking was not found, show an error message
+    if (!found) {
+        JOptionPane.showMessageDialog(this, "Booking ID not found!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Write all bookings back to the file
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
+        for (String booking : bookings) {
+            writer.write(booking);
+            writer.newLine();
+        }
+        JOptionPane.showMessageDialog(this, "Booking updated successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+    } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error occurred while updating booking.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    }//GEN-LAST:event_updateActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        CusMenu Menu = new CusMenu();
-        Menu.setVisible(true);
+        CusViewBooking ViewBook = new CusViewBooking();
+        ViewBook.setVisible(true);
         dispose(); 
     }//GEN-LAST:event_backActionPerformed
 
@@ -828,7 +893,6 @@ public class BookCar extends javax.swing.JFrame {
     private javax.swing.JTextField Price;
     private javax.swing.JTextField Type;
     private javax.swing.JButton back;
-    private javax.swing.JButton book;
     private javax.swing.JTextField carColor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -849,6 +913,7 @@ public class BookCar extends javax.swing.JFrame {
     private javax.swing.JTextField returnDate;
     private javax.swing.JButton search;
     private javax.swing.JTextField totalfee;
+    private javax.swing.JButton update;
     private javax.swing.JTextField useDate;
     // End of variables declaration//GEN-END:variables
 }
