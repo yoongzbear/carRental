@@ -287,11 +287,6 @@ return true;
                 NameFocusLost(evt);
             }
         });
-        Name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NameActionPerformed(evt);
-            }
-        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel3.setText("Email:");
@@ -320,11 +315,6 @@ return true;
         DriNum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         DriNum.setForeground(new java.awt.Color(204, 204, 204));
         DriNum.setText("eg. 0110051 UiOVqjEe");
-        DriNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DriNumActionPerformed(evt);
-            }
-        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel7.setText("Password:");
@@ -335,11 +325,6 @@ return true;
         Pass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Pass.setForeground(new java.awt.Color(204, 204, 204));
         Pass.setText("At least 6 character including 1 special character");
-        Pass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PassActionPerformed(evt);
-            }
-        });
 
         ConPass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ConPass.setForeground(new java.awt.Color(204, 204, 204));
@@ -470,10 +455,6 @@ return true;
     }
     }//GEN-LAST:event_createButtonActionPerformed
 
-    private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
-
-    }//GEN-LAST:event_NameActionPerformed
-
     private void NameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_NameFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_NameFocusLost
@@ -485,14 +466,6 @@ return true;
             // Close the current frame (AdminMenu frame)
             dispose();
     }//GEN-LAST:event_backActionPerformed
-
-    private void PassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PassActionPerformed
-
-    private void DriNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DriNumActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DriNumActionPerformed
 
     /**
      * @param args the command line arguments

@@ -4,7 +4,10 @@
  */
 package SubangsCarRental;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -27,15 +30,17 @@ public class Customer extends User {
         this.icNumber = icNumber;
         this.driNumber = driNumber;
     }
+    
+    //construct overloading
+    public Customer(String email) {
+        super(email, "", "","");
+        this.phoneNumber = null;
+        this.icNumber = null;
+        this.driNumber = null;
+    }
 
     // Method to create an account for the customer
     public boolean createAccount() {
-        // Validate input fields
-        if (name.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty()
-                || driNumber.isEmpty()) {
-            System.out.println("Please fill in all the fields.");
-            return false;
-        }
 
         // Collect data
         String account = name + "," + email + "," + phoneNumber + "," + icNumber + "," + driNumber + ","
@@ -44,14 +49,35 @@ public class Customer extends User {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("account.txt", true))) {
             writer.write(account);
             writer.newLine();
-            System.out.println("Your account has been created");
             JOptionPane.showMessageDialog(null, "Your account has been created", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             return true;
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
-            e.printStackTrace();
             return false; // Account creation failed
         }
+    }
+    
+    public static String[] getCusInfo(String email) {
+        //retireve info from account.txt
+        try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 4) { 
+                    String fileMail = parts[1].trim();
+                    if (fileMail.equals(email)) { 
+                        return parts;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            //if file not found
+            JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage());    
+        } catch (Exception e) {
+            //unexpected errors
+            JOptionPane.showMessageDialog(null, "Error reading from file: " + e.getMessage());
+        }
+        return null;
     }
 }
