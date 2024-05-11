@@ -51,11 +51,11 @@
                           <Component id="PhoneNum" alignment="0" max="32767" attributes="0"/>
                           <Component id="Email" alignment="0" max="32767" attributes="0"/>
                           <Component id="Name" alignment="0" max="32767" attributes="0"/>
-                          <Component id="ConPass" min="-2" pref="397" max="-2" attributes="0"/>
+                          <Component id="ConPass" alignment="1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="71" max="32767" attributes="0"/>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -283,7 +283,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="At least 6 character including 1 special symbol"/>
+        <Property name="text" type="java.lang.String" value="At least 6 character including 1 special symbol/digit"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="ConPass">

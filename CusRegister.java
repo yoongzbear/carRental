@@ -21,105 +21,76 @@ public class CusRegister extends javax.swing.JFrame {
     public CusRegister() {        
         initComponents();
         this.role = SessionManager.getRole();
-
-        Email.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                validateEmail();
-            }
-        });
-        PhoneNum.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                validatePhoneNum();
-            }
-        });
-        ICnum.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                validateICnum();
-            }
-        });
-        DriNum.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                validateDriNum();
-            }
-        });
-        Pass.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                validatePass();
-            }
-        });
-        ConPass.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                validateConPass();
-            }
-        });
-        
         addPlaceholderListeners();
     }
 
     
     
-    
-// Validation methods
-private void validateEmail() {
+private boolean validateFields() {
+    String fullName = Name.getText();
+    String emailAddress = Email.getText();
+    String phoneNumber = PhoneNum.getText();
+    String icNumber = ICnum.getText();
+    String driNumber = DriNum.getText();
+    String password = Pass.getText();
+    String conPassword = ConPass.getText();
+
+    // Check if any field is empty
+    if (fullName.isEmpty() || emailAddress.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty() ||
+            driNumber.isEmpty() || password.isEmpty() || conPassword.isEmpty()||fullName.isEmpty() || fullName.trim().equals("Enter your full name") ||
+            emailAddress.isEmpty() || emailAddress.trim().equals("Enter a valid email address") ||
+            phoneNumber.isEmpty() || phoneNumber.trim().equals("XXX-XXXXXXX") ||
+            icNumber.isEmpty() || icNumber.trim().equals("XXXXXX-XX-XXXX") ||
+            driNumber.isEmpty() || driNumber.trim().equals("eg. 0110051 U3OVqjEe") ||
+            password.isEmpty() || password.trim().equals("At least 6 character including 1 special symbol/digit") ||
+            conPassword.isEmpty() || conPassword.trim().equals("Confirm your password")) {
+        JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    // Check email format
     String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-    String email = Email.getText().trim(); // Remove leading and trailing whitespace
-    if (!email.isEmpty() && !email.matches(emailPattern)) {
+    if (!emailAddress.matches(emailPattern)) {
         JOptionPane.showMessageDialog(this, "Please enter a valid email address.","Error", JOptionPane.ERROR_MESSAGE);
-        Email.requestFocusInWindow();// Prompt user back to the field
+        return false;
     }
-}
 
-private void validatePhoneNum() {
+    // Check phone number format
     String phonePattern = "\\d{3}-\\d{7,8}";
-    String phone = PhoneNum.getText().trim(); // Remove leading and trailing whitespace
-    if (!phone.isEmpty() && !phone.matches(phonePattern)) {
+    if (!phoneNumber.matches(phonePattern)) {
         JOptionPane.showMessageDialog(this, "Please enter a valid phone number in the format XXX-XXXXXXX.","Error", JOptionPane.ERROR_MESSAGE);
-        PhoneNum.requestFocusInWindow();// Prompt user back to the field
+        return false;
     }
-}
 
-private void validateICnum() {
+    // Check IC number format
     String icPattern = "\\d{6}-\\d{2}-\\d{4}";
-    String icNum = ICnum.getText().trim(); // Remove leading and trailing whitespace
-    if (!icNum.isEmpty() && !icNum.matches(icPattern)) {
+    if (!icNumber.matches(icPattern)) {
         JOptionPane.showMessageDialog(this, "Please enter a valid IC number in the format XXXXXX-XX-XXXX.","Error", JOptionPane.ERROR_MESSAGE);
-        ICnum.requestFocusInWindow();// Prompt user back to the field
+        return false;
     }
-}
 
-private void validateDriNum() {
-    String driNum = DriNum.getText().trim(); // Remove leading and trailing whitespace
-    // Define the pattern for the driving license number
-    String driNumPattern = "\\d{7}\\s\\w{8}";
-    // Check if the input matches the pattern
-    if (!driNum.isEmpty() && !driNum.matches(driNumPattern)) {
+    // Check driving license number format
+    String driNumPattern = "\\d{7}\\s[a-zA-Z]{8}";
+    if (!driNumber.matches(driNumPattern)) {
         JOptionPane.showMessageDialog(this, "Please enter a valid driving license number in the format 'XXXXXXXX XXXXXXXX'.","Error", JOptionPane.ERROR_MESSAGE);
-        DriNum.requestFocusInWindow();// Prompt user back to the field
+        return false;
     }
+
+     // Check password format and length
+    if (password.length() < 6 && !password.matches(".*[!@#$%^&*()-_=+\\\\|\\[{\\]};:'\",<.>/?].*")) {
+        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long and with a special symbol or digit.","Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+    // Check if passwords match
+    if (!password.equals(conPassword)) {
+        JOptionPane.showMessageDialog(null, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+
+// If all conditions pass, the password is valid
+return true;
 }
-
-
-private void validatePass() {
-    String password = Pass.getText().trim(); // Remove leading and trailing whitespace
-    // Check if password length is at least 6 characters
-    if (!password.isEmpty() && password.length() < 6) {
-        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long.","Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    // Check if password contains at least one special symbol
-    if (!password.isEmpty() && !password.matches(".*[!@#$%^&*()-_=+\\\\|\\[{\\]};:'\",<.>/?].*")) {
-        JOptionPane.showMessageDialog(this, "Password must contain at least one special symbol.","Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
-
-private void validateConPass() {
-    String password = Pass.getText().trim();
-    String confirmPassword = ConPass.getText().trim();
-    if (!password.isEmpty() && !confirmPassword.isEmpty() && !password.equals(confirmPassword)) {
-        JOptionPane.showMessageDialog(this, "Passwords do not match.","Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
-
 // Add focus listeners for placeholder functionality
     private void addPlaceholderListeners() {
         Name.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -199,14 +170,14 @@ private void validateConPass() {
 
         Pass.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (Pass.getText().equals("At least 6 character including 1 special symbol")) {
+                if (Pass.getText().equals("At least 6 character including 1 special symbol/digit")) {
                     Pass.setText("");
                     Pass.setForeground(Color.BLACK); // Change font color to black
                 }
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (Pass.getText().isEmpty()) {
-                    Pass.setText("At least 6 character including 1 special symbol");
+                    Pass.setText("At least 6 character including 1 special symbol/digit");
                     Pass.setForeground(new Color(204, 204, 204)); // Change font color to gray
                 }
             }
@@ -341,7 +312,7 @@ private void validateConPass() {
 
         Pass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Pass.setForeground(new java.awt.Color(204, 204, 204));
-        Pass.setText("At least 6 character including 1 special symbol");
+        Pass.setText("At least 6 character including 1 special symbol/digit");
 
         ConPass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ConPass.setForeground(new java.awt.Color(204, 204, 204));
@@ -395,8 +366,8 @@ private void validateConPass() {
                             .addComponent(PhoneNum, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Email, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Name, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ConPass, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(71, Short.MAX_VALUE))
+                            .addComponent(ConPass))))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,7 +412,12 @@ private void validateConPass() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
- // Collect data from GUI components
+     // Validate fields
+    if (!validateFields()) {
+        return; // Exit method if validation fails
+    }
+
+    // Collect data from GUI components
     String fullName = Name.getText();
     String emailAddress = Email.getText();
     String phoneNumber = PhoneNum.getText();
@@ -450,29 +426,6 @@ private void validateConPass() {
     String password = Pass.getText();
     String conPassword = ConPass.getText();
     String Role = SessionManager.getRole();
-    // Check if any of the fields contain the placeholder text
-    if (fullName.equals("Enter your full name") || emailAddress.equals("Enter a valid email address") ||
-        phoneNumber.equals("XXX-XXXXXXX") || icNumber.equals("XXXXXX-XX-XXXX") ||
-        driNumber.equals("eg. 0110051 U3OVqjEe") || password.equals("At least 6 character including 1 special symbol") ||
-        conPassword.equals("Confirm your password")) {
-        JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    if (!password.isEmpty() && password.length() < 6 && !password.matches(".*[!@#$%^&*()-_=+\\\\|\\[{\\]};:'\",<.>/?].*")) {
-        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long and with a special character.","Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-        // Check if passwords match
-    if (!password.equals(conPassword)) {
-        JOptionPane.showMessageDialog(null, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    // Check if all information is entered
-    if (fullName.isEmpty() || emailAddress.isEmpty() || phoneNumber.isEmpty() || icNumber.isEmpty() || driNumber.isEmpty() ||
-            password.isEmpty() || conPassword.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
 
     // Call the method in the Customer class to create the account
     Customer customer = new Customer(fullName, emailAddress, phoneNumber, icNumber, driNumber, password, Role);
