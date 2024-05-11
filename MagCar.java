@@ -313,11 +313,6 @@ private boolean areAllFieldsFilled() {
 
         Mannual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Mannual.setText("Manual");
-        Mannual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MannualActionPerformed(evt);
-            }
-        });
 
         Auto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Auto.setText("Automatic");
@@ -327,11 +322,6 @@ private boolean areAllFieldsFilled() {
 
         NumSeats.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         NumSeats.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" }));
-        NumSeats.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NumSeatsActionPerformed(evt);
-            }
-        });
 
         CarType.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         CarType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sedans", "SUVs", "Trucks", "Hatchbacks", "Coupes", "Vans/Minivans", "Compact Cars", "Luxury Cars" }));
@@ -352,22 +342,12 @@ private boolean areAllFieldsFilled() {
         jLabel8.setText("Features:");
 
         CarModel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CarModel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CarModelActionPerformed(evt);
-            }
-        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Car Model: ");
 
         savaButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         savaButton.setText("Save (After Edit)");
-        savaButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                savaButtonActionPerformed(evt);
-            }
-        });
 
         searchButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         searchButton.setText("Search");
@@ -387,11 +367,6 @@ private boolean areAllFieldsFilled() {
 
         editButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         editButton.setText("Edit");
-        editButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editButtonActionPerformed(evt);
-            }
-        });
 
         search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
@@ -400,41 +375,21 @@ private boolean areAllFieldsFilled() {
 
         airbagFeature4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         airbagFeature4.setText("Air bags");
-        airbagFeature4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                airbagFeature4ActionPerformed(evt);
-            }
-        });
 
         bluetoothFeature3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         bluetoothFeature3.setText("Bluetooth");
-        bluetoothFeature3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bluetoothFeature3ActionPerformed(evt);
-            }
-        });
 
         gpsFeature2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         gpsFeature2.setText("GPS");
 
         ReverseCamera.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ReverseCamera.setText("Reverse Backup Camera");
-        ReverseCamera.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ReverseCameraActionPerformed(evt);
-            }
-        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Car  Status: ");
 
         carStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         carStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Under Maintenance" }));
-        carStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                carStatusActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -475,12 +430,10 @@ private boolean areAllFieldsFilled() {
                                             .addComponent(Mannual))
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(NumSeats, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(73, 73, 73))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(carStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(CarColor, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(NumSeats, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(carStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(CarColor, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ReverseCamera)
@@ -565,22 +518,6 @@ private boolean areAllFieldsFilled() {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void MannualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MannualActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MannualActionPerformed
-
-    private void NumSeatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumSeatsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NumSeatsActionPerformed
-
-    private void CarModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CarModelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CarModelActionPerformed
-
-    private void savaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savaButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_savaButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
     // Read the car ID entered in the search field
@@ -741,10 +678,6 @@ private boolean areAllFieldsFilled() {
     }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editButtonActionPerformed
-
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
     // Create an instance of the register_newcar frame
     AdminMenu AdmenuFrame = new AdminMenu();
@@ -753,22 +686,6 @@ private boolean areAllFieldsFilled() {
     // Close the current frame (Admin_Menu frame)
     dispose();
     }//GEN-LAST:event_backButtonActionPerformed
-
-    private void airbagFeature4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_airbagFeature4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_airbagFeature4ActionPerformed
-
-    private void bluetoothFeature3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bluetoothFeature3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bluetoothFeature3ActionPerformed
-
-    private void ReverseCameraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReverseCameraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ReverseCameraActionPerformed
-
-    private void carStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_carStatusActionPerformed
 
     /**
      * @param args the command line arguments

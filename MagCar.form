@@ -66,14 +66,11 @@
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="NumSeats" max="32767" attributes="0"/>
-                                      <EmptySpace min="73" pref="73" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="NumSeats" alignment="0" max="32767" attributes="0"/>
                                           <Component id="carStatus" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
-                                          <Component id="CarColor" min="-2" pref="180" max="-2" attributes="0"/>
+                                          <Component id="CarColor" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
@@ -276,9 +273,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Manual"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MannualActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="Auto">
       <Properties>
@@ -330,9 +324,6 @@
           </StringArray>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NumSeatsActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -405,9 +396,6 @@
           <Font name="Segoe UI" size="18" style="0"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CarModelActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -424,9 +412,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Save (After Edit)"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="savaButtonActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="searchButton">
       <Properties>
@@ -457,9 +442,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Edit"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editButtonActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="search">
       <Properties>
@@ -483,9 +465,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Air bags"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="airbagFeature4ActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="bluetoothFeature3">
       <Properties>
@@ -494,9 +473,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Bluetooth"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bluetoothFeature3ActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="gpsFeature2">
       <Properties>
@@ -513,9 +489,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Reverse Backup Camera"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ReverseCameraActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
@@ -537,9 +510,6 @@
           </StringArray>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="carStatusActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

@@ -198,11 +198,6 @@ public class SalesReport extends javax.swing.JFrame {
 
         MONTH.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         MONTH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April","May","June", "July", "August", "September","October","November", "December" }));
-        MONTH.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MONTHActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -277,10 +272,6 @@ public class SalesReport extends javax.swing.JFrame {
         Menu.setVisible(true);
         dispose();
     }//GEN-LAST:event_BackActionPerformed
-
-    private void MONTHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MONTHActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MONTHActionPerformed
 
     /**
      * @param args the command line arguments

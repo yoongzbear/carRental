@@ -118,7 +118,6 @@ public class RegisterNewCar extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1006, 750));
 
         CarColor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         CarColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Black", "White", "Gray", "Red", "Yellow", "Green", "Blue" }));
@@ -130,11 +129,6 @@ public class RegisterNewCar extends javax.swing.JFrame {
         NumSeats.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" }));
 
         carid.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        carid.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                caridActionPerformed(evt);
-            }
-        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Car Plat No:");
@@ -210,43 +204,18 @@ public class RegisterNewCar extends javax.swing.JFrame {
 
         feature5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         feature5.setText("Sunroof");
-        feature5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                feature5ActionPerformed(evt);
-            }
-        });
 
         feature4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         feature4.setText("Air Bags");
-        feature4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                feature4ActionPerformed(evt);
-            }
-        });
 
         feature3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         feature3.setText("Bluetooth");
-        feature3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                feature3ActionPerformed(evt);
-            }
-        });
 
         feature2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         feature2.setText("GPS");
-        feature2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                feature2ActionPerformed(evt);
-            }
-        });
 
         feature1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         feature1.setText("Reverse Backup Camera");
-        feature1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                feature1ActionPerformed(evt);
-            }
-        });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setText("Features:");
@@ -259,19 +228,9 @@ public class RegisterNewCar extends javax.swing.JFrame {
 
         mannualGearbox.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         mannualGearbox.setText("Mannual");
-        mannualGearbox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mannualGearboxActionPerformed(evt);
-            }
-        });
 
         autoGearbox.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         autoGearbox.setText("Automatic");
-        autoGearbox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autoGearboxActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Gearbox:");
@@ -304,13 +263,13 @@ public class RegisterNewCar extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(CarType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(NumSeats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(CarColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(autoGearbox)
                                     .addComponent(mannualGearbox)
-                                    .addComponent(CarModel, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(CarModel)
+                                    .addComponent(NumSeats, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(CarColor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(128, 128, 128)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(feature4)
                                     .addComponent(feature3)
                                     .addComponent(feature2)
@@ -318,7 +277,7 @@ public class RegisterNewCar extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(Price, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(jLabel8)
                                     .addComponent(feature5)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -393,10 +352,6 @@ public class RegisterNewCar extends javax.swing.JFrame {
     // Close the current frame (Admin_Menu frame)
     dispose();
     }//GEN-LAST:event_backButtonActionPerformed
-
-    private void caridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caridActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_caridActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
@@ -487,40 +442,6 @@ public class RegisterNewCar extends javax.swing.JFrame {
 }
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void feature5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feature5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_feature5ActionPerformed
-
-    private void feature4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feature4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_feature4ActionPerformed
-
-    private void feature3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feature3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_feature3ActionPerformed
-
-    private void feature2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feature2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_feature2ActionPerformed
-
-    private void feature1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feature1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_feature1ActionPerformed
-
-    private void mannualGearboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mannualGearboxActionPerformed
-             // When manual gearbox is selected, unselect automatic gearbox
-    if(mannualGearbox.isSelected()) {
-        autoGearbox.setSelected(false);
-    }
-    }//GEN-LAST:event_mannualGearboxActionPerformed
-
-    private void autoGearboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoGearboxActionPerformed
-             // When automatic gearbox is selected, unselect manual gearbox
-    if(autoGearbox.isSelected()) {
-        mannualGearbox.setSelected(false);
-    }
-    }//GEN-LAST:event_autoGearboxActionPerformed
 
     /**
      * @param args the command line arguments

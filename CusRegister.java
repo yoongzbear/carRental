@@ -314,20 +314,10 @@ private void validateConPass() {
         Email.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Email.setForeground(new java.awt.Color(204, 204, 204));
         Email.setText("Enter a valid email address");
-        Email.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EmailActionPerformed(evt);
-            }
-        });
 
         PhoneNum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         PhoneNum.setForeground(new java.awt.Color(204, 204, 204));
         PhoneNum.setText("XXX-XXXXXXX");
-        PhoneNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PhoneNumActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel5.setText("IC Number:");
@@ -335,11 +325,6 @@ private void validateConPass() {
         ICnum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ICnum.setForeground(new java.awt.Color(204, 204, 204));
         ICnum.setText("XXXXXX-XX-XXXX");
-        ICnum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ICnumActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel6.setText("Driving License No:");
@@ -347,11 +332,6 @@ private void validateConPass() {
         DriNum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         DriNum.setForeground(new java.awt.Color(204, 204, 204));
         DriNum.setText("eg. 0110051 U3OVqjEe");
-        DriNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DriNumActionPerformed(evt);
-            }
-        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel7.setText("Password:");
@@ -362,20 +342,10 @@ private void validateConPass() {
         Pass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Pass.setForeground(new java.awt.Color(204, 204, 204));
         Pass.setText("At least 6 character including 1 special symbol");
-        Pass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PassActionPerformed(evt);
-            }
-        });
 
         ConPass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ConPass.setForeground(new java.awt.Color(204, 204, 204));
         ConPass.setText("Confirm your password");
-        ConPass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ConPassActionPerformed(evt);
-            }
-        });
 
         createButton.setBackground(new java.awt.Color(204, 255, 153));
         createButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -470,22 +440,6 @@ private void validateConPass() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailActionPerformed
-
-    }//GEN-LAST:event_EmailActionPerformed
-
-    private void PhoneNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhoneNumActionPerformed
-
-    }//GEN-LAST:event_PhoneNumActionPerformed
-
-    private void ICnumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ICnumActionPerformed
-
-    }//GEN-LAST:event_ICnumActionPerformed
-
-    private void PassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PassActionPerformed
-
-    }//GEN-LAST:event_PassActionPerformed
-
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
  // Collect data from GUI components
     String fullName = Name.getText();
@@ -538,14 +492,6 @@ private void validateConPass() {
     private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
 
     }//GEN-LAST:event_NameActionPerformed
-
-    private void ConPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConPassActionPerformed
-
-    }//GEN-LAST:event_ConPassActionPerformed
-
-    private void DriNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DriNumActionPerformed
-
-    }//GEN-LAST:event_DriNumActionPerformed
 
     private void NameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_NameFocusLost
         // TODO add your handling code here:

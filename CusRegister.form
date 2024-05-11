@@ -209,9 +209,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Enter a valid email address"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EmailActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="PhoneNum">
       <Properties>
@@ -223,9 +220,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="XXX-XXXXXXX"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PhoneNumActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -245,9 +239,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="XXXXXX-XX-XXXX"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ICnumActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
@@ -267,9 +258,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="eg. 0110051 U3OVqjEe"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DriNumActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -297,9 +285,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="At least 6 character including 1 special symbol"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PassActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="ConPass">
       <Properties>
@@ -311,9 +296,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Confirm your password"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConPassActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="createButton">
       <Properties>
