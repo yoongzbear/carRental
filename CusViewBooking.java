@@ -562,7 +562,7 @@ public class CusViewBooking extends javax.swing.JFrame {
                 if (bookstatus.equals("Booked")){
                 // Proceed with the update operation
                 new UpdateBookCar(bookingID).setVisible(true);
-                // Dispose resources or perform other clean-up tasks as needed
+                dispose();
             }
         }
     }   
