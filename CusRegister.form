@@ -45,17 +45,18 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="Pass" alignment="0" max="32767" attributes="0"/>
                           <Component id="DriNum" alignment="0" max="32767" attributes="0"/>
                           <Component id="ICnum" alignment="0" max="32767" attributes="0"/>
                           <Component id="PhoneNum" alignment="0" max="32767" attributes="0"/>
                           <Component id="Email" alignment="0" max="32767" attributes="0"/>
                           <Component id="Name" alignment="0" max="32767" attributes="0"/>
                           <Component id="ConPass" alignment="1" max="32767" attributes="0"/>
+                          <Component id="Pass" max="32767" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="46" max="32767" attributes="0"/>
+              <EmptySpace pref="66" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -256,8 +257,11 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="eg. 0110051 U3OVqjEe"/>
+        <Property name="text" type="java.lang.String" value="eg. 0110051 UiOVqjEe"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DriNumActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -283,8 +287,11 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="At least 6 character including 1 special symbol/digit"/>
+        <Property name="text" type="java.lang.String" value="At least 6 character including 1 special character"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PassActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="ConPass">
       <Properties>

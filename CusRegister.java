@@ -41,8 +41,8 @@ private boolean validateFields() {
             emailAddress.isEmpty() || emailAddress.trim().equals("Enter a valid email address") ||
             phoneNumber.isEmpty() || phoneNumber.trim().equals("XXX-XXXXXXX") ||
             icNumber.isEmpty() || icNumber.trim().equals("XXXXXX-XX-XXXX") ||
-            driNumber.isEmpty() || driNumber.trim().equals("eg. 0110051 U3OVqjEe") ||
-            password.isEmpty() || password.trim().equals("At least 6 character including 1 special symbol/digit") ||
+            driNumber.isEmpty() || driNumber.trim().equals("eg. 0110051 UiOVqjEe") ||
+            password.isEmpty() || password.trim().equals("At least 6 character including 1 special character") ||
             conPassword.isEmpty() || conPassword.trim().equals("Confirm your password")) {
         JOptionPane.showMessageDialog(null, "Please fill in all the information", "Error", JOptionPane.ERROR_MESSAGE);
         return false;
@@ -76,11 +76,28 @@ private boolean validateFields() {
         return false;
     }
 
-     // Check password format and length
-    if (password.length() < 6 && !password.matches(".*[!@#$%^&*()-_=+\\\\|\\[{\\]};:'\",<.>/?].*")) {
-        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long and with a special symbol or digit.","Error", JOptionPane.ERROR_MESSAGE);
+    // Define your set of special characters
+    String specialCharacters = "!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
+
+    // Flag to check if at least one special character is found
+    boolean hasSpecialCharacter = false;
+
+    // Iterate through each character in the password
+    for (int i = 0; i < password.length(); i++) {
+        char ch = password.charAt(i);
+        // Check if the character is a special character
+        if (specialCharacters.indexOf(ch) != -1) {
+            hasSpecialCharacter = true;
+            break; // Exit the loop if a special character is found
+        }
+    }
+
+    // Check if the password meets the criteria
+    if (password.length() < 6 || !hasSpecialCharacter) {
+        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long and contain at least one special character.", "Error", JOptionPane.ERROR_MESSAGE);
         return false;
     }
+
 
     // Check if passwords match
     if (!password.equals(conPassword)) {
@@ -155,14 +172,14 @@ return true;
 
         DriNum.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (DriNum.getText().equals("eg. 0110051 U3OVqjEe")) {
+                if (DriNum.getText().equals("eg. 0110051 UiOVqjEe")) {
                     DriNum.setText("");
                     DriNum.setForeground(Color.BLACK); // Change font color to black
                 }
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (DriNum.getText().isEmpty()) {
-                    DriNum.setText("eg. 0110051 U3OVqjEe");
+                    DriNum.setText("eg. 0110051 UiOVqjEe");
                     DriNum.setForeground(new Color(204, 204, 204)); // Change font color to gray
                 }
             }
@@ -170,14 +187,14 @@ return true;
 
         Pass.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (Pass.getText().equals("At least 6 character including 1 special symbol/digit")) {
+                if (Pass.getText().equals("At least 6 character including 1 special character")) {
                     Pass.setText("");
                     Pass.setForeground(Color.BLACK); // Change font color to black
                 }
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (Pass.getText().isEmpty()) {
-                    Pass.setText("At least 6 character including 1 special symbol/digit");
+                    Pass.setText("At least 6 character including 1 special character");
                     Pass.setForeground(new Color(204, 204, 204)); // Change font color to gray
                 }
             }
@@ -302,7 +319,12 @@ return true;
 
         DriNum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         DriNum.setForeground(new java.awt.Color(204, 204, 204));
-        DriNum.setText("eg. 0110051 U3OVqjEe");
+        DriNum.setText("eg. 0110051 UiOVqjEe");
+        DriNum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DriNumActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel7.setText("Password:");
@@ -312,7 +334,12 @@ return true;
 
         Pass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Pass.setForeground(new java.awt.Color(204, 204, 204));
-        Pass.setText("At least 6 character including 1 special symbol/digit");
+        Pass.setText("At least 6 character including 1 special character");
+        Pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PassActionPerformed(evt);
+            }
+        });
 
         ConPass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ConPass.setForeground(new java.awt.Color(204, 204, 204));
@@ -360,14 +387,15 @@ return true;
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Pass, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(DriNum, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ICnum, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(PhoneNum, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Email, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Name, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ConPass))))
-                .addContainerGap(46, Short.MAX_VALUE))
+                            .addComponent(ConPass)
+                            .addComponent(Pass))
+                        .addGap(11, 11, 11)))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,6 +485,14 @@ return true;
             // Close the current frame (AdminMenu frame)
             dispose();
     }//GEN-LAST:event_backActionPerformed
+
+    private void PassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PassActionPerformed
+
+    private void DriNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DriNumActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DriNumActionPerformed
 
     /**
      * @param args the command line arguments
