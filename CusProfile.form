@@ -248,9 +248,6 @@
         <Component class="javax.swing.JTextField" name="tfPhone">
         </Component>
         <Component class="javax.swing.JTextField" name="tfName">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfNameActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tfEmail">
         </Component>

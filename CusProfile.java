@@ -44,18 +44,7 @@ public class CusProfile extends javax.swing.JFrame {
         disableButton();
         disableEditTF();
         tfEmail.setEditable(false);
-        tfIC.setEditable(false);
-        
-        // Add action listener to the Edit button
-        btnEdit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                enableEditTF(); // Enable editing components when Edit button is clicked
-                btnSave.setEnabled(true);           
-                btnCancel.setEnabled(true);
-                btnEdit.setEnabled(false);
-            }
-        });
+        tfIC.setEditable(false);        
                
         tfPhone.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
@@ -151,10 +140,10 @@ public class CusProfile extends javax.swing.JFrame {
                 try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        if (line.contains(this.email)) { // Assuming email is unique and used as identifier
+                        if (line.contains(this.email)) { 
                             String[] parts = line.split(",");
                             if (parts.length > 4 && parts[1].trim().equals(this.email)) {
-                                // Construct new line with updated info
+                                //new line with updated info
                                 String newLine = updatedName + "," + parts[1].trim() + "," + updatedPhone + "," + parts[3].trim() + "," + updatedLicense + "," + parts[5].trim();
                                 updatedContent.append(newLine).append("\n");
                                 updated = true;
@@ -170,7 +159,6 @@ public class CusProfile extends javax.swing.JFrame {
                 }
 
                 if (!updated) {
-                    // Handle case where no line was updated (e.g., user not found)
                     JOptionPane.showMessageDialog(null, "No user found to update", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -292,12 +280,6 @@ public class CusProfile extends javax.swing.JFrame {
             }
         });
 
-        tfName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNameActionPerformed(evt);
-            }
-        });
-
         btnCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancel.setText("Cancel Edit");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -397,12 +379,11 @@ public class CusProfile extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
+        enableEditTF();
+        btnSave.setEnabled(true);           
+        btnCancel.setEnabled(true);
+        btnEdit.setEnabled(false);
     }//GEN-LAST:event_btnEditActionPerformed
-
-    private void tfNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfNameActionPerformed
 
     private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
         new CusMenu().setVisible(true);
