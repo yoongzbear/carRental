@@ -63,18 +63,8 @@ public class Login extends javax.swing.JFrame {
 
         txtPassword.setForeground(new java.awt.Color(204, 204, 204));
         txtPassword.setText("Enter your password");
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
 
         txtEmail.setText("Enter your email");
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
 
         btnLogin.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnLogin.setText("Log In");
@@ -101,11 +91,6 @@ public class Login extends javax.swing.JFrame {
         buttonGroup.add(btnCus);
         btnCus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCus.setText("Customer");
-        btnCus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCusActionPerformed(evt);
-            }
-        });
 
         buttonGroup.add(btnAdmin);
         btnAdmin.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -284,14 +269,6 @@ public class Login extends javax.swing.JFrame {
         btnLogin.setEnabled(!email.isEmpty() && !password.isEmpty() && isAnyRoleSelected);
     }
 
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
-
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         login();
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -302,10 +279,6 @@ public class Login extends javax.swing.JFrame {
         reg.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnRegActionPerformed
-
-    private void btnCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCusActionPerformed
 
     private void login() {
         //declare variables - make a new function

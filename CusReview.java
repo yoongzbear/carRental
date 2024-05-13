@@ -318,26 +318,8 @@ public class CusReview extends javax.swing.JFrame {
         featureTA.setRows(5);
         jScrollPane2.setViewportView(featureTA);
 
-        rentDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentDateTFActionPerformed(evt);
-            }
-        });
-
-        returnDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnDateTFActionPerformed(evt);
-            }
-        });
-
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setText("Car Detail");
-
-        statusTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statusTFActionPerformed(evt);
-            }
-        });
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel11.setText("Status:");
@@ -376,6 +358,7 @@ public class CusReview extends javax.swing.JFrame {
                 return false; //all cells non-editable
             }
         });
+        bookingTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(bookingTable);
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -399,11 +382,6 @@ public class CusReview extends javax.swing.JFrame {
         jLabel17.setText("Rating:");
 
         ratingBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Rating", "1⭐", "2⭐", "3⭐", "4⭐", "5⭐" }));
-        ratingBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ratingBoxActionPerformed(evt);
-            }
-        });
 
         jLabel19.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel19.setText("Feedback:");
@@ -582,18 +560,6 @@ public class CusReview extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_reviewButtonActionPerformed
 
-    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentDateTFActionPerformed
-
-    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_returnDateTFActionPerformed
-
-    private void statusTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_statusTFActionPerformed
-
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         //get row index to check if row is selected
         int selectedRow = bookingTable.getSelectedRow();
@@ -607,10 +573,6 @@ public class CusReview extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select a row to view details.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonActionPerformed
-
-    private void ratingBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ratingBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ratingBoxActionPerformed
 
     /**
      * @param args the command line arguments
