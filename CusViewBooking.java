@@ -238,18 +238,8 @@ public class CusViewBooking extends javax.swing.JFrame {
                 return false; //all cells non-editable
             }
         });
+        bookingTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(bookingTable);
-        if (bookingTable.getColumnModel().getColumnCount() > 0) {
-            bookingTable.getColumnModel().getColumn(0).setResizable(false);
-            bookingTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            bookingTable.getColumnModel().getColumn(1).setPreferredWidth(10);
-            bookingTable.getColumnModel().getColumn(2).setPreferredWidth(10);
-            bookingTable.getColumnModel().getColumn(3).setPreferredWidth(1);
-            bookingTable.getColumnModel().getColumn(4).setResizable(false);
-            bookingTable.getColumnModel().getColumn(4).setPreferredWidth(5);
-            bookingTable.getColumnModel().getColumn(5).setResizable(false);
-            bookingTable.getColumnModel().getColumn(5).setPreferredWidth(7);
-        }
 
         viewButton.setText("View Detail");
         viewButton.addActionListener(new java.awt.event.ActionListener() {
@@ -271,26 +261,8 @@ public class CusViewBooking extends javax.swing.JFrame {
             }
         });
 
-        rentDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentDateTFActionPerformed(evt);
-            }
-        });
-
-        returnDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnDateTFActionPerformed(evt);
-            }
-        });
-
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setText("Car Detail");
-
-        statusTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statusTFActionPerformed(evt);
-            }
-        });
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel11.setText("Status:");
@@ -328,12 +300,6 @@ public class CusViewBooking extends javax.swing.JFrame {
         featureTA.setColumns(20);
         featureTA.setRows(5);
         jScrollPane2.setViewportView(featureTA);
-
-        ratingTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ratingTFActionPerformed(evt);
-            }
-        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setText("Review");
@@ -553,61 +519,53 @@ public class CusViewBooking extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentDateTFActionPerformed
-
-    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_returnDateTFActionPerformed
-
-    private void statusTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_statusTFActionPerformed
-
-    private void ratingTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ratingTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ratingTFActionPerformed
-
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-    int selectedRow = bookingTable.getSelectedRow();
+        int selectedRow = bookingTable.getSelectedRow();
 
-    if (selectedRow >= 0) {
-        String bookingID = (String) bookingTable.getModel().getValueAt(selectedRow, 0); // Get the booking ID
-        String rentDateString = (String) bookingTable.getModel().getValueAt(selectedRow, 3); 
-        String bookstatus = (String) bookingTable.getModel().getValueAt(selectedRow, 5); 
+        if (selectedRow >= 0) {
+            String bookingID = (String) bookingTable.getModel().getValueAt(selectedRow, 0); // Get the booking ID
+            String rentDateString = (String) bookingTable.getModel().getValueAt(selectedRow, 3); 
+            String bookstatus = (String) bookingTable.getModel().getValueAt(selectedRow, 5); 
 
-       
-         // Update the booking using the updatedBooking method
-        updateBooking(bookingID, rentDateString, bookstatus);
-    } else {
-        JOptionPane.showMessageDialog(null, "Please select a row to update booking.", "Alert", JOptionPane.WARNING_MESSAGE);
-    }
+
+             // Update the booking using the updatedBooking method
+            updateBooking(bookingID, rentDateString, bookstatus);
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a row to update booking.", "Alert", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_updateActionPerformed
     
     
     public void updateBooking(String bookingID, String rentDateString, String bookstatus) {
-        LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        LocalDate currentDate = LocalDate.now();
-            
-        long daysDifference = ChronoUnit.DAYS.between(currentDate, rentDate);
-    
-        if (daysDifference < 7) {
-            JOptionPane.showMessageDialog(null, "Unable to update as the rent date is less than 7 days away from the current date", "Alert", JOptionPane.WARNING_MESSAGE);
-        } else {
-            // Check if the booking status is "Approved"
-            if (bookstatus.equals("Approved")) {
-                int choice = JOptionPane.showConfirmDialog(null, "This booking has already been approved. If updated, the booking will be unapproved. Are you sure you want to make the changes?", "Booking Already Approved", JOptionPane.YES_NO_OPTION);
-                if (choice == JOptionPane.NO_OPTION) {
-                    // If the user chooses not to update, return without making any changes
-                    return;
-                }
+            // Check if the booking status is "Paid" or "Returned"
+            if (bookstatus.equals("Paid") || bookstatus.equals("Returned")) {
+                JOptionPane.showMessageDialog(null, "Unable to update as the booking status is already \"" + bookstatus + "\"", "Alert", JOptionPane.WARNING_MESSAGE);
+                return;
             }
-            // Proceed with the update operation
-            new UpdateBookCar(bookingID).setVisible(true);
-            dispose();
+    
+            LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            LocalDate currentDate = LocalDate.now();
+    
+            long daysDifference = ChronoUnit.DAYS.between(currentDate, rentDate);
+    
+            if (daysDifference < 7) {
+                JOptionPane.showMessageDialog(null, "Unable to update as the rent date is less than 7 days away from the current date", "Alert", JOptionPane.WARNING_MESSAGE);
+            } else {
+                // Check if the booking status is "Approved"
+                if (bookstatus.equals("Approved")) {
+                    int choice = JOptionPane.showConfirmDialog(null, "This booking is already approved. If updated, it requires admin approval again. Are you sure you want to make the changes?", "Booking Already Approved", JOptionPane.YES_NO_OPTION);
+                    if (choice == JOptionPane.NO_OPTION) {
+                        // If the user chooses not to update, return without making any changes
+                        return;
+                    }
+                }
+                if (bookstatus.equals("Booked")){
+                // Proceed with the update operation
+                new UpdateBookCar(bookingID).setVisible(true);
+                dispose();
+            }
         }
-    }
+    }   
     
     
     public void loadTableData(javax.swing.JTable table) {        
