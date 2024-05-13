@@ -26,7 +26,9 @@ public class Car {
         private String features;   
 
         // Constructor, getters, and setters
-        public Car() {}
+        public Car() {
+            this.id = null;
+        }
 
         public Car(String id, String model, String type, int numSeats, String gearbox, String color, double pricePerDay, String features) {
             this.id = id;

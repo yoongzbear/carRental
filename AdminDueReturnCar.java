@@ -23,7 +23,6 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
 
     private String index;
     private String date;
-
     private String email;
     private String carID;
     private int seatNum;
@@ -407,7 +406,9 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         if (selectedRow >= 0) {
             //return car
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-            returnCar(this.index);
+            Admin admin = new Admin();
+            admin.returnCar(this.index);
+            loadTableData(bookingTable);
         } else {
             JOptionPane.showMessageDialog(null, "Please select a row to update booking status.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
@@ -443,41 +444,7 @@ public class AdminDueReturnCar extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Please select category to search.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
-    }
-            
-    private void returnCar(String index) {
-        boolean updated = false;
-        //string build to rewrite status
-        StringBuilder updatedContent = new StringBuilder();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                String bookingID = parts[0].trim();
-                if (bookingID.equals(index)) {
-                    //update the status at this line
-                    String updatedLine = bookingID + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + "Returned";
-                    updatedContent.append(updatedLine).append("\n");
-                    updated = true;
-                } else {
-                    updatedContent.append(line).append("\n");
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        //write updated content back to file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
-            writer.write(updatedContent.toString());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        if (updated) {
-            JOptionPane.showMessageDialog(null, "Car successfully returned!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadTableData(bookingTable);
-        }
-    }        
+    }           
     
     private void getDetail() {
         //load all car info into a map

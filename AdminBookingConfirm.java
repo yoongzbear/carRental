@@ -102,39 +102,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
     }
     
     //approve booking
-    private void approveBooking(String index) {
-        boolean updated = false;
-        //string builder to rewrite status
-        StringBuilder updatedContent = new StringBuilder();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                String bookingID = parts[0].trim();
-                if (bookingID.equals(index)) {
-                    //update the status at this line
-                    String updatedLine = bookingID + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + "Approved";
-                    updatedContent.append(updatedLine).append("\n");
-                    updated = true;
-                } else {
-                    updatedContent.append(line).append("\n");
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        // Write updated content back to file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
-            writer.write(updatedContent.toString());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        if (updated) {
-            JOptionPane.showMessageDialog(null, "Booking successfully approved!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadTableData(bookingTable);
-        }
-    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -453,7 +421,9 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         if (selectedRow >= 0) {            
             //call view booking detail   
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-            approveBooking(this.index);                
+            Admin admin = new Admin();
+            admin.approveBooking(this.index);  
+            loadTableData(bookingTable);
         } else {
             // No row is selected
             JOptionPane.showMessageDialog(null, "Please select to approve booking.", "Alert", JOptionPane.WARNING_MESSAGE);
