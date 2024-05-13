@@ -102,39 +102,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
     }
     
     //approve booking
-    private void approveBooking(String index) {
-        boolean updated = false;
-        //string builder to rewrite status
-        StringBuilder updatedContent = new StringBuilder();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("cus_book_car.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                String bookingID = parts[0].trim();
-                if (bookingID.equals(index)) {
-                    //update the status at this line
-                    String updatedLine = bookingID + "," + parts[1].trim() + "," + parts[2].trim() + "," + parts[3].trim() + "," + parts[4].trim() + "," + parts[5].trim() + "," + parts[6].trim() + "," + parts[7].trim() + "," + "Approved";
-                    updatedContent.append(updatedLine).append("\n");
-                    updated = true;
-                } else {
-                    updatedContent.append(line).append("\n");
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to update the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        // Write updated content back to file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cus_book_car.txt"))) {
-            writer.write(updatedContent.toString());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to write to the file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        if (updated) {
-            JOptionPane.showMessageDialog(null, "Booking successfully approved!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadTableData(bookingTable);
-        }
-    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -227,6 +195,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
                 "Booking ID", "Customer Email", "Car Model", "Total Fee (RM)", "Rent Date", "Return Date"
             }
         ));
+        bookingTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(bookingTable);
         if (bookingTable.getColumnModel().getColumnCount() > 0) {
             bookingTable.getColumnModel().getColumn(0).setResizable(false);
@@ -277,26 +246,8 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
             }
         });
 
-        rentDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentDateTFActionPerformed(evt);
-            }
-        });
-
         jLabel16.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel16.setText("Customer Email:");
-
-        returnDateTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                returnDateTFActionPerformed(evt);
-            }
-        });
-
-        emailTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailTFActionPerformed(evt);
-            }
-        });
 
         featureTA.setColumns(20);
         featureTA.setRows(5);
@@ -470,24 +421,14 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         if (selectedRow >= 0) {            
             //call view booking detail   
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-            approveBooking(this.index);                
+            Admin admin = new Admin();
+            admin.approveBooking(this.index);  
+            loadTableData(bookingTable);
         } else {
             // No row is selected
             JOptionPane.showMessageDialog(null, "Please select to approve booking.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_approveButtonActionPerformed
-
-    private void rentDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentDateTFActionPerformed
-
-    private void returnDateTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnDateTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_returnDateTFActionPerformed
-
-    private void emailTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailTFActionPerformed
 
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        

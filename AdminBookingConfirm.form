@@ -298,7 +298,7 @@
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
         </Component>
@@ -409,9 +409,6 @@
     <Component class="javax.swing.JTextField" name="carModelTF">
     </Component>
     <Component class="javax.swing.JTextField" name="rentDateTF">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rentDateTFActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel16">
       <Properties>
@@ -422,14 +419,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="returnDateTF">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="returnDateTFActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="emailTF">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailTFActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="rentalFeeTF">
     </Component>
