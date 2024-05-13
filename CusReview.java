@@ -141,7 +141,24 @@ public class CusReview extends javax.swing.JFrame {
         gearboxTF.setText(this.gearbox);
         ratingBox.setEnabled(true);
         feedbackTA.setEditable(true);
-    }        
+    }  
+    
+    private void emptyTF() {
+        plateTF.setText(null);
+        carModelTF.setText(null);
+        typeTF.setText(null);
+        priceTF.setText(null);
+        rentDateTF.setText(null);
+        returnDateTF.setText(null);
+        rentalFeeTF.setText(null);
+        statusTF.setText(null);
+        colorTF.setText(null);
+        numSeatsTF.setText(null);
+        featureTA.setText(null);
+        gearboxTF.setText(null);
+        ratingBox.setEnabled(false);
+        feedbackTA.setEditable(false);
+    }
 
     private void submitReview(String index) {
         //check if user enters rating and feedback - if one is empty, display message
@@ -194,6 +211,7 @@ public class CusReview extends javax.swing.JFrame {
             if (updated) {
                 JOptionPane.showMessageDialog(null, "Booking review successfully submitted! Thank you for using our service", "Success", JOptionPane.INFORMATION_MESSAGE);
                 loadTableData(bookingTable);
+                emptyTF();
             }
         } else {
             JOptionPane.showMessageDialog(null, "Please complete rating and feedback.", "Alert", JOptionPane.WARNING_MESSAGE);

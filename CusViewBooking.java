@@ -177,6 +177,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         feedbackTA = new javax.swing.JTextArea();
         update = new javax.swing.JButton();
+        approvedButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -201,11 +202,11 @@ public class CusViewBooking extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(menuButton)
-                        .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(186, 186, 186))))
+                        .addGap(186, 186, 186))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(menuButton)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +227,7 @@ public class CusViewBooking extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -321,6 +322,13 @@ public class CusViewBooking extends javax.swing.JFrame {
             }
         });
 
+        approvedButton.setText("View Approved Booking");
+        approvedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                approvedButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -330,11 +338,13 @@ public class CusViewBooking extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(viewButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(update))
+                                .addComponent(update)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(approvedButton))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,7 +420,8 @@ public class CusViewBooking extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(viewButton)
-                    .addComponent(update))
+                    .addComponent(update)
+                    .addComponent(approvedButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -478,7 +489,7 @@ public class CusViewBooking extends javax.swing.JFrame {
                                     .addComponent(jLabel19)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(ratingTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addComponent(cancelButton)
                         .addGap(16, 16, 16))))
         );
@@ -534,6 +545,10 @@ public class CusViewBooking extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select a row to update booking.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_updateActionPerformed
+
+    private void approvedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approvedButtonActionPerformed
+        loadApprovedBooking(bookingTable);
+    }//GEN-LAST:event_approvedButtonActionPerformed
     
     
     public void updateBooking(String bookingID, String rentDateString, String bookstatus) {
@@ -558,10 +573,47 @@ public class CusViewBooking extends javax.swing.JFrame {
             dispose();
         }
     }
-    
+        
+    public void loadApprovedBooking(javax.swing.JTable table) {
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
+        model.setRowCount(0);
+
+        //load all car info into a map
+        Map<String, String[]> carInfoMap = Car.loadCarInfo();
+
+        //read customer booking data and display table
+        try (BufferedReader br = new BufferedReader(new FileReader("cus_book_car.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 8) {
+                    if (data[1].equals(this.email) && data[8].equals("Approved")) {
+                        String carPlate = data[2].trim();
+                        String[] carDetails = Car.getCarDetails(carPlate, carInfoMap);
+                        //add row into table
+                        model.addRow(new Object[]{                            
+                            data[0],        //booking ID 
+                            carDetails[0],         //car model
+                            Double.valueOf(data[5]), //total price
+                            data[6],         //remt date
+                            data[7],         //return date
+                            data[8]          //status
+                    });
+                    }
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading customer booking file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        //set the model to the table
+        table.setModel(model);
+        table.revalidate();  //refresh the table to display new data             
+    }
     
     public void loadTableData(javax.swing.JTable table) {        
-        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();        
+        DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
+        model.setRowCount(0);
 
         //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
@@ -644,9 +696,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         }
         if (deleted) {
             JOptionPane.showMessageDialog(null, "Booking successfully canceled!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-            CusViewBooking viewBooking = new CusViewBooking();
-            viewBooking.setVisible(true);
+            loadTableData(bookingTable);
         }
     }
     /**
@@ -685,6 +735,7 @@ public class CusViewBooking extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton approvedButton;
     private javax.swing.JTable bookingTable;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField carModelTF;

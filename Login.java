@@ -230,7 +230,7 @@ public class Login extends javax.swing.JFrame {
     
     private void inition() {
         // Other initialization code
-        addListenersToComponents(); // This is a method where you add all listeners
+        addListenersToComponents(); 
         disableButton();
     }
 
@@ -306,7 +306,7 @@ public class Login extends javax.swing.JFrame {
                 adminMenu.setVisible(true);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Wrong credentials, please try again.");
+            JOptionPane.showMessageDialog(null, "Wrong credentials, please try again.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
     }  
 

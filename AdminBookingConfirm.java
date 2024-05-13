@@ -224,7 +224,7 @@ public class AdminBookingConfirm extends javax.swing.JFrame {
         jLabel5.setText("Car Type:");
 
         jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel14.setText("Price per day (RM):");
+        jLabel14.setText("Price per day:");
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel6.setText("Rent Date:");

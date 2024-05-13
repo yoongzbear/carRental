@@ -271,7 +271,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Century Gothic" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="You are not allowed to update your email."/>
+            <Property name="text" type="java.lang.String" value="You cannot update your email and IC number."/>
           </Properties>
         </Component>
       </SubComponents>

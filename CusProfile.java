@@ -44,42 +44,7 @@ public class CusProfile extends javax.swing.JFrame {
         disableButton();
         disableEditTF();
         tfEmail.setEditable(false);
-        tfIC.setEditable(false);        
-               
-        tfPhone.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                validatePhoneNum();
-            }
-        });
-
-        tfLicense.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                validateDriNum();
-            }
-        });        
-    }
-    
-    // Validation methods    
-    private void validatePhoneNum() {
-        String phonePattern = "\\d{3}-\\d{7,8}";
-        String phone = tfPhone.getText().trim(); // Remove leading and trailing whitespace
-        if (!phone.isEmpty() && !phone.matches(phonePattern)) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid phone number in the format XXX-XXXXXXX.","Error", JOptionPane.ERROR_MESSAGE);
-            tfPhone.requestFocusInWindow();// Prompt user back to the field
-        }
-    }
-
-    private void validateDriNum() {
-        String driNum = tfLicense.getText().trim(); // Remove leading and trailing whitespace
-        // Define the pattern for the driving license number
-        String driNumPattern = "\\d{7}\\s\\w{8}";
-        // Check if the input matches the pattern
-        if (!driNum.isEmpty() && !driNum.matches(driNumPattern)) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid driving license number in the format 'XXXXXXXX XXXXXXXX'.","Error", JOptionPane.ERROR_MESSAGE);
-            tfLicense.requestFocusInWindow();// Prompt user back to the field
-        }
+        tfIC.setEditable(false);                               
     }
     
     private void disableEditTF() {
@@ -126,7 +91,23 @@ public class CusProfile extends javax.swing.JFrame {
         if (tfName.getText().isEmpty() || tfPhone.getText().isEmpty() || tfIC.getText().isEmpty() 
         || tfLicense.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Please fill in all the fields.","Error", JOptionPane.ERROR_MESSAGE);
-        } else {
+            return;
+        }
+        
+        // Validate input fields for correct format
+        String phonePattern = "\\d{3}-\\d{7,8}";
+        String driNumPattern = "\\d{7}\\s\\w{8}";
+        if (!tfPhone.getText().trim().matches(phonePattern)) {
+            JOptionPane.showMessageDialog(this, "Invalid phone number format. Please enter a valid phone number in the format XXX-XXXXXXX.", "Error", JOptionPane.ERROR_MESSAGE);
+            tfPhone.requestFocusInWindow();
+            return; // Stop further execution
+        }
+        if (!tfLicense.getText().trim().matches(driNumPattern)) {
+            JOptionPane.showMessageDialog(this, "Invalid driving license number format. Please enter a valid driving license number in the format 'XXXXXXXX XXXXXXXX'.", "Error", JOptionPane.ERROR_MESSAGE);
+            tfLicense.requestFocusInWindow();
+            return; // Stop further execution
+        }
+    
             String updatedName = tfName.getText().trim();
             String updatedPhone = tfPhone.getText().trim();
             String updatedLicense = tfLicense.getText().trim();            
@@ -177,7 +158,7 @@ public class CusProfile extends javax.swing.JFrame {
             } else {
                 printInfo();
             }
-        }
+        
     }
     
     /**
@@ -289,7 +270,7 @@ public class CusProfile extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jLabel7.setText("You are not allowed to update your email.");
+        jLabel7.setText("You cannot update your email and IC number.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

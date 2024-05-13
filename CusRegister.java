@@ -308,6 +308,11 @@ return true;
         ICnum.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ICnum.setForeground(new java.awt.Color(204, 204, 204));
         ICnum.setText("XXXXXX-XX-XXXX");
+        ICnum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ICnumActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel6.setText("Driving License No:");
@@ -466,6 +471,10 @@ return true;
             // Close the current frame (AdminMenu frame)
             dispose();
     }//GEN-LAST:event_backActionPerformed
+
+    private void ICnumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ICnumActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ICnumActionPerformed
 
     /**
      * @param args the command line arguments
