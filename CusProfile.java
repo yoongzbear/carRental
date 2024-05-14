@@ -116,7 +116,7 @@ public class CusProfile extends javax.swing.JFrame {
             //add edited information into string builder
             StringBuilder updatedContent = new StringBuilder();
 
-            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure to update your details?");
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure to update your details?", "Confirm Update", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 try (BufferedReader reader = new BufferedReader(new FileReader("account.txt"))) {
                     String line;

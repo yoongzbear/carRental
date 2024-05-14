@@ -521,7 +521,7 @@ public class CusViewBooking extends javax.swing.JFrame {
         if (selectedRow >= 0) {            
             //call view booking detail   
             this.index = (String) bookingTable.getModel().getValueAt(selectedRow, 0);
-            int confirm = JOptionPane.showConfirmDialog(null,"Are you sure to cancel the booking?");  
+            int confirm = JOptionPane.showConfirmDialog(null,"Are you sure to cancel the booking?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);  
             if (confirm == JOptionPane.YES_OPTION) {
                 deleteBooking(this.index);                    
             }
@@ -547,44 +547,41 @@ public class CusViewBooking extends javax.swing.JFrame {
     }//GEN-LAST:event_updateActionPerformed
 
     private void approvedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approvedButtonActionPerformed
-        loadApprovedBooking(bookingTable);
+        if (approvedButton.getText().equals("View Approved Booking")) {
+            loadApprovedBooking(bookingTable);
+        } else {
+            loadTableData(bookingTable);
+        }
     }//GEN-LAST:event_approvedButtonActionPerformed
     
     
     public void updateBooking(String bookingID, String rentDateString, String bookstatus) {
-            // Check if the booking status is "Paid" or "Returned"
-            if (bookstatus.equals("Paid") || bookstatus.equals("Returned")) {
-                JOptionPane.showMessageDialog(null, "Unable to update as the booking status is already \"" + bookstatus + "\"", "Alert", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+        LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate currentDate = LocalDate.now();
+            
+        long daysDifference = ChronoUnit.DAYS.between(currentDate, rentDate);
     
-            LocalDate rentDate = LocalDate.parse(rentDateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            LocalDate currentDate = LocalDate.now();
-    
-            long daysDifference = ChronoUnit.DAYS.between(currentDate, rentDate);
-    
-            if (daysDifference < 7) {
-                JOptionPane.showMessageDialog(null, "Unable to update as the rent date is less than 7 days away from the current date", "Alert", JOptionPane.WARNING_MESSAGE);
-            } else {
-                // Check if the booking status is "Approved"
-                if (bookstatus.equals("Approved")) {
-                    int choice = JOptionPane.showConfirmDialog(null, "This booking is already approved. If updated, it requires admin approval again. Are you sure you want to make the changes?", "Booking Already Approved", JOptionPane.YES_NO_OPTION);
-                    if (choice == JOptionPane.NO_OPTION) {
-                        // If the user chooses not to update, return without making any changes
-                        return;
-                    }
+        if (daysDifference < 7) {
+            JOptionPane.showMessageDialog(null, "Unable to update as the rent date is less than 7 days away from the current date", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            // Check if the booking status is "Approved"
+            if (bookstatus.equals("Approved")) {
+                int choice = JOptionPane.showConfirmDialog(null, "This booking has already been approved. If updated, the booking will be unapproved. Are you sure you want to make the changes?", "Booking Already Approved", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.NO_OPTION) {
+                    // If the user chooses not to update, return without making any changes
+                    return;
                 }
-                if (bookstatus.equals("Booked")){
-                // Proceed with the update operation
-                new UpdateBookCar(bookingID).setVisible(true);
-                dispose();
             }
+            // Proceed with the update operation
+            new UpdateBookCar(bookingID).setVisible(true);
+            dispose();
         }
-    }   
+    }
         
     public void loadApprovedBooking(javax.swing.JTable table) {
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
         model.setRowCount(0);
+        approvedButton.setText("View All Bookings");
 
         //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
@@ -622,6 +619,7 @@ public class CusViewBooking extends javax.swing.JFrame {
     public void loadTableData(javax.swing.JTable table) {        
         DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
         model.setRowCount(0);
+        approvedButton.setText("View Approved Booking");
 
         //load all car info into a map
         Map<String, String[]> carInfoMap = Car.loadCarInfo();
