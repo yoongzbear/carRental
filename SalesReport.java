@@ -54,7 +54,7 @@ public class SalesReport extends javax.swing.JFrame {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length != 9) {
+                if (parts.length < 9) {
                     continue;
                 }
                 String status = parts[8].trim(); 
