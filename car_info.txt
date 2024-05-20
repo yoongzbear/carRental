@@ -1,5 +1,5 @@
 BAM 9867,Honda,Sedans,5,Black,Automatic,75,Under Maintenance,Reverse backup camera
-NCT 7895,Toyota,Sedans,5,Black,Automatic,75,Available,
+NCT 7895,Toyota,Sedans,5,Black,Automatic,75,Available,Bluetooth
 BMM 8857,Myvi,Sedans,5,Blue,Automatic,75,Available,GPS, Bluetooth
 BZF 1415,Mazda,SUVs,6,White,Automatic,150,Available,GPS, Bluetooth
 WOB 5215,Lexus,SUVs,6,Black,Automatic,200,Available,GPS, Bluetooth
