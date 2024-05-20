@@ -6,3 +6,4 @@
 6,alya@gmail.com,NCT 7895,Sedans,5,150.0,21/05/2024,23/05/2024,Approved
 7,alya@gmail.com,BMM 8857,Sedans,5,75.0,24/05/2024,25/05/2024,Booked
 8,alya@gmail.com,BMM 8857,Sedans,5,75.0,02/06/2024,03/06/2024,Booked
+9,alya@gmail.com,NCT 7895,Sedans,5,225.0,12/06/2024,15/06/2024,Approved
